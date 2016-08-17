@@ -1,0 +1,3 @@
+check network {{ item.name }}  with interface {{ item.name }}
+    if failed link then alert
+    if saturation > 90% then alert

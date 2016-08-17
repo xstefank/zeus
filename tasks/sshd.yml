@@ -1,0 +1,8 @@
+- name: Checks that SSHd is installed
+  yum: name=openssh-server update_cache={{ yum.update_cache }} state=installed 
+
+- name: Checks SSHd config
+  copy: src=files/sshd_config dest=/etc/ssh/sshd_config owner=root group=root
+
+- name: Checks that SSHd service is running 
+  service: name=sshd state=started enabled=yes

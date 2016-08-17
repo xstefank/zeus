@@ -1,0 +1,12 @@
+- name: "Install sudo package"
+  yum: name=sudo update_cache={{ yum.update_cache }} state=installed 
+
+- name: "Created config directory for sudo"
+  file: path=/etc/sudoers.d/ state=directory group=root owner=root
+
+- name: Created sudo users
+  template: src=sudoers.j2 dest=/etc/sudoers.d/{{ item.name }} owner=root group=root
+  with_items: 
+   - "{{  sudoers_list }}"
+  when: sudoers_list
+

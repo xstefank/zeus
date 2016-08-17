@@ -1,0 +1,12 @@
+- name: Install PostgreSQL 
+  yum: name=postgresql-server update_cache={{ yum.update_cache }} state=installed 
+
+- name: Init PostgesQL Db
+  command: creates=/var/lib/pgsql /usr/bin/postgresql-setup initdb
+  register: datadir_init
+  #become: yes
+  #become_user: postgres
+
+- name: Ensure the PostgreSQL service is running 
+  service: name=postgresql state=started enabled=yes
+  when: datadir_init|success 

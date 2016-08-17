@@ -1,0 +1,5 @@
+[jboss-eap7]
+name=JBoss EAP 7 Internal Repository
+baseurl=http://download-ipv4.eng.brq.redhat.com/released/JBEAP-7/latest-released/JBEAP-7.0-RHEL-6/Server/x86_64/os/
+enabled=1
+gpgcheck=0

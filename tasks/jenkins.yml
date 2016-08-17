@@ -1,0 +1,12 @@
+- name: "Set up Yum repository"
+  get_url: url=http://pkg.jenkins-ci.org/redhat/jenkins.repo  dest=/etc/yum.repos.d/jenkins.repo
+
+- name: "Install Jenkins WAR"
+  yum:  name=jenkins update_cache={{ yum.update_cache }} state=installed
+
+- name: "Disable jenkins service"
+  service: name=jenkins state=stopped enabled=no
+
+- name: "Set link to deploy Jenkins to {{ jboss.home }}/standalone/deployements/"
+  file: state=hard src=/usr/lib/jenkins/jenkins.war dest={{ jboss.home }}/standalone/deployments/jenkins.war owner=jboss group=jboss
+  when: jboss is defined 

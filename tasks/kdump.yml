@@ -1,0 +1,5 @@
+- name: Check kdump configuration
+  template: src=templates/kdump.j2 dest=/etc/kdump.conf mode=644
+  when: kdump is defined
+
+

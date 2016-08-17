@@ -1,0 +1,5 @@
+[jboss-set]
+name=JBoss SET local repository
+baseurl=file:/root/jboss-set.yum.repo/
+enabled=1
+gpgcheck=0

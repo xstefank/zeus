@@ -1,0 +1,2 @@
+check device {{ item.name }} with path {{ item.path }}
+    if SPACE usage > {{ item.threshold }} then alert

@@ -1,0 +1,25 @@
+check process {{ item.name }} with pidfile {{ item.pidfile }}
+{% if item.start_program is defined %}
+    start program = "{{ item.start_program }} start"
+{% endif %}
+{% if item.stop_program is defined %}
+    stop program  = "{{ item.stop_program }} stop"
+{% endif %}
+
+{% if item.bind_addr is defined %}
+
+{% if item.protocol is defined %}
+{%   set protocol= item.protocol %}
+{% else %}
+{%   set protocol= 'HTTP' %}
+{% endif %}
+
+{% for check in item.checks %}
+if failed host {{ item.bind_addr }} port {{ item.port }}
+          protocol {{ protocol }} request {{ check.context }} with timeout 3 seconds then {{ check.action }}
+{% endfor %}
+{% endif %}
+
+{% if item.nb_restarts is defined %}
+if {{ item.nb_restarts }} restarts within 9 cycles then unmonitor
+{% endif %}

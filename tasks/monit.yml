@@ -1,0 +1,47 @@
+- name: "Install Monit Packages"
+  yum: name=monit update_cache={{ yum.update_cache }} state=installed
+
+- name: "Deploy Monit main config"
+  copy: src=files/monit.conf dest=/etc/monit.conf owner=root group=root
+
+- name: "Monit Mail Settings"
+  template: src=templates/monit.mail.j2 dest=/etc/monit.d/mail owner=root group=root
+
+- name: "Set up Monit checks on local virtual ip"
+  template: src=templates/monit.network.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
+  with_items:
+    - { name: "eth0" }
+    - { name: "docker0" }
+
+- name: "Set up Monit alert on commonly uses services"
+  template: src=templates/monit.ping.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
+  with_items: "{{ dnsnames }}"
+
+- name: "Set up Monit alert on virtual IPs"
+  template: src=templates/monit.ping.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
+  with_items:
+    - { name: '127.0.1.1' }
+    - { name: '127.0.1.2' }
+
+- name: "Set up Monit alert on disk usage"
+  template: src=templates/monit.disk.j2 dest=/etc/monit.d/{{ item.name }}
+  with_items:
+    - { name: 'root', path: '/', threshold: '90%' }
+    - { name: 'tmp', path: '/tmp', threshold: '90%' }
+    - { name: 'var-crash', path: '/var/crash', threshold: '90%' }
+    - { name: 'home', path: '/home', threshold: '90%' }
+
+- name: "Deploy custom scripts for extra Monit check"
+  template: src=templates/{{ item.script_name }}.j2 dest=/root/{{ item.script_name }} owner=root group=root mode=700
+  with_items: "{{ custom_monitoring_scripts }}"
+
+- name: "Set Monit checks based on custom scripts"
+  template: src=templates/monit.script.j2 dest=/etc/monit.d/{{ item.check_name }} owner=root group=root
+  with_items: "{{ custom_monitoring_scripts }}"
+
+- name: "Ensure required services are running under Monit control"
+  template: src=templates/monit.service.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
+  with_items: "{{ services_list }}"
+
+- name: "Ensure Monit itself is running"
+  service: name=monit enabled=yes state=started

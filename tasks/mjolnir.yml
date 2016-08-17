@@ -1,0 +1,5 @@
+- name: "Install Mjolnir App"
+  yum: name=mjolnir update_cache={{ yum.update_cache }} state=installed
+
+- name: "Deploy Mjolnir"
+  file: state=hard src=/usr/share/mjolnir.war dest={{ jboss.home }}/standalone/deployments/mjolnir.war owner=jboss group=jboss 

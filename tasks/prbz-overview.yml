@@ -1,0 +1,17 @@
+- name: "Checks prbz-overview webapp is installed"
+  yum: name=prbz-overview update_cache={{ yum.update_cache }} state=installed
+
+- name: "Checks prbz-overview RPM is properly installed"
+  file: state=directory path=/usr/share/prbz-overview/ owner=jboss group=jboss
+
+- name: "Checks prbz-overview is deployed"
+  file: state=hard src=/usr/share/prbz-overview/prbz-overview.war dest={{ jboss.home }}/standalone/deployments/prbz-overview.war owner=jboss group=jboss 
+
+- name: "Checks prbz-overview folder exists"
+  file: name=/home/jboss/prbz-overview state=directory owner=jboss group=jboss
+
+- name: "Checks prbz-overview configuration 1: Aphrodite"
+  template: src=templates/prbz-overview.aphrodite.properties.json.j2 dest=/home/jboss/prbz-overview/aphrodite.properties.json owner=jboss group=jboss mode=644
+
+- name: "Checks prbz-overview configuration 3: Streams"
+  template: src=files/prbz-overview.payload.properties dest=/home/jboss/prbz-overview/payload.properties owner=jboss group=jboss mode=644
