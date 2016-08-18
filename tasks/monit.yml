@@ -30,6 +30,7 @@
     - { name: 'tmp', path: '/tmp', threshold: '90%' }
     - { name: 'var-crash', path: '/var/crash', threshold: '90%' }
     - { name: 'home', path: '/home', threshold: '90%' }
+    - { name: 'docker-part', path: '/var/lib/docker', threshold: '90%' }
 
 - name: "Deploy custom scripts for extra Monit check"
   template: src=templates/{{ item.script_name }}.j2 dest=/root/{{ item.script_name }} owner=root group=root mode=700
