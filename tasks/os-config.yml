@@ -9,7 +9,7 @@
   group: name=docker state=present
 
 - name: Check that docker user are in group
-  user: name={{ item }} groups=docker
+  user: name={{ item }} groups=docker append=yes
   with_items:
   - dominik
   - dpospisi
