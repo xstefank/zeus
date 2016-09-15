@@ -8,7 +8,7 @@
   template: src=templates/processor-eap6.properties.j2 dest=/home/jboss/processor-eap6.properties owner=jboss group=jboss mode=644
 
 - name: "Deploy Pull Request Processor configuration 2 (old style)"
-  template: src=templates/processor-jboss-jboss-eap.properties.j2 dest=/home/jboss/processor-jboss-jboss-eap.properties owner=jboss group=jboss mode=644
+  template: src=templates/processor-jboss-jboss-eap.properties.j2 dest=/home/jboss/pull-request-processor/processor-jboss-jboss-eap.properties owner=jboss group=jboss mode=644
 
 - name: "Deploy Pull Request Processor configuration (new version)"
   template: src=templates/aphrodite.json.j2 dest=/home/jboss/pull-request-processor/aphrodite.json owner=jboss group=jboss mode=640
