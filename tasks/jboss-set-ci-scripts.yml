@@ -1,0 +1,2 @@
+- name: "Ensure JBossSET CI Scripts are installed"
+  yum: name=jboss-set-ci-scripts update_cache={{ yum.update_cache }} state=installed

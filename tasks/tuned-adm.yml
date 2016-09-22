@@ -1,0 +1,16 @@
+- name: Install tuned-adm
+  yum: pkg=tuned update_cache={{ yum.update_cache }} state=installed 
+  
+- name: Started required service
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - tuned
+  #  - ktune
+
+- name: Configure tuned profile
+  command: /usr/sbin/tuned-adm profile {{ tuned_profile_target }} creates=/etc/ansible/facts.d/tuned-profile.fact
+  when : tuned_profile_target is defined or (tuned_profile != tuned_profile_target)
+
+- name: Add tuned profile to facts.d
+  template: src=tuned_profile.fact.j2 dest=/etc/ansible/facts.d/tuned-profile.fact
+  when: (tuned_profile is not defined and tuned_profile_target is defined) or (tuned_profile_target != tuned_profile)

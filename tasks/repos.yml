@@ -1,0 +1,3 @@
+- name: "Check that required extra yum repositories are defined"
+  copy: src=files/{{ item.name }}.repo dest=/etc/yum.repos.d/{{ item.name }}.repo owner=root group=root
+  with_items: "{{ yum_repositories_list }}"

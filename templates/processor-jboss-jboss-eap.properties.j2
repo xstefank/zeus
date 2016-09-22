@@ -1,0 +1,48 @@
+# Github account
+github.organization=jbossas
+github.repo=jboss-eap
+
+# Github Authentication Info
+github.login={{ github.username }}
+github.token={{ github.token }}
+
+# Bugzilla required properties
+bugzilla.login={{ bugzilla.username }}
+bugzilla.password={{ bugzilla.password }}
+
+# Required
+github.branches=6.x, 6.1.x, 6.2.x, 6.3.x, 6.4.x
+
+# Branch-Based optional configuration
+#<branch>.required.bz.flags=
+6.x.required.bz.flags=qa_ack, pm_ack, devel_ack
+6.1.x.required.bz.flags=noLabel
+6.2.x.required.bz.flags=noLabel
+6.3.x.required.bz.flags=noLabel
+6.4.x.required.bz.flags=qa_ack, pm_ack, devel_ack
+
+# JIRA account
+jira.login={{ jira.username }}
+jira.password={{ jira.password }}
+
+# Jenkins server required properties
+jenkins.host=...
+jenkins.uri=...
+jenkins.port=...
+#jenkins.job.token=<secret>
+jenkins.publish.url=...
+
+# EAP version specific properties
+versions=
+
+eap622.evaluator=...
+eap622.github.branch=...
+eap622.github.organization.upstream=...
+eap622.github.repo.upstream=...
+eap622.github.branch.upstream=...
+eap622.parent.bug=...
+eap622.issue.fix.version=..
+
+# Processor properties
+admin.list.file=./admin-list
+eap62x.jenkins.jenkins=...                                             

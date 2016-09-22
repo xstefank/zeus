@@ -1,0 +1,27 @@
+- name: "Install required packages"
+  yum: name={{ item }} state=installed update_cache={{ yum.update_cache }}
+  with_items:
+    - 'krb5-workstation'
+    - 'sssd'
+    - 'openldap'
+
+- name: "Check if kerberos has been configured already"
+  command: creates=/etc/krb5.installed bash -c "/bin/grep -q -e {{ auth_config.kerb_host }} /etc/krb5.conf > /etc/krb5.installed"
+  register: is_kerberos_configured
+  when: auth_config is defined or auth_config.kerb_host is defined
+
+- name: "Configure Kerberos"
+  command: /usr/sbin/authconfig --enableldap  --ldapserver={{ auth_config.ldap_host }} --ldapbasedn={{ auth_config.ldap_base }} --enablekrb5 --krb5kdc={{ auth_config.kerb_host }} --krb5adminserver={{ auth_config.kerb_host }} --krb5realm={{ auth_config.kerb_realm }} --enablesssd --enablesssdauth --enablecachecreds --enablemkhomedir --update
+  when: is_kerberos_configured|failed
+
+- name: "Configure allowed group"
+  copy: src=files/jboss-set-group dest=/etc/allowed.group owner=root group=root
+ 
+- name: "Run required services"
+  service: name={{ item }} state=started enabled=yes
+  with_items:
+    - 'oddjobd'
+    - 'sssd'
+
+
+ 

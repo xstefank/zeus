@@ -1,0 +1,11 @@
+#!/bin/bash
+cd /etc/ansible/
+readonly LOGFILE=$(mktemp)
+ansible-playbook --version >> "${LOGFILE}"
+ansible -m setup all >> "${LOGFILE}"
+
+ansible-playbook /etc/ansible/hosts.yml --check >> "${LOGFILE}"
+cat "${LOGFILE}" | \
+  mailx -r "{{ email.to }}" -s 'Ansible Report' -S smtp="{{ email.server }}:{{ email.port }}" "{{ email.from }}"
+
+rm "${LOGFILE}"

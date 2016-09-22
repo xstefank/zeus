@@ -1,0 +1,4 @@
+#!/bin/bash
+
+monit status 2>&1 | \
+  mailx -r "{{ email.to }}" -s 'Monit Weekly Report - Who watch the watcher ?' -S smtp="{{ email.server }}:{{ email.port }}" "{{ email.from }}"

@@ -1,0 +1,15 @@
+- name: Check if extra local ip are configured
+  template: src=ifcfg.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ item.name }} mode=644
+  with_items: "{{ devices_list }}"
+
+- name: Check /etc/security/limits.conf is correct
+  file: src=limits.conf dest=/etc/security/limits.conf
+
+- name: Check if group docker exists
+  group: name=docker state=present
+
+- name: Check that docker user are in group
+  user: name={{ item }} groups=docker
+  with_items:
+  - dominik
+  - dpospisi

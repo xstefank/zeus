@@ -1,0 +1,11 @@
+- name: "Deploy cron-job for Ansible report"
+  template: src=templates/cron-ansible.j2 dest=/root/cron-ansible mode=755 owner=root group=root
+
+- name: "Set up cronjob for Ansible report (daily)"
+  cron: name="Ansible Daily Report" minute="0" hour="0" job="/root/cron-ansible"
+
+- name: "Deploy cron-job for Monit Status"
+  template: src=templates/cron-monit.j2 dest=/root/cron-monit mode=755 owner=root group=root
+
+- name: "Set up cronjob for Monit report (weekly)"
+  cron: name="Monit Weekly Report" special_time=weekly job="/root/cron-monit"

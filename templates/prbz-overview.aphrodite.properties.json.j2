@@ -1,0 +1,33 @@
+{
+    "issueTrackerConfigs": [
+        {
+            "url": "https://issues.jboss.org/",
+            "username": "{{ jira.username }}",
+            "password": "{{ jira.password }}",
+            "tracker": "JIRA",
+            "defaultIssueLimit": 1
+        },
+        {
+            "url": "https://bugzilla.redhat.com/",
+            "username": "{{ bugzilla.username }}",
+            "password": "{{ bugzilla.password }}",
+            "tracker": "BUGZILLA",
+            "defaultIssueLimit": 1
+        }
+    ],
+    "repositoryConfigs": [
+        {
+            "url": "https://github.com/",
+            "username": "{{ github.username }}",
+            "password": "{{ github.token }}",
+            "type": "GITHUB"
+        }
+    ],
+    "streamConfigs": [
+        {
+            "url": "https://raw.githubusercontent.com/jboss-set/jboss-streams/master/streams.json",
+            "type": "JSON"
+        }
+    ]
+}
+
