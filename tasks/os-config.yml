@@ -2,6 +2,9 @@
   template: src=ifcfg.j2 dest=/etc/sysconfig/network-scripts/ifcfg-{{ item.name }} mode=644
   with_items: "{{ devices_list }}"
 
+- name: Check files attributes and ownership on /usr/share
+  file: state=directory owner=root group=root mode=0755 dest=/usr/share
+
 - name: Check /etc/security/limits.conf is correct
   file: src=limits.conf dest=/etc/security/limits.conf
 
