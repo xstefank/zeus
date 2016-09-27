@@ -11,6 +11,6 @@ if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
 fi
 
-JBOSS_SET_OPS_SCRIPTS_HOME="/opt/jboss-set-ci-scripts/ops/"
+readonly JBOSS_SET_OPS_SCRIPTS_HOME=${JBOSS_SET_OPS_SCRIPTS_HOME:-'/opt/jboss-set-ci-scripts/ops/'}
 
 export PATH=${JBOSS_SET_OPS_SCRIPTS_HOME}:${PATH}
