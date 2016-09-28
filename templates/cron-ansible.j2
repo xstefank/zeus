@@ -1,9 +1,26 @@
 #!/bin/bash
+
+compose_report() {
+  local logfile=${1}
+
+  echo "Run result was :"
+  echo "..."
+  tail -4 "${logfile}"
+  echo ''
+  echo 'Full run below:'
+  echo ''
+  cat "${logfile}"
+}
+
+
 cd /etc/ansible/
 readonly LOGFILE=$(mktemp)
 
 ansible-playbook /etc/ansible/hosts.yml --check >> "${LOGFILE}"
-cat "${LOGFILE}" | \
+
+readonly HEADER_FILE=$(mktemp)
+
+compose_report "${LOGFILE}" "${HEADER_FILE}" | \
   mailx -r "{{ email.to }}" -s 'Ansible Report' -S smtp="{{ email.server }}:{{ email.port }}" "{{ email.from }}"
 
-rm "${LOGFILE}"
+rm "${LOGFILE}" "${HEADER_FILE}"
