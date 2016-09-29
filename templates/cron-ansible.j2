@@ -1,9 +1,30 @@
 #!/bin/bash
+
+readonly MAIL_SERVER=${MAIL_SERVER:-{{ email.server }}}
+readonly MAIL_PORT=${MAIL_PORT:-{{ email.port }}}
+readonly FROM=${FROM:-{{ email.from }}}
+readonly RECIPIENT=${RECIPIENT:-{{ email.to }}}
+readonly SUBJECT=${SUBJECT:-'Ansible Report'}}
+
+compose_report() {
+  local logfile=${1}
+
+  echo "Run result was :"
+  echo "..."
+  tail -4 "${logfile}"
+  echo ''
+  echo 'Full run below:'
+  echo ''
+  cat "${logfile}"
+}
+
+
 cd /etc/ansible/
 readonly LOGFILE=$(mktemp)
 
 ansible-playbook /etc/ansible/hosts.yml --check >> "${LOGFILE}"
-cat "${LOGFILE}" | \
-  mailx -r "{{ email.to }}" -s 'Ansible Report' -S smtp="{{ email.server }}:{{ email.port }}" "{{ email.from }}"
+
+compose_report "${LOGFILE}" | \
+  mailx -r "${RECIPIENT}" -s 'Ansible Report' -S smtp="${MAIL_SERVER}:${MAIL_PORT}" "${FROM}"
 
 rm "${LOGFILE}"
