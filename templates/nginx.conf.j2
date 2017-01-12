@@ -56,7 +56,6 @@ server {
     }
 
     location /hudson {
-
       proxy_pass http://{{ ansible_nodename }}:8380 ;
       proxy_redirect     http://{{ ansible_nodename }}:8380 https://{{ ansible_nodename }};
       include /etc/nginx/proxy.conf;
