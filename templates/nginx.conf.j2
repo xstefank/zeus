@@ -2,7 +2,10 @@
 # The default server
 #
 
+# Caching static files for Jenkins
 proxy_cache_path /home/jboss/jenkins_workspace/.http_cache levels=1:2 keys_zone=jenkins_cache:10m max_size=10g;
+# Caching Maven central
+proxy_cache_path {{ maven_central_cache.directory }} levels=1:2 keys_zone={{ maven_central_cache.name }}:20m max_size={{ maven_central_cache.max_size }} use_temp_path=off inactive={{ maven_central_cache.inactive }};
 
 server {
     listen {{ ansible_default_ipv4.address }}:80;
@@ -53,7 +56,6 @@ server {
     }
 
     location /hudson {
-
       proxy_pass http://{{ ansible_nodename }}:8380 ;
       proxy_redirect     http://{{ ansible_nodename }}:8380 https://{{ ansible_nodename }};
       include /etc/nginx/proxy.conf;
@@ -71,7 +73,16 @@ server {
       include /etc/nginx/proxy.conf;
     }
 
-
+   location /maven/ {
+      proxy_cache {{ maven_central_cache.name }};
+      proxy_cache_min_uses 1;
+      proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+      proxy_cache_valid 200;
+      add_header X-Cache-Status $upstream_cache_status;
+      add_header Thunder-Cache True;
+      add_header Thunder-IP $remote_addr
+      proxy_pass {{ maven_central_cache.url }};
+   }
 
     error_page  404              /404.html;
     location = /404.html {
