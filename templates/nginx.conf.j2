@@ -11,7 +11,21 @@ server {
     listen {{ ansible_default_ipv4.address }}:80;
     server_name {{ ansible_nodename }};
     ssl off;
-    return 301 https://$host$request_uri;
+
+    location / {
+      return 301 https://$host$request_uri;
+    }
+
+    location /maven/ {
+      proxy_cache maven_central;
+      proxy_cache_min_uses 1;
+      proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+      proxy_cache_valid 200;
+      add_header X-Cache-Status $upstream_cache_status;
+      add_header Thunder-Cache True;
+      add_header Thunder-IP $remote_addr;
+      proxy_pass http://central.maven.org/maven2/;
+    }
 }
 
 server {
@@ -73,17 +87,6 @@ server {
       include /etc/nginx/proxy.conf;
     }
 
-   location /maven/ {
-      proxy_cache {{ maven_central_cache.name }};
-      proxy_cache_min_uses 1;
-      proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
-      proxy_cache_valid 200;
-      add_header X-Cache-Status $upstream_cache_status;
-      add_header Thunder-Cache True;
-      add_header Thunder-IP $remote_addr;
-      proxy_pass {{ maven_central_cache.url }};
-   }
-
     error_page  404              /404.html;
     location = /404.html {
         root   /usr/share/nginx/html;
@@ -94,7 +97,4 @@ server {
     location = /50x.html {
         root   /usr/share/nginx/html;
     }
-
 }
-
-
