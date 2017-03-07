@@ -1,11 +1,17 @@
 - name: "Install nginx packages"
   yum: name=nginx update_cache={{ yum.update_cache }} state=installed
 
+- name: "Ensure folder for common configurations is created"
+  file: path=/etc/nginx/commons.d state=directory owner=root group=root mode=0775
+
+- name: "Ensure HTTP cache common config is created"
+  template: src=templates/nginx.maven.cache.conf.j2 dest=/etc/nginx/commons.d/nginx.maven.cache.conf owner=root group=root mode=0775
+
 - name: "Deploy nginx common proxy settings"
   template: src=templates/nginx.proxy.j2 dest=/etc/nginx/proxy.conf owner=root group=root mode=0644
 
 - name: "Ensure Maven Central cache directory is created"
-  file: path={{ maven_central_cache.directory }} state=directory owner=nginx group=nginx mode=0775
+  file: path={{ maven_http_cache_common_config.directory }} state=directory owner=nginx group=nginx mode=0775
 
 - name: "Deploy credentials for monit app"
   template: src=templates/nginx.monit.passwd.j2 dest=/etc/nginx/monit.passwd

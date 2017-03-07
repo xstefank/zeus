@@ -1,8 +1,8 @@
  proxy_cache maven_central;
  proxy_cache_min_uses 1;
  proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
- proxy_cache_valid 200 $expires;
- expires $expires;
+ proxy_cache_valid 200 {{ maven_http_cache_common_config.expires }};
+ expires {{ maven_http_cache_common_config.expires }};
 
  add_header Thunder-Cache-Status $upstream_cache_status;
  add_header Thunder-Cache True;
