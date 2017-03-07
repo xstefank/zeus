@@ -11,6 +11,11 @@ server {
     listen {{ ansible_default_ipv4.address }}:80;
     server_name {{ ansible_nodename }};
     ssl off;
+    log_format maven_cache '$remote_addr - $upstream_cache_status [$time_local]  '
+                    '"$request" $status $body_bytes_sent '
+                    '"$http_referer" "$http_user_agent"';
+
+    #access_log   /var/log/nginx/maven.cache.log maven_cache;
 
     location / {
       return 301 https://$host$request_uri;
@@ -20,8 +25,10 @@ server {
       proxy_cache maven_central;
       proxy_cache_min_uses 1;
       proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
-      proxy_cache_valid 200;
-      add_header X-Cache-Status $upstream_cache_status;
+      proxy_cache_valid 200 $expires;
+      expires $expires;
+
+      add_header Thunder-Cache-Status $upstream_cache_status;
       add_header Thunder-Cache True;
       add_header Thunder-IP $remote_addr;
       proxy_pass http://central.maven.org/maven2/;
