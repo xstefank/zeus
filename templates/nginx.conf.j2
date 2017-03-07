@@ -22,16 +22,18 @@ server {
     }
 
     location /maven/ {
-      proxy_cache maven_central;
-      proxy_cache_min_uses 1;
-      proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
-      proxy_cache_valid 200 $expires;
-      expires $expires;
-
-      add_header Thunder-Cache-Status $upstream_cache_status;
-      add_header Thunder-Cache True;
-      add_header Thunder-IP $remote_addr;
+      include /etc/nginx/common.d/nginx.maven.cache.conf;
       proxy_pass http://central.maven.org/maven2/;
+    }
+
+    location /product/ {
+      include /etc/nginx/common.d/nginx.maven.cache.conf;
+      proxy_pass http://download-node-02.eng.bos.redhat.com/brewroot/repos/jb-eap-7.1-rhel-7-maven-build/latest/maven/;
+    }
+
+    location /jboss/ {
+      include /etc/nginx/common.d/nginx.maven.cache.conf;
+      proxy_pass http://repository.jboss.org/nexus/content/groups/public/;
     }
 }
 
