@@ -7,6 +7,9 @@
 - name: "Monit Mail Settings"
   template: src=templates/monit.mail.j2 dest=/etc/monit.d/mail owner=root group=root
 
+- name: "Ensures monit.conf.d is properly created and set"
+  file: state=directory path=/etc/monit.conf.d/ owner=root group=root
+
 - name: "Set up Monit checks on local virtual ip"
   template: src=templates/monit.network.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
   with_items:
@@ -39,6 +42,10 @@
 - name: "Ensure required services are running under Monit control"
   template: src=templates/monit.service.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
   with_items: "{{ services_list }}"
+
+- name: "Ensure local HTTP Caches are monitored"
+  template: src=templates/monit.cache.includes.j2 dest=/etc/monit.conf.d/cache-{{ item.name }} owner=root group=root
+  with_items: "{{ maven_http_caches }}"
 
 - name: "Ensure Monit itself is running"
   service: name=monit enabled=yes state=started

@@ -18,6 +18,11 @@ check process {{ item.name }} with pidfile {{ item.pidfile }}
 if failed host {{ item.bind_addr }} port {{ item.port }}
           protocol {{ protocol }} request {{ check.context }} with timeout 3 seconds then {{ check.action }}
 {% endfor %}
+
+{%if item.name == 'nginx' %}
+include /etc/monit.conf.d/cache-*
+{% endif %}
+
 {% endif %}
 
 {% if item.nb_restarts is defined %}
