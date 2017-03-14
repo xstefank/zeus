@@ -1,4 +1,4 @@
- proxy_cache maven_central;
+ proxy_cache maven_caches;
  proxy_cache_min_uses 1;
  proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
  proxy_cache_valid 200 {{ maven_http_cache_common_config.expires }};
