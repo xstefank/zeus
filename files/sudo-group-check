@@ -2,7 +2,7 @@
 
 status=0
 for user in $(ls /etc/sudoers.d/ -1)
-do 
+do
    if [ "${user}" != "50_vdsm" ]; then
      id "${user}" | grep -e '1000(jboss-set)' 2>&1 > /dev/null
      if [ "${?}" -ne 0 ]; then
@@ -11,4 +11,9 @@ do
      fi
   fi
 done
+
+if [ "${status}" -eq 0 ] ; then
+  echo "All sudoers belongs to the jboss-set group"
+fi
+
 exit "${status}"
