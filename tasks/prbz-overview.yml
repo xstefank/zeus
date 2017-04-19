@@ -1,9 +1,6 @@
 - name: "Checks prbz-overview webapp is installed"
   yum: name=prbz-overview update_cache={{ yum.update_cache }} state=installed
 
-- name: "Checks prbz-overview RPM is properly installed"
-  file: state=directory path=/usr/share/prbz-overview/ owner=jboss group=jboss
-
 - name: "Checks prbz-overview is deployed"
   file: state=link src=/usr/share/prbz-overview/prbz-overview.war dest={{ jboss.home }}/standalone/deployments/prbz-overview.war owner=jboss group=jboss
 
