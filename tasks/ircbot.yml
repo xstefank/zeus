@@ -1,0 +1,12 @@
+- name: "Install Python pip"
+  yum: name=python-pip update_cache={{ yum.update_cache }} state=installed
+
+- name: "Install Google Client API"
+  pip: name=google-api-python-client
+
+- name: "Install IRC Bot"
+  yum: name=jboss-set-ircbot update_cache={{ yum.update_cache }} state=installed
+
+- name: "Set up IRC Bot"
+  template: src=templates/ircbotconfig.j2 dest=/home/jboss/.setbotconfig
+
