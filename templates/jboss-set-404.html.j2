@@ -75,6 +75,10 @@
                 margin: 1em;
                 text-align: center;
             }
+            ul#hosted-services {
+              font-size : 200%;
+              list-style-type: none;
+            }
             /*]]>*/
         </style>
     </head>
@@ -85,8 +89,10 @@
         <div class="content">
 
             <h3>The page you are looking for is not found.</h3>
+            <br/>
             <h3>Hosted services</h3>
-            <ul>
+            <div style="text-align: center;">
+            <ul id="hosted-services">
               <li><a href="{{ ansible_nodename }}/jenkins">Jenkins</a></li>
               <li><a href="{{ ansible_nodename }}/monit">Monit</a></li>
               <li><a href="{{ ansible_nodename }}/mjolinir">Mjolnir</a></li>
