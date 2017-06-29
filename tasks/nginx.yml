@@ -22,5 +22,8 @@
 - name: "Deploy custom 404 page for Nginx"
   template: src=templates/jboss-set-404.html.j2 dest=/usr/share/nginx/jboss-set-404.html owner=root group=root
 
+- name: "Deploy custom index page for Nginx"
+  template: src=templates/jboss-set-index.html.j2 dest=/usr/share/nginx/jboss-set-index.html
+
 - name: "Ensure nginx is running"
   service: name=nginx state=started enabled=yes
