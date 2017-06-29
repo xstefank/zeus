@@ -48,7 +48,7 @@ server {
     ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
 
     location / {
-        index  /usr/share/nginx/html/jboss-set-404.html;
+      index /usr/share/nginx/html/jboss-set-404.html;
     }
 
     location /monit/ {
@@ -85,11 +85,6 @@ server {
       proxy_pass http://{{ ansible_nodename }}:8480 ;
       proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
       include /etc/nginx/proxy.conf;
-    }
-
-    error_page  404              /404.html;
-    location = /404.html {
-        root   /usr/share/nginx/html;
     }
 
     # redirect server error pages to the static page /50x.html
