@@ -1,0 +1,5 @@
+- name: Checks that logrotate is installed
+  yum: name=logrotate update_cache={{ yum.update_cache }} state=installed
+
+- name: Checks that EAP logrotate policy is defined
+  template: src=templates/eap-logrotate.conf.j2 dest=/etc/logrotate.d/eap owner=root group=root
