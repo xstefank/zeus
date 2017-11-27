@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo -n '${{item.name }} - Cleaning logs file in {{ item.root_folder }} older than {{ item.nb_days_oldest }} matching pattern {{ filename_pattern }}.'
+find {{ item.root_folder }} -mindepth 1 -mtime +{{ item.nb_days_oldest }} -name '{{ item.filename_pattern }}' -delete
+echo 'Done.'
