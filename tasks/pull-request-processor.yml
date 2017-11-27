@@ -1,14 +1,5 @@
-#- name: "Ensure Pull Request Processor is installed"
-#  yum: name=pull-request-processor update_cache={{ yum.update_cache }} state=installed
-
 - name: "Ensure pull-request-processor folder exists"
   file: name=/home/jboss/pull-request-processor state=directory owner=jboss group=jboss
 
-- name: "Deploy Pull Request Processor configuration (old style)"
-  template: src=templates/processor-eap6.properties.j2 dest=/home/jboss/processor-eap6.properties owner=jboss group=jboss mode=644
-
-- name: "Deploy Pull Request Processor configuration 2 (old style)"
-  template: src=templates/processor-jboss-jboss-eap.properties.j2 dest=/home/jboss/pull-request-processor/processor-jboss-jboss-eap.properties owner=jboss group=jboss mode=644
-
-- name: "Deploy Pull Request Processor configuration (new version)"
+- name: "Deploy Pull Request Processor configuration"
   template: src=templates/aphrodite.json.j2 dest=/home/jboss/pull-request-processor/aphrodite.json owner=jboss group=jboss mode=640
