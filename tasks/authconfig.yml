@@ -16,12 +16,9 @@
 
 - name: "Configure allowed group"
   copy: src=files/jboss-set-group dest=/etc/allowed.group owner=root group=root
- 
+
 - name: "Run required services"
   service: name={{ item }} state=started enabled=yes
   with_items:
     - 'oddjobd'
     - 'sssd'
-
-
- 

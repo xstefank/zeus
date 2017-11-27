@@ -9,3 +9,10 @@
 
 - name: "Set up cronjob for Monit report (weekly)"
   cron: name="Monit Weekly Report" special_time=weekly job="/root/cron-monit"
+
+- name: "Deploy cron-job for logs cleaning"
+  template: src=templates/cron-cleaning-logs.j2 dest=/root/cron-cleaning-logs mode=755 owner=root group=root
+  with_items: "{{ logs_cleaning }}"
+
+- name: "Set up cronjob for cleaning logs older than a month (daily)"
+  cron: name="Cleaning logfiles" special_time=daily job="/root/cron-cleaning-logs"
