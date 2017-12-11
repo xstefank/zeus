@@ -1,0 +1,17 @@
+#!/bin/bash
+
+declare -A nameservers
+nameservers['sin1']=10.68.5.11
+nameservers['sin2']=10.68.5.12
+nameservers['fab1']=10.38.5.26
+nameservers['fab2']=10.11.5.19
+
+status=0
+for id in "${!nameservers[@]}"
+do
+  if [ $(grep -c ${nameservers[${id}]} /etc/resolv.conf) -ne 1 ] ; then
+    echo "Entry ${nameservers[${id}]} (${id}) appears to be missing from the /etc/resolv.conf file."
+    status=1
+  fi
+done
+exit ${status}

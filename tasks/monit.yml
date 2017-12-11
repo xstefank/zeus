@@ -38,8 +38,11 @@
 
   # other 'ops' should be moved out to Ansible, as most of the scripts in /opt/jboss-set-ci-scripts
   # are more/less defunct
-- name: "Ensures custom scripts 'sudo-group-check' is deployed"
+- name: "Ensures custom script 'sudo-group-check' is deployed"
   copy: src=files/sudo-group-check dest=/opt/jboss-set-ci-scripts/ owner=jboss group=jboss
+
+- name: "Ensures custom script 'dns-check' is deployed"
+  copy: src=files/dns-check dest=/opt/jboss-set-ci-scripts/ owner=jboss group=jboss
 
 - name: "Set Monit checks based on custom scripts"
   template: src=templates/monit.script.j2 dest=/etc/monit.d/{{ item.check_name }} owner=root group=root
