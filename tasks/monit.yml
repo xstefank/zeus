@@ -39,13 +39,13 @@
   # other 'ops' should be moved out to Ansible, as most of the scripts in /opt/jboss-set-ci-scripts
   # are more/less defunct
 - name: "Ensures custom script 'sudo-group-check' is deployed"
-  copy: src=files/sudo-group-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss
+  copy: src=files/sudo-group-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
 
 - name: "Ensures custom script 'dns-check' is deployed"
-  copy: src=files/dns-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss
+  copy: src=files/dns-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
 
 - name: "Ensures custom script 'docker-space-monitoring' is deployed"
-  copy: src=files/docker-space-monitoring dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss
+  copy: src=files/docker-space-monitoring dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
   ###
 
 - name: "Set Monit checks based on custom scripts"
