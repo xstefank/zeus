@@ -18,7 +18,7 @@
   cron: name="Cleaning logfiles" special_time=daily job="/root/cron-cleaning-logs"
 
 - name: "Deploy cron-job for Docker stopped containers cleaned"
-  template: src=templates/cron-cleaning-docker-stopped-containers.j2 dest=cron-cleaning-docker-stopped-containers mode=755 owner=root group=root
+  copy: src=files/cron-cleaning-docker-stopped-containers.sh dest=/root/cron-cleaning-docker-stopped-containers mode=755 owner=root group=root
 
 - name: "Delete all stopped docker containers on a weekly basis"
-  cron: name="Delete all stopped containers" minute=0 hour=10 weekday=2 job="/root/cron-cleaning-docker-stopped-containers >> /var/log/docker.deleted.containers.log" owner=root group=root
+  cron: name="Delete all stopped containers" minute=0 hour=10 weekday=2 job="/root/cron-cleaning-docker-stopped-containers >> /var/log/docker.deleted.containers.log"

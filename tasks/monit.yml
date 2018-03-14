@@ -44,6 +44,10 @@
 - name: "Ensures custom script 'dns-check' is deployed"
   copy: src=files/dns-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss
 
+- name: "Ensures custom script 'docker-space-monitoring' is deployed"
+  copy: src=files/docker-space-monitoring dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss
+  ###
+
 - name: "Set Monit checks based on custom scripts"
   template: src=templates/monit.script.j2 dest=/etc/monit.d/{{ item.check_name }} owner=root group=root
   with_items: "{{ custom_monitoring_scripts }}"
