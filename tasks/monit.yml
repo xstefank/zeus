@@ -57,11 +57,11 @@
   with_items: "{{ services_list }}"
 
 - name: "Ensure local HTTP Caches are monitored"
-  template: src=templates/monit.cache.includes.j2 dest=/etc/monit.conf.d/cache-{{ item.name }} owner=root group=root
+  template: src=monit.remote.http.service.j2 dest=/etc/monit.d/cache-{{ item.name }} owner=root group=root
   with_items: "{{ maven_http_caches }}"
 
 - name: "Monitor remote HTTP services"
-  template: src=templates/monit.cache.includes.j2 dest=/etc/monit.conf.d/cache-{{ item.name }} owner=root group=root
+  template: src=monit.remote.http.service.j2 dest=/etc/monit.d/http-services-{{ item.name }} owner=root group=root
   with_items: "{{ remote_http_services }}"
 
 - name: "Ensure Monit itself is running"
