@@ -1,22 +1,22 @@
-{% if item.hostname is none %}
+{% if item.hostname is defined %}
 {% set hostname = 'localhost' %}
 {% else %}
 {% set hostname = item.hostname %}
 {% endif %}
 
-{% if item.port is none %}
+{% if item.port is defined %}
 {% set port = '80' %}
 {% else %}
 {% set port = item.port %}
 {% endif %}
 
-{% if item.protocol is none %}
+{% if item.protocol is defined %}
 {% set protocol = 'HTTPS' %}
 {% else %}
 {% set protocol = item.protocol %}
 {% endif %}
 
-{% if item.timeout is none %}
+{% if item.timeout is defined %}
 {% set timeout = '12' %}
 {% else %}
 {% set timeout = item.timeout %}
