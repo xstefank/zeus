@@ -1,0 +1,2 @@
+if failed host {{ item.hostname or ansible_nodename }} port {{ item.port or '80' }}
+          protocol {{ item.protocol or 'HTTPS' }} request {{ item.path }} with timeout {{ item.timeout or '6' }} seconds then alert
