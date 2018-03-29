@@ -60,5 +60,9 @@
   template: src=templates/monit.cache.includes.j2 dest=/etc/monit.conf.d/cache-{{ item.name }} owner=root group=root
   with_items: "{{ maven_http_caches }}"
 
+- name: "Monitor remote HTTP services"
+  template: src=templates/monit.cache.includes.j2 dest=/etc/monit.conf.d/cache-{{ item.name }} owner=root group=root
+  with_items: "{{ remote_http_services }}"
+
 - name: "Ensure Monit itself is running"
   service: name=monit enabled=yes state=started
