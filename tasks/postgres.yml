@@ -9,4 +9,4 @@
 
 - name: Ensure the PostgreSQL service is running 
   service: name=postgresql state=started enabled=yes
-  when: datadir_init|success 
+  when: datadir_init is success

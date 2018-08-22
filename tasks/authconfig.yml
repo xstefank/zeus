@@ -12,7 +12,7 @@
 
 - name: "Configure Kerberos"
   command: /usr/sbin/authconfig --enableldap  --ldapserver={{ auth_config.ldap_host }} --ldapbasedn={{ auth_config.ldap_base }} --enablekrb5 --krb5kdc={{ auth_config.kerb_host }} --krb5adminserver={{ auth_config.kerb_host }} --krb5realm={{ auth_config.kerb_realm }} --enablesssd --enablesssdauth --enablecachecreds --enablemkhomedir --update
-  when: is_kerberos_configured|failed
+  when: is_kerberos_configured is failed
 
 - name: "Configure allowed group"
   copy: src=files/jboss-set-group dest=/etc/allowed.group owner=root group=root
