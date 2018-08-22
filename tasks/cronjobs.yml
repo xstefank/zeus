@@ -22,3 +22,10 @@
 
 - name: "Delete all stopped docker containers on a weekly basis"
   cron: name="Delete all stopped containers" minute=0 hour=10 weekday=2 job="/root/cron-cleaning-docker-stopped-containers >> /var/log/docker.deleted.containers.log"
+
+- name: "Deploy cron-job for ws-cleanup directories cleanup"
+  copy: src=files/cron-cleaning-ws-cleanup-directories.sh dest=/root/cron-cleaning-ws-cleanup-directories.sh mode=755 owner=root group=root
+
+- name: "Delete all *ws-cleanup* directories in Jenkins workspace in a weekly basis"
+  cron: name="Delete all stopped containers" minute=0 hour=10 weekday=0 job="/root/cron-cleaning-ws-cleanup-directories.sh >> /var/log/ws-cleanup.log"
+
