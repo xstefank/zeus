@@ -1,13 +1,13 @@
 #!/bin/bash
 
-readonly DATA=$(docker info  | grep -e 'Data Space' | cut -f2 -d:  )
-readonly DISPLAY_INFO=$(echo ${DATA} | sed -e 's;GB;GB /;')
-
-readonly OPS=$(echo "${DISPLAY_INFO}" |  sed -e 's;GB;;g')
+readonly DOCKER_EXPECTED_DISK_USAGE='30'
+readonly OPS=$(docker info  | grep -e 'Data Space Used' | cut -f2 -d: | sed -e 's;GB;;g')
 readonly FORMAT_RES=$(python -c "print(format(${OPS},'.2f'))")
 echo "Docker storage consumption is: ${FORMAT_RES}"
 
 readonly ROUNDUP_TO_INT=$(python -c "print(format(${OPS},'.0f'))")
-if [ "${ROUNDUP_TO_INT}" -gt 8 ]; then
+if [ "${ROUNDUP_TO_INT}" -gt "${DOCKER_EXPECTED_DISK_USAGE}" ]; then
    exit 1
+else
+   exit 0
 fi
