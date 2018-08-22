@@ -16,7 +16,7 @@ check process {{ item.name }} with pidfile {{ item.pidfile }}
 
 {% for check in item.checks %}
 if failed host {{ item.bind_addr }} port {{ item.port }}
-          protocol {{ protocol }} request {{ check.context }} with timeout {{ check.timeout }} seconds then {{ check.action }}
+          protocol {{ protocol }} request {{ check.context }} method GET with timeout {{ check.timeout }} seconds then {{ check.action }}
 {% endfor %}
 
 {%if item.name == 'nginx' %}
