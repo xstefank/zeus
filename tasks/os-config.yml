@@ -6,7 +6,7 @@
   file: state=directory owner=root group=root mode=0755 dest=/usr/share
 
 - name: Check /etc/security/limits.conf is correct
-  file: src=limits.conf dest=/etc/security/limits.conf
+  copy: src=limits.conf dest=/etc/security/limits.conf owner=root group=root mode=0644
 
 - name: Check if group docker exists
   group: name=docker state=present
