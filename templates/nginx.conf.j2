@@ -11,11 +11,6 @@ server {
     listen {{ ansible_default_ipv4.address }}:80;
     server_name {{ ansible_nodename }};
     ssl off;
-    log_format maven_cache '$remote_addr - $upstream_cache_status [$time_local]  '
-                    '"$request" $status $body_bytes_sent '
-                    '"$http_referer" "$http_user_agent"';
-
-    #access_log   /var/log/nginx/maven.cache.log maven_cache;
 
     location / {
       return 301 https://$host$request_uri;
