@@ -1,5 +1,5 @@
 - name: "Install Docker"
-  yum: state=installed name=docker-io update_cache={{ yum.update_cache }}
+  yum: state=installed name=docker update_cache={{ yum.update_cache }}
 
 - name: "Set up service configuration"
   copy: src=files/docker.conf dest=/etc/sysconfig/docker owner=root group=root
