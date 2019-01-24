@@ -14,6 +14,7 @@
 - name: Check that docker user are in group
   user: name={{ item }} groups=docker append=yes
   with_items:
-  - dominik
-  - dpospisi
   - belaran
+
+- name: Add a specific motd
+  copy: src=files/motd dest=/etc/motd owner=root group=root mode=0644
