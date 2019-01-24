@@ -92,22 +92,42 @@
             <br/>
             <h3>Hosted services</h3>
             <div style="text-align: center;">
-            <ul id="hosted-services">
-              <li><a href="https://{{ ansible_nodename }}/jenkins">Jenkins</a></li>
-              <li><a href="https://{{ ansible_nodename }}/monit">Monit</a></li>
-              <li><a href="https://{{ ansible_nodename }}/mjolnir">Mjolnir</a></li>
-              <li><a href="https://{{ ansible_nodename }}/prbz-overview">PR BZ Overview</a></li>
-            </ul>
+                <center>
+	      <!--table cellpadding="0" cellspacing="0" border="0"-->
+       <table>
+		<tr>
+		  <td>
+            <a alt="jenkins" href="https://{{ ansible_nodename }}/jenkins">
+		      <img src="https://www.perfecto.io/wp-content/uploads/2017/12/jenkins-and-perfecto.png" style="height: 30%"/>
+            </a>
+		  </td>
+		  <td>
+		    <a href="https://{{ ansible_nodename }}/monit">
+		      <img alt="monit" src="https://mmonit.com/monit/img/logo.png"/>
+ 		    </a>
+		  </td>
+		  <td>
+			<a href="https://{{ ansible_nodename }}/mjolnir">
+			  <img alt="mjolnir" src="https://i.pinimg.com/236x/85/d5/88/85d588725463adc28eb1ab50d9ab1f0e.jpg"/>
+            </a>
+		  </td>
+		  <td>
+			<a href="https://{{ ansible_nodename }}/prbz-overview">
+			  <img alt="prbz-overview" src="https://openclipart.org/image/2400px/svg_to_png/118837/traffic-light-dan-gerhar-01.png" style="height: 10%" />
+            </a>
+		  </td>
+	    </tr>
+	    </table>
+                </center>
             </div>
-            <div style="text-align: center;">
             <h3>Maven HTTP Caches</h3>
-            <ul>
+            <div style="text-align: center;">
+            <ul style="list-style-type: none">
                 <li><a href="http://{{ ansible_nodename }}/maven">Maven Central</li>
                 <li><a href="http://{{ ansible_nodename }}/jboss">JBoss Repository</li>
                 <li><a href="http://{{ ansible_nodename }}/eap-7.0">EAP 7.0 Repository</li>
                 <li><a href="http://{{ ansible_nodename }}/eap-7.1">EAP 7.1 Repository</li>
             </ul>
-            </div>
             <div class="logos">
                 <a href="http://nginx.net/"><img
                     src="/nginx-logo.png"
@@ -119,6 +139,6 @@
                     alt="[ Powered by Fedora EPEL ]"
                     width="88" height="31" /></a>
             </div>
-         </div>
+            </div>
     </body>
 </html>
