@@ -1,3 +1,0 @@
-check network {{ item.ip_addr }}  with interface {{ item.ip_addr }}
-    if failed link then alert
-    if saturation > 90% then alert
