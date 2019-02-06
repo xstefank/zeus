@@ -1,9 +1,8 @@
-- name: "Install required packages"
-  yum: name={{ item }} state=installed update_cache={{ yum.update_cache }}
-  with_items:
-    - 'krb5-workstation'
-    - 'sssd'
-    - 'openldap'
+- name: Install packages
+  yum:
+    name: "krb5-workstation,sssd,openldap"
+    state: installed
+    update_cache: "{{ yum.update_cache }}"
 
 - name: "Check if kerberos has been configured already"
   command: creates=/etc/krb5.installed bash -c "/bin/grep -q -e {{ auth_config.kerb_host }} /etc/krb5.conf > /etc/krb5.installed"
