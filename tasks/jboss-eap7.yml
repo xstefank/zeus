@@ -5,7 +5,7 @@
   file: path=/etc/jboss-eap7/ state=directory group=jboss owner=jboss
 
 - name: "Deploy configuration for jboss-eap7"
-  template: src=templates/jboss-eap7.conf.j2 dest=/etc/jboss-eap7/jboss-eap7.conf group=jboss owner=jboss
+  template: src=templates/eap7-standalone.service.j2 dest=/usr/lib/systemd/system/eap7-standalone.service group=jboss owner=jboss
 
 - name: "Deploy init script for jboss-eap7"
   copy: src=files/jboss-eap7 dest=/etc/init.d/jboss-eap7 owner=root group=root mode=755 
@@ -20,4 +20,4 @@
   copy: src=files/module.xml dest={{ jboss.home }}/modules/org/postgresql/main/module.xml group=jboss owner=jboss 
 
 - name: "Ensure JBoss EAP 7 is running" 
-  service: name='jboss-eap7' state=started enabled=yes
+  service: name='eap7-standalone' state=started enabled=yes
