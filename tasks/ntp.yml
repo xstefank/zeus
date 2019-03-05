@@ -1,0 +1,11 @@
+- name: 'Ensure ntp is installed'
+  yum: pkg=ntp update_cache={{ yum.update_cache }} state=installed 
+ 
+- name: 'Ensure custom ntpd configuration is deployed'
+  template: src=templates/ntp.conf.j2 dest=/etc/ntp.conf group=root owner=root
+
+- name: 'Ensure NTP daemon config is deployed'
+  template: src=templates/ntpd.sysconfig.j2 dest=/etc/sysconfig/ntpd group=root owner=root
+ 
+- name: 'Ensure service is running'
+  service: name=ntpd state=started enabled=yes
