@@ -123,10 +123,9 @@
             <h3>Maven HTTP Caches</h3>
             <div style="text-align: center;">
             <ul style="list-style-type: none">
-                <li><a href="http://{{ ansible_nodename }}/maven">Maven Central</li>
-                <li><a href="http://{{ ansible_nodename }}/jboss">JBoss Repository</li>
-                <li><a href="http://{{ ansible_nodename }}/eap-7.0">EAP 7.0 Repository</li>
-                <li><a href="http://{{ ansible_nodename }}/eap-7.1">EAP 7.1 Repository</li>
+              {% for cache in maven_http_caches %}
+                <li><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.path }}</li>
+              {% endfor %}
             </ul>
             <div class="logos">
                 <a href="http://nginx.net/"><img
