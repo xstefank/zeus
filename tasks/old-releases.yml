@@ -1,0 +1,25 @@
+- name: "Create old releases folder for test jobs"
+  file: path={{released_eap_dir}} state=directory group=root owner=root
+
+# providing a file name for dest means those will only be downloaded if not present to start with
+- name: "Download old EAP7 releases"
+  get_url: url={{released_eap_url}}/eap7/{{item}}/jboss-eap-{{item}}.zip dest={{released_eap_dir}}/jboss-eap-{{item}}.zip
+  with_items:
+    - 7.0.0
+    - 7.1.0
+
+- name: "Download old EAP6 releases"
+  get_url: url={{released_eap_url}}/eap6/{{item}}/jboss-eap-{{item}}.zip dest={{released_eap_dir}}/jboss-eap-{{item}}.zip
+  with_items:
+    - 6.1.0
+    - 6.1.1
+    - 6.2.0
+    - 6.3.0
+    - 6.4.0
+
+# URL pattern for 6.0.0 and 6.0.1 is different
+- name: "Download 6.0.x EAP6 releases"
+  get_url: url={{released_eap_url}}/eap6/{{item}}/zip/jboss-eap-{{item}}.zip dest={{released_eap_dir}}/jboss-eap-{{item}}.zip
+  with_items:
+    - 6.0.0
+    - 6.0.1
