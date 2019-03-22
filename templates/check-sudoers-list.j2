@@ -1,0 +1,20 @@
+#! /bin/bash
+
+allowed=({% for user in sudoers_list %}'{{user.name}}' {% endfor %})
+
+function is_allowed {
+  for val in ${allowed[*]}
+  do
+    if [ $1 == $val ]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
+for user in $(ls -1 /etc/sudoers.d/)
+do
+  if is_allowed $user ; then
+    exit 1
+  fi
+done

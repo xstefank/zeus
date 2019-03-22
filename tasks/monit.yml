@@ -39,6 +39,9 @@
 
 - name: "Ensures custom script 'docker-space-monitoring' is deployed"
   copy: src=files/docker-space-monitoring dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
+
+- name: "Ensures custom script 'check-sudoers-list' is deployed"
+  template: src=check-sudoers-list.j2 dest={{scripts_home.path}}/check-sudoers-list
   ###
 
 - name: "Set Monit checks based on custom scripts"
