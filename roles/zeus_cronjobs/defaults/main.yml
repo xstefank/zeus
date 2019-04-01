@@ -1,0 +1,5 @@
+---
+# defaults file for zeus_cronjobs
+logs_cleaning:
+  -  { name: 'cleaning-eap-server-logs',  root_folder: '/opt/rh/eap7/root/usr/share/wildfly/standalone/log', nb_days_oldest: 31, filename_pattern: 'server*.log.20*'}
+

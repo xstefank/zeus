@@ -5,7 +5,7 @@ readonly MAIL_PORT=${MAIL_PORT:-{{ email.port }}}
 readonly FROM=${FROM:-{{ email.from }}}
 readonly RECIPIENT=${RECIPIENT:-{{ email.to }}}
 readonly SUBJECT=${SUBJECT:-'Ansible Report'}}
-readonly ANSIBLE_PLAYBOOK=${ANSIBLE_PLAYBOOK:-'/etc/ansible/hosts.yml'}
+readonly ANSIBLE_PLAYBOOK=${ANSIBLE_PLAYBOOK:-'/etc/ansible/zeus.yml'}
 
 compose_report() {
   local logfile=${1}
