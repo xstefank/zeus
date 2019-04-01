@@ -1,3 +1,5 @@
+---
+# tasks file for monit
 - name: "Install Monit Packages"
   yum: name=monit update_cache={{ yum.update_cache }} state=installed
 
@@ -62,3 +64,4 @@
 
 - name: "Ensure Monit itself is running"
   service: name=monit enabled=yes state=started
+

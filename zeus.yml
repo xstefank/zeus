@@ -61,7 +61,6 @@
     - name: " ******* STAGE 5 *******"
       debug: msg=" >>> Monitoring and Cronjobs <<<"
 
-    - include: tasks/monit.yml
     - include: tasks/logrotate.yml
 
     - name: "******* STAGE 6 *******"
@@ -72,6 +71,7 @@
 - hosts: localhost
   roles:
     - zeus_cronjobs
+    - monit
   gather_facts: true
   become: yes
   become_user: root
