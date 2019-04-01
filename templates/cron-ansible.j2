@@ -5,6 +5,7 @@ readonly MAIL_PORT=${MAIL_PORT:-{{ email.port }}}
 readonly FROM=${FROM:-{{ email.from }}}
 readonly RECIPIENT=${RECIPIENT:-{{ email.to }}}
 readonly SUBJECT=${SUBJECT:-'Ansible Report'}}
+readonly ANSIBLE_PLAYBOOK=${ANSIBLE_PLAYBOOK:-'/etc/ansible/hosts.yml'}
 
 compose_report() {
   local logfile=${1}
@@ -22,7 +23,7 @@ compose_report() {
 cd /etc/ansible/
 readonly LOGFILE=$(mktemp)
 
-ansible-playbook /etc/ansible/hosts.yml --check >> "${LOGFILE}"
+ansible-playbook "${ANSIBLE_PLAYBOOK}" --check >> "${LOGFILE}"
 
 compose_report "${LOGFILE}" | \
   mailx -r "${RECIPIENT}" -s 'Ansible Report' -S smtp="${MAIL_SERVER}:${MAIL_PORT}" "${FROM}"
