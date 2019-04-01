@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  gather_facts: true
+  gather_facts: no
   become: yes
   become_user: root
   vars_files:
@@ -69,10 +69,12 @@
     - include: tasks/tools.yml
 
 - hosts: localhost
+  vars_files:
+    - zeus_vars.yml
   roles:
     - zeus_cronjobs
     - monit
-  gather_facts: true
+  gather_facts: no
   become: yes
   become_user: root
   tasks:
