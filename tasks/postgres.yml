@@ -1,6 +1,7 @@
-- name: Install PostgreSQL 
-  yum: name=postgresql-server update_cache={{ yum.update_cache }} state=installed 
-
+- set_fact: package_name=postgresql-server
+- name: Install PostgreSQL
+  import_tasks: tasks/rpminfo.yml  
+ 
 - name: Init PostgesQL Db
   command: creates=/var/lib/pgsql /usr/bin/postgresql-setup initdb
   register: datadir_init

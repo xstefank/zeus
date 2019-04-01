@@ -1,5 +1,6 @@
-- name: 'Ensure ntp is installed'
-  yum: pkg=ntp update_cache={{ yum.update_cache }} state=installed 
+- set_fact: package_name=ntp
+- name: Ensure ntp is installed
+  import_tasks: tasks/rpminfo.yml  
  
 - name: 'Ensure custom ntpd configuration is deployed'
   template: src=templates/ntp.conf.j2 dest=/etc/ntp.conf group=root owner=root

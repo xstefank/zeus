@@ -1,2 +1,6 @@
-- name: "Install extra packages"
-  yum: name="{{ tools_package_names }}" update_cache={{ yum.update_cache }} state=installed
+- name: "Ensure {{ package_name }} is installed"
+  include_tasks: tasks/rpminfo.yml
+  loop:
+    - "{{ tools_package_names }}"
+  loop_control:
+    loop_var: package_name

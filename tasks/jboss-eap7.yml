@@ -1,5 +1,6 @@
+- set_fact: package_name={{ jboss.package_name }}
 - name: "Ensures jboss-eap7 RPM package is installed"
-  yum: name={{ jboss.package_name }} update_cache={{ yum.update_cache }} state=installed
+  import_tasks: tasks/rpminfo.yml  
  
 - name: "Created config directory for jboss-eap7"
   file: path=/etc/jboss-eap7/ state=directory group=jboss owner=jboss

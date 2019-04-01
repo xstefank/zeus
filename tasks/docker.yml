@@ -1,8 +1,9 @@
-- name: "Install Docker"
-  yum: state=installed name=docker update_cache={{ yum.update_cache }}
+- set_fact: package_name=docker
+- name: Ensure Docker is installed
+  import_tasks: tasks/rpminfo.yml
 
-- name: "Set up service configuration"
+- name: Set up service configuration
   copy: src=files/docker.conf dest=/etc/sysconfig/docker owner=root group=root
 
 - name: "Run Docker Daemon"
-  service: name=docker state=started enabled=yes 
+  service: name=docker state=started enabled=yes

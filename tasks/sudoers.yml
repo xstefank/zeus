@@ -1,5 +1,6 @@
+- set_fact: package_name=sudo
 - name: "Install sudo package"
-  yum: name=sudo update_cache={{ yum.update_cache }} state=installed 
+  import_tasks: tasks/rpminfo.yml  
 
 - name: "Created config directory for sudo"
   file: path=/etc/sudoers.d/ state=directory group=root owner=root

@@ -1,7 +1,7 @@
 ---
 # tasks file for monit
-- name: "Install Monit Packages"
-  yum: name=monit update_cache={{ yum.update_cache }} state=installed
+- set_fact: package_name=monit
+- import_tasks: tasks/rpminfo.yml  
 
 - name: "Deploy Monit main config"
   copy: src=files/monit.conf dest=/etc/monit.conf owner=root group=root

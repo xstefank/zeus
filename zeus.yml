@@ -51,7 +51,6 @@
 
     - include: tasks/jboss-set-ci-scripts.yml
     - include: tasks/pull-request-processor.yml
-
     - include: tasks/jboss-eap7.yml
     - include: tasks/mjolnir.yml
     - include: tasks/prbz-overview.yml

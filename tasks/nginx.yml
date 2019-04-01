@@ -1,5 +1,6 @@
+- set_fact: package_name=nginx
 - name: "Install nginx packages"
-  yum: name=nginx update_cache={{ yum.update_cache }} state=installed
+  import_tasks: tasks/rpminfo.yml  
 
 - name: "Ensure folder for common configurations is created"
   file: path=/etc/nginx/commons.d state=directory owner=root group=root mode=0775

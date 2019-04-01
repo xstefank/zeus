@@ -1,6 +1,7 @@
-- name: Install tuned-adm
-  yum: pkg=tuned update_cache={{ yum.update_cache }} state=installed 
-  
+- set_fact: package_name=tuned
+- name: Ensure {{ package_name }} is installed
+  import_tasks: tasks/rpminfo.yml  
+
 - name: Started required service
   service: name={{ item }} state=started enabled=yes
   with_items:

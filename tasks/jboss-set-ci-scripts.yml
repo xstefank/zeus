@@ -1,5 +1,6 @@
-- name: "Ensure JBossSET CI Scripts are installed"
-  yum: name=jboss-set-ci-scripts update_cache={{ yum.update_cache }} state=installed
+- set_fact: package_name=jboss-set-ci-scripts
+- name: Ensure JBossSET CI Scripts are installed
+  import_tasks: tasks/rpminfo.yml  
 
-- name: "Add the 'ops' folder to root user PATH"
+- name: Add the 'ops' folder to root user PATH
   copy: src=files/root_bashrc dest=/root/.bashrc owner=root group=root

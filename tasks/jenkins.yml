@@ -1,5 +1,6 @@
+- set_fact: package_name=jenkins
 - name: "Install Jenkins WAR"
-  yum:  name=jenkins update_cache={{ yum.update_cache }} state=installed
+  import_tasks: tasks/rpminfo.yml
 
 - name: "Disable jenkins service"
   service: name=jenkins state=stopped enabled=no
