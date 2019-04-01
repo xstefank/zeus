@@ -1,4 +1,3 @@
 - name: "Ensure unneeded services are NOT running"
   service: name={{ item.name }} state=stopped enabled=no
   with_items: "{{ disabled_services_list }}"
-  when: ansible_env.TERM is defined
