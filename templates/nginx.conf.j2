@@ -13,14 +13,8 @@ server {
     ssl off;
 
     location / {
-      return deny all;
+      deny all;
     }
-
-    {% for maven_http_cache in maven_http_caches %}location {{ maven_http_cache.path }} {
-       include /etc/nginx/commons.d/nginx.maven.cache.conf;
-       proxy_pass {{ maven_http_cache.url }};
-    }
-    {% endfor %}
 
 }
 
@@ -45,6 +39,12 @@ server {
     location / {
       index /usr/share/nginx/html/jboss-set-404.html;
     }
+
+    {% for maven_http_cache in maven_http_caches %}location {{ maven_http_cache.path }} {
+       include /etc/nginx/commons.d/nginx.maven.cache.conf;
+       proxy_pass {{ maven_http_cache.url }};
+    }
+    {% endfor %}
 
     location /monit/ {
       auth_basic           "closed site";
