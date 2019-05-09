@@ -13,7 +13,7 @@ server {
     ssl off;
 
     location / {
-      return 301 https://$host$request_uri;
+      return deny all;
     }
 
     {% for maven_http_cache in maven_http_caches %}location {{ maven_http_cache.path }} {
