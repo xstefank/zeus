@@ -1,0 +1,5 @@
+- name: "Provisioning JDKs"
+  include_tasks: tasks/java_cert.yml
+  loop: "{{ jdk_list }}"
+  loop_control:
+    loop_var: jdk
