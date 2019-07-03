@@ -1,5 +1,10 @@
-- name: "Provisioning JDKs"
-  include_tasks: tasks/java_cert.yml
-  loop: "{{ jdk_list }}"
-  loop_control:
-    loop_var: jdk
+- name: Import SSL certificates in {{ jdk.name }}
+  java_cert:
+    cert_url: "{{ item.cert_url }}"
+    keystore_path: "{{ jdk.java_home }}/jre/lib/security/cacerts"
+    cert_alias: "{{ item.alias }}"
+    executable: "{{ jdk.java_home }}/bin/keytool"
+    keystore_pass: changeit
+    keystore_create: no
+    state: present
+  with_items: "{{ certificate_list }}"
