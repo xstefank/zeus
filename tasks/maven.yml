@@ -8,3 +8,11 @@
   loop:
     - { src: templates/settings.xml.j2, dest: /home/jboss/settings.xml }
     - { src: templates/settings-64.xml.j2, dest: /home/jboss/settings-64.xml }
+
+- name: "Deploy harmonia-build script"
+  template:
+    src: templates/harmonia-eap-build.j2
+    dest: /opt/jboss-set-ci-scripts/harmonia-eap-build
+    owner: jboss
+    group: jboss
+    mode: 0755

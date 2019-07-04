@@ -1,0 +1,24 @@
+#/bin/bash
+
+# Any argument passed to this script will simply passed over to the HARMONIA_BUILD_SCRIPT. To change the configuration of  this
+# script override the parameters below:
+readonly HARMONIA_REPOSITORY=${HARMONIA_REPOSITORY:-'git@github.com:jboss-set/harmonia.git'}
+readonly HARMONIA_BRANCH=${HARMONIA_BRANCH:-'master'}
+readonly HARMONIA_FOLDER=${HARMONIA_FOLDER:-'harmonia'}
+readonly HARMONIA_BUILD_SCRIPT=${HARMONIA_BUILD_SCRIPT:-"${HARMONIA_FOLDER}/eap-job.sh"}
+
+readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/home/master/settings.xml'}
+readonly MAVEN_CACHE_SERVER=${MAVEN_CACHE_SERVER:-'{{ ansible_nodename }}'}
+
+# if HARMONIA_VERBOSE_BUILD is set, execute build script with -x
+if [ ! -z "${HARMONIA_VERBOSE_BUILD}" ]; then
+  HARMONIA_VERBOSE_BUILD="-x"
+fi
+
+git clone -v --branch "${HARMONIA_BRANCH}" "${HARMONIA_REPOSITORY}" "${HARMONIA_FOLDER}"
+if [ $? -eq 0 ]; then
+  bash -x ${HARMONIA_VERBOSE_BUILD} "${HARMONIA_BUILD_SCRIPT}" ${@}
+else
+  echo "Could not clone build script from ${HARMONIA_REPOSITORY} (${HARMONIA_BRANCH}) - aborting"
+  exit 1
+fi
