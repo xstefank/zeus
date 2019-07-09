@@ -50,8 +50,14 @@ under the License.
       <url>https://{{ ansible_nodename }}/eap-7.0</url>
     </mirror>
     <mirror>
-      <id>thunder.jboss.org.cache</id>
+      <id>thunder.jboss.group.org.cache</id>
       <mirrorOf>jboss-public-repository-group</mirrorOf>
+      <name>Thunder JBoss Public Repositories Cache</name>
+      <url>https://{{ ansible_nodename }}/jboss</url>
+    </mirror>
+    <mirror>
+      <id>thunder.jboss.org.cache</id>
+      <mirrorOf>jboss-public-repository</mirrorOf>
       <name>Thunder JBoss Public Repositories Cache</name>
       <url>https://{{ ansible_nodename }}/jboss</url>
     </mirror>
