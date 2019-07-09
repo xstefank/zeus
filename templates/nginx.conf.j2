@@ -13,9 +13,12 @@ server {
     ssl off;
 
     location / {
-      return deny all;
+      deny all;
     }
 
+    location /jenkins {
+      return 301 https://$host$request_uri;
+    }
 }
 
 server {
@@ -37,7 +40,7 @@ server {
     ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
 
     location / {
-      index /usr/share/nginx/html/jboss-set-404.html;
+      index /jboss-set-404.html;
     }
 
     {% for maven_http_cache in maven_http_caches %}location {{ maven_http_cache.path }} {
@@ -61,12 +64,6 @@ server {
 
       proxy_pass http://{{ ansible_nodename }}:8480 ;
       proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
-      include /etc/nginx/proxy.conf;
-    }
-
-    location /hudson {
-      proxy_pass http://{{ ansible_nodename }}:8380 ;
-      proxy_redirect     http://{{ ansible_nodename }}:8380 https://{{ ansible_nodename }};
       include /etc/nginx/proxy.conf;
     }
 
