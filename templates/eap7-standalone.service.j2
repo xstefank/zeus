@@ -11,7 +11,7 @@ Environment="WILDFLY_SH=/opt/rh/eap7/root/usr/share/wildfly/bin/standalone.sh"
 Environment="WILDFLY_SERVER_CONFIG={{ jboss.config }}"
 Environment="WILDFLY_CONSOLE_LOG=/var/opt/rh/eap7/log/wildfly/standalone/console.log"
 Environment="WILDFLY_MODULEPATH=/opt/rh/eap7/root/usr/share/wildfly/modules"
-Environment="WILDFLY_BIND=thunder"
+Environment="WILDFLY_BIND={{ jboss.bind_addr }}"
 Environment="JBOSS_PIDFILE=/var/opt/rh/eap7/run/wildfly/eap7-standalone.pid"
 EnvironmentFile=-/opt/rh/eap7/service-environment
 User=jboss
