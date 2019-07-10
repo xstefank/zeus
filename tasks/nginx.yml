@@ -47,6 +47,23 @@
     group: root
     mode: 0644
 
+- name: "Create img/ folder for landing page"
+  file:
+    path: /usr/share/nginx/html/img
+    state: directory
+    owner: root
+    group: root
+
+- name: "Deploy tools logo for landing page"
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/nginx/html/img/
+  with_items:
+    - files/img/jenkins-logo.png
+    - files/img/mjolnir-logo.png
+    - files/img/monit-logo.png
+    - files/img/pr-bz-overview-logo.png
+
 - name: "Deploy custom 404 page for Nginx"
   template:
     src: templates/jboss-set-404.html.j2
