@@ -34,8 +34,13 @@ under the License.
     <mirror>
       <id>thunder.brew.cache.6.4</id>
       <mirrorOf>jboss-product-repository</mirrorOf>
-      <name>Thunder Product EAP 6.4 Cache</name>
-      <url>https://{{ ansible_nodename }}/eap-6.4</url>
+      <name>Thunder Product EAP 6.4 (RHEL 6) Cache</name>
+      <url>https://{{ ansible_nodename }}//eap-6.4-rhel6/</url>
+    </mirror>
+      <id>thunder.brew.cache.6.4.dup</id>
+      <mirrorOf>jboss-product-repository-eap6</mirrorOf>
+      <name>Thunder Product EAP 6.4 (RHEL 7) Cache</name>
+      <url>https://{{ ansible_nodename }}//eap-6.4-rhel7/</url>
     </mirror>
     <mirror>
       <id>thunder.jboss.org.cache</id>
