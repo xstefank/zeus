@@ -32,13 +32,19 @@ under the License.
       <url>https://{{ ansible_nodename }}/maven</url>
     </mirror>
     <mirror>
-      <id>thunder.brew.cache.6.4</id>
+      <id>thunder.brew.cache.6.4.rhel6</id>
       <mirrorOf>jboss-product-repository</mirrorOf>
       <name>Thunder Product EAP 6.4 (RHEL 6) Cache</name>
       <url>https://{{ ansible_nodename }}//eap-6.4-rhel6/</url>
     </mirror>
     <mirror>
-      <id>thunder.brew.cache.6.4.dup</id>
+      <id>thunder.brew.cache.6.4.rhel7.https</id>
+      <mirrorOf>jboss-product-repository-eap6-https</mirrorOf>
+      <name>Thunder Product EAP 6.4 (RHEL 7) Cache</name>
+      <url>https://{{ ansible_nodename }}//eap-6.4-rhel7/</url>
+    </mirror>
+    <mirror>
+      <id>jboss-product-repository-eap6.rhel7.http</id>
       <mirrorOf>jboss-product-repository-eap6</mirrorOf>
       <name>Thunder Product EAP 6.4 (RHEL 7) Cache</name>
       <url>https://{{ ansible_nodename }}//eap-6.4-rhel7/</url>
