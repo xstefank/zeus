@@ -8,7 +8,6 @@ readonly HARMONIA_FOLDER=${HARMONIA_FOLDER:-'harmonia'}
 readonly HARMONIA_BUILD_SCRIPT=${HARMONIA_BUILD_SCRIPT:-"${HARMONIA_FOLDER}/eap-job.sh"}
 
 readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/home/master/settings.xml'}
-readonly MAVEN_CACHE_SERVER=${MAVEN_CACHE_SERVER:-'{{ ansible_nodename }}'}
 
 # if HARMONIA_VERBOSE_BUILD is set, execute build script with -x
 if [ ! -z "${HARMONIA_VERBOSE_BUILD}" ]; then
