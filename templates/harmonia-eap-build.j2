@@ -9,6 +9,13 @@ readonly HARMONIA_BUILD_SCRIPT=${HARMONIA_BUILD_SCRIPT:-"${HARMONIA_FOLDER}/eap-
 
 readonly MAVEN_SETTINGS_XML=${MAVEN_SETTINGS_XML:-'/home/master/settings.xml'}
 
+clean() {
+  if [[ ! -z "${HARMONIA_FOLDER}" ]]; then
+    rm -rf "${HARMONIA_FOLDER}"
+  fi
+}
+trap clean EXIT
+
 # if HARMONIA_VERBOSE_BUILD is set, execute build script with -x
 if [ ! -z "${HARMONIA_VERBOSE_BUILD}" ]; then
   HARMONIA_VERBOSE_BUILD="-x"
@@ -17,7 +24,10 @@ fi
 git clone -v --branch "${HARMONIA_BRANCH}" "${HARMONIA_REPOSITORY}" "${HARMONIA_FOLDER}"
 if [ $? -eq 0 ]; then
   bash -x ${HARMONIA_VERBOSE_BUILD} "${HARMONIA_BUILD_SCRIPT}" ${@}
+  JOB_RESULT=$?
 else
   echo "Could not clone build script from ${HARMONIA_REPOSITORY} (${HARMONIA_BRANCH}) - aborting"
   exit 1
 fi
+
+exit $JOB_RESULT
