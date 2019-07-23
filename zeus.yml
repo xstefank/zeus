@@ -5,6 +5,8 @@
   become_user: root
   vars_files:
     - zeus_vars.yml
+  roles:
+    - redhat-cop.jcliff
   tasks:
     - name: " ******* STAGE 0 *******"
       debug: msg=" >>> Check Ansible Set Up <<<"
