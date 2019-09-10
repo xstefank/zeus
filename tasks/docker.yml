@@ -3,7 +3,14 @@
   import_tasks: tasks/rpminfo.yml
 
 - name: Set up service configuration
-  copy: src=files/docker.conf dest=/etc/sysconfig/docker owner=root group=root
+  copy:
+    src: files/docker.conf
+    dest: /etc/sysconfig/docker
+    owner: root
+    group: root
 
 - name: "Run Docker Daemon"
-  service: name=docker state=started enabled=yes
+  service:
+    name: docker
+    state: started
+    enabled: yes
