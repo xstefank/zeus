@@ -3,7 +3,7 @@
   import_tasks: tasks/rpminfo.yml
 
 - name: "Checks prbz-overview is deployed"
-  file: state=link src=/usr/share/prbz-overview/prbz-overview.war dest={{ jboss.home }}/standalone/deployments/prbz-overview.war owner=jboss group=jboss
+  file: state=link src=/usr/share/prbz-overview/prbz-overview.war dest={{ jboss.home }}/standalone/deployments/prbz-overview.war owner=root group=root
 
 - name: "Checks prbz-overview folder exists"
   file: name=/home/jboss/prbz-overview state=directory owner=jboss group=jboss
