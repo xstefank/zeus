@@ -1,6 +1,6 @@
 - set_fact: package_name=prbz-overview
 - name: "Checks prbz-overview webapp is installed"
-  import_tasks: tasks/rpminfo.yml  
+  import_tasks: tasks/rpminfo.yml
 
 - name: "Checks prbz-overview is deployed"
   file: state=link src=/usr/share/prbz-overview/prbz-overview.war dest={{ jboss.home }}/standalone/deployments/prbz-overview.war owner=jboss group=jboss

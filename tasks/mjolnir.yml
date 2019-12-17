@@ -1,6 +1,6 @@
 - set_fact: package_name=mjolnir
 - name: "Install Mjolnir App"
-  import_tasks: tasks/rpminfo.yml  
+  import_tasks: tasks/rpminfo.yml
 
 - name: "Deploy Mjolnir"
-  file: state=link src=/usr/share/mjolnir/mjolnir.war dest={{ jboss.home }}/standalone/deployments/mjolnir.war owner=jboss group=jboss
+  file: state=link src=/usr/share/mjolnir/mjolnir.war dest={{ root.home }}/standalone/deployments/mjolnir.war owner=root group=root
