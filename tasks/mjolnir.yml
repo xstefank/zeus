@@ -3,4 +3,4 @@
   import_tasks: tasks/rpminfo.yml
 
 - name: "Deploy Mjolnir"
-  file: state=link src=/usr/share/mjolnir/mjolnir.war dest={{ root.home }}/standalone/deployments/mjolnir.war owner=root group=root
+  file: state=link src=/usr/share/mjolnir/mjolnir.war dest={{ jboss.home }}/standalone/deployments/mjolnir.war owner=root group=root
