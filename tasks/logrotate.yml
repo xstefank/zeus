@@ -1,6 +1,13 @@
-- set_fact: package_name=logrotate
+- set_fact:
+    package_name: logrotate
 - name: Checks that logrotate is installed
   import_tasks: tasks/rpminfo.yml
 
 - name: Checks that EAP logrotate policy is defined
-  template: src=templates/eap-logrotate.conf.j2 dest=/etc/logrotate.d/eap owner=root group=root
+  template:
+    src: 'templates/eap-logrotate.conf.j2'
+    dest: '/etc/logrotate.d/eap'
+    owner: 'root'
+    group: 'root'
+
+
