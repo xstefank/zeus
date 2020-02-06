@@ -25,48 +25,14 @@ under the License.
   <proxies/>
   <servers/>
   <mirrors>
+{% for mvn_cache in maven_http_caches_eap64 %}
     <mirror>
-      <id>thunder.maven.central.cache</id>
-      <mirrorOf>central</mirrorOf>
-      <name>Thunder Maven Central Cache</name>
-      <url>https://{{ ansible_nodename }}/maven</url>
+      <id>{{ mvn_cache.name }}</id>
+      <mirrorOf>{{ mvn_cache.mirrorOf }}</mirrorOf>
+      <name>{{ mvn_cache.desc }}</name>
+      <url>https://{{ ansible_nodename }}{{ mvn_cache.path }}</url>
     </mirror>
-    <mirror>
-      <id>thunder.brew.cache.6.4.rhel6</id>
-      <mirrorOf>jboss-product-repository</mirrorOf>
-      <name>Thunder Product EAP 6.4 (RHEL 6) Cache</name>
-      <url>https://{{ ansible_nodename }}//eap-6.4-rhel6/</url>
-    </mirror>
-    <mirror>
-      <id>thunder.brew.cache.6.4.rhel7.https</id>
-      <mirrorOf>jboss-product-repository-eap6-https</mirrorOf>
-      <name>Thunder Product EAP 6.4 (RHEL 7) Cache</name>
-      <url>https://{{ ansible_nodename }}//eap-6.4-rhel7/</url>
-    </mirror>
-    <mirror>
-      <id>jboss-product-repository-eap6.rhel7.http</id>
-      <mirrorOf>jboss-product-repository-eap6</mirrorOf>
-      <name>Thunder Product EAP 6.4 (RHEL 7) Cache</name>
-      <url>https://{{ ansible_nodename }}//eap-6.4-rhel7/</url>
-    </mirror>
-    <mirror>
-      <id>thunder.jboss.org.cache</id>
-      <mirrorOf>jboss-public-repository-group</mirrorOf>
-      <name>Thunder JBoss Public Repositories Cache</name>
-      <url>https://{{ ansible_nodename }}/jboss</url>
-    </mirror>
-    <mirror>
-      <id>thunder.jboss.org.cache</id>
-      <mirrorOf>jboss-public-repository</mirrorOf>
-      <name>Thunder JBoss Public Repositories Cache</name>
-      <url>https://{{ ansible_nodename }}/jboss</url>
-    </mirror>
-    <mirror>
-      <id>thunder.spring.io</id>
-      <mirrorOf>repository.spring.maven.libs</mirrorOf>
-      <name>Thunder Spring IO Cache</name>
-      <url>https://{{ ansible_nodename }}/spring</url>
-    </mirror>
+{% endfor %}
   </mirrors>
   <profiles/>
 </settings>

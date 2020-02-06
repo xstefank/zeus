@@ -120,13 +120,25 @@
 	    </table>
                 </center>
             </div>
-            <h3>Maven HTTP Caches</h3>
-            <div style="text-align: center;">
-            <ul style="list-style-type: none">
+            <h3>Maven HTTP Caches (EAP 7)</h3>
+            <center>
+            <table style="list-style-type: none;" align: "center">
+              <tr><th>URL</th><th>Path</th><th>Source URL</th>
               {% for cache in maven_http_caches %}
-                <li><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.path }}</li>
+              <tr><td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td><td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td></tr>
               {% endfor %}
-            </ul>
+            </table>
+            </center>
+            <h3>Maven HTTP Caches (EAP 6)</h3>
+            <center>
+            <table style="list-style-type: none;" align: "center">
+              <tr><th>URL</th><th>Path</th><th>Source URL</th>
+              {% for cache in maven_http_caches_eap64 %}
+              <tr><td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td><td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td></tr>
+              {% endfor %}
+            </table>
+            </center>
+
             <div class="logos">
                 <a href="http://nginx.net/"><img
                     src="/nginx-logo.png"
