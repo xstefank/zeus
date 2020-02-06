@@ -2,3 +2,4 @@ secrets.yml
 hosts.retry
 zeus_vars.yml
 ansible.cfg
+vars
