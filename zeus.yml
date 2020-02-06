@@ -4,7 +4,7 @@
   become: yes
   become_user: root
   vars_files:
-    - zeus_vars.yml
+    - vars/thunder.yml
   roles:
     - redhat-cop.jcliff
   tasks:
@@ -78,7 +78,7 @@
 
 - hosts: localhost
   vars_files:
-    - zeus_vars.yml
+    - vars/thunder.yml
   roles:
     - zeus_cronjobs
     - monit
