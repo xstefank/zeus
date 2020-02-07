@@ -8,9 +8,6 @@
 - name: "Deploy configuration for jboss-eap7"
   template: src=templates/eap7-standalone.service.j2 dest=/usr/lib/systemd/system/eap7-standalone.service group=jboss owner=jboss
 
-- name: "Deploy init script for jboss-eap7"
-  copy: src=files/jboss-eap7 dest=/etc/init.d/jboss-eap7 owner=root group=root mode=755
-
 - name: "Set up module dir for Postgres JDBC Driver"
   file: path={{ jboss.home }}/modules/org/postgresql/main/ state=directory group=jboss owner=jboss
 
