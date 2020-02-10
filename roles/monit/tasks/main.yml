@@ -54,8 +54,22 @@
   template: src=templates/monit.service.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
   with_items: "{{ services_list }}"
 
+- set_fact:
+    http_caches_config_folder: /etc/monit.d/http_caches/
+
+- name: "Ensure subfolder for http caches configuration exists"
+  file:
+    path: "{{ http_caches_config_folder }}"
+    state: directory
+    owner: root
+    group: root
+
 - name: "Ensure local HTTP Caches are monitored"
-  template: src=monit.remote.http.service.j2 dest=/etc/monit.d/cache-{{ item.name }} owner=root group=root
+  template:
+    src: monit.remote.http.service.j2
+    dest: "{{ http_caches_config_folder}}/{{ item.name }}"
+    owner: root
+    group: root
   with_items: "{{ maven_http_caches }}"
 
 - name: "Monitor remote HTTP services"

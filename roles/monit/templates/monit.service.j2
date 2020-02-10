@@ -20,7 +20,9 @@ if failed host {{ item.bind_addr }} port {{ item.port }}
 {% endfor %}
 
 {%if item.name == 'nginx' %}
-include /etc/monit.conf.d/cache-*
+{% for http_cache in maven_http_caches %}
+include /etc/monit.conf.d/http_caches/{{% http_cache.name %}
+{% endfor %}
 {% endif %}
 
 {% endif %}
