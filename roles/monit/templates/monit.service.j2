@@ -19,12 +19,12 @@ if failed host {{ item.bind_addr }} port {{ item.port }}
           protocol {{ protocol }} request {{ check.context }} method GET with timeout {{ check.timeout }} seconds then {{ check.action }}
 {% endfor %}
 
-{%if item.name == 'nginx' %}
+{% if item.name == 'nginx' %}
+{% if maven_http_caches is defined and http_caches_config_folder is defined %}
 {% for http_cache in maven_http_caches %}
-include /etc/monit.conf.d/http_caches/{{% http_cache.name %}
+include {{ http_caches_config_folder }}/{{ http_cache.name }}
 {% endfor %}
 {% endif %}
-
 {% endif %}
 
 {% if item.nb_restarts is defined %}
