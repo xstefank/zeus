@@ -12,12 +12,6 @@
 - name: "Ensures monit.conf.d is properly created and set"
   file: state=directory path=/etc/monit.conf.d/ owner=root group=root
 
-- name: "Set up Monit checks on local virtual ip"
-  template: src=templates/monit.network.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
-  with_items:
-    - { name: "rhevm" }
-    - { name: "docker0" }
-
 - name: "Set up Monit alert on commonly uses services"
   template: src=templates/monit.ping.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
   with_items: "{{ dnsnames }}"
@@ -44,7 +38,6 @@
 
 - name: "Ensures custom script 'check-sudoers-list' is deployed"
   template: src=check-sudoers-list.j2 dest={{scripts_home.path}}/check-sudoers-list
-  ###
 
 - name: "Set Monit checks based on custom scripts"
   template: src=templates/monit.script.j2 dest=/etc/monit.d/{{ item.check_name }} owner=root group=root
