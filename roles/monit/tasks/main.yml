@@ -23,7 +23,7 @@
     - { name: 'root', path: '/', threshold: '90%' }
     - { name: 'var-crash', path: '/var/crash', threshold: '90%' }
     - { name: 'home', path: '/home', threshold: '90%' }
-    - { name: 'docker-part', path: '/var/lib/docker', threshold: '90%' }
+    - { name: 'docker-part', path: '/var/lib/docker', threshold: '85%' }
 
   # other 'ops' should be moved out to Ansible, as most of the scripts in /opt/jboss-set-ci-scripts
   # are more/less defunct
