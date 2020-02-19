@@ -7,7 +7,7 @@
   import_tasks: tasks/rpminfo.yml
 
 - name: "Install Keycloak SAML adapter into EAP"
-  command: {{ jboss.home }}/bin/jboss-cli.sh --file=files/adapter-install-saml-offline.cli -Dserver.config={{ jboss.config }}
+  command: "{{ jboss.home }}/bin/jboss-cli.sh --file=files/adapter-install-saml-offline.cli -Dserver.config={{ jboss.config }}"
 
 - name: "Created config directory for jboss-eap7"
   file: path=/etc/jboss-eap7/ state=directory group=jboss owner=jboss

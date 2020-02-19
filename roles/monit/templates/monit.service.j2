@@ -27,6 +27,8 @@ include {{ http_caches_config_folder }}/{{ http_cache.name }}
 {% endif %}
 {% endif %}
 
+{% endif %}
+
 {% if item.nb_restarts is defined %}
 if {{ item.nb_restarts }} restarts within 9 cycles then unmonitor
 {% endif %}
