@@ -49,11 +49,13 @@ server {
     }
     {% endfor %}
 
-    {% for maven_http_cache_for_eap64 in maven_http_caches_eap64 %}{% if '6.4' in maven_http_cache_for_eap64.name %}location {{ maven_http_cache_for_eap64.path }} {
+    {% for maven_http_cache_for_eap64 in maven_http_caches_eap64 %}
+      {% if '6.4' in maven_http_cache_for_eap64.name %}
+    location {{ maven_http_cache_for_eap64.path }} {
        include /etc/nginx/commons.d/nginx.maven.cache.conf;
        proxy_pass {{ maven_http_cache_for_eap64.url }};
-       {% endif %}
     }
+       {% endif %}
     {% endfor %}
 
     location /monit/ {
