@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  gather_facts: no
+  become: yes
+  become_user: root
+  vars_files:
+    - vars/cci.yml
+  tasks:
+    - name: " ******* STAGE 0 *******"
+      debug: msg=" >>> Check Ansible Set Up <<<"
+
+    - name: "Ensure ansible facts.d is created"
+      file: path=/etc/ansible/facts.d/ state=directory
+
+    - name: " ******* STAGE 1 *******"
+      debug: msg=" >>> Set Up Required Infrastructure Services <<<"
+    - include: tasks/nginx.yml
+    - include: tasks/old-releases.yml
+    - include: tasks/maven.yml
