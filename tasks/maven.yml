@@ -14,11 +14,10 @@
   changed_when: false
   with_items: "{{ settings_xml_files }}"
 
-
 - name: "Deploy harmonia-build script"
   template:
     src: templates/harmonia-eap-build.j2
-    dest: /opt/jboss-set-ci-scripts/harmonia-eap-build
+    dest: /usr/local/bin/harmonia-eap-build
     owner: jboss
     group: jboss
     mode: 0755
