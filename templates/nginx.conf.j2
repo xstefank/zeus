@@ -3,7 +3,9 @@
 #
 
 # Caching static files for Jenkins
+{%if 'thunder' in ansible_hostname %}
 proxy_cache_path /home/jboss/jenkins_workspace/.http_cache levels=1:2 keys_zone=jenkins_cache:10m max_size=10g;
+{% endif %}
 # Caching Maven central
 proxy_cache_path {{ maven_http_cache_common_config.directory }} levels=1:2 keys_zone={{ maven_http_cache_common_config.name }}:20m max_size={{ maven_http_cache_common_config.max_size }} inactive={{ maven_http_cache_common_config.inactive }};
 
@@ -35,7 +37,7 @@ server {
        {% endif %}
     {% endfor %}
 }
-
+{% if 'thunder' in ansible_hostname %}
 server {
     listen      {{ ansible_nodename }}:443 default_server;
     server_name {{ ansible_nodename }};
@@ -115,3 +117,4 @@ server {
         root   /usr/share/nginx/html;
     }
 }
+{% endif %}
