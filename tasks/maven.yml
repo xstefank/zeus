@@ -23,24 +23,24 @@
     mode: 0755
 
 - name: "Link harmonia-eap-build to proper name"
-  file: 
-    state: link 
+  file:
+    state: link
     src: /usr/local/bin/harmonia-eap-build
     dest: /usr/local/bin/harmonia-launcher
     owner: root
     group: root
     mode: 0755
-   
+
 - block:
   - name: "Link to previous for compat purpose"
-    file: 
-      state: link 
+    file:
+      state: link
       src: /usr/local/bin/harmonia-eap-build
       dest: /opt/jboss-set-ci-scripts/harmonia-eap-build
       owner: jboss
       group: jboss
       mode: 0755
   when: "'thunder' in ansible_hostname"
-   
+
 
 
