@@ -37,9 +37,8 @@
       state: link
       src: /usr/local/bin/harmonia-eap-build
       dest: /opt/jboss-set-ci-scripts/harmonia-eap-build
-      owner: jboss
-      group: jboss
-      mode: 0755
+      owner: root
+      group: root
   when: "'thunder' in ansible_hostname"
 
 
