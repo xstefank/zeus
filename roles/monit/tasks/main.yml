@@ -1,7 +1,7 @@
 ---
 # tasks file for monit
 - set_fact: package_name=monit
-- import_tasks: tasks/rpminfo.yml  
+- import_tasks: tasks/rpminfo.yml
 
 - name: "Deploy Monit main config"
   copy: src=files/monit.conf dest=/etc/monit.conf owner=root group=root
@@ -68,6 +68,12 @@
 - name: "Monitor remote HTTP services"
   template: src=monit.remote.http.service.j2 dest=/etc/monit.d/http-services-{{ item.name }} owner=root group=root
   with_items: "{{ remote_http_services }}"
+
+# this assume nginx is being used and installed, it would be cleaner to have a "if" here.
+- name: "Deploy credentials for monit app"
+  template:
+    src: templates/nginx.monit.passwd.j2
+    dest: /etc/nginx/monit.passwd
 
 - name: "Ensure Monit itself is running"
   service: name=monit enabled=yes state=started

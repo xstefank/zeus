@@ -34,11 +34,6 @@
     group: nginx
     mode: 0775
 
-- name: "Deploy credentials for monit app"
-  template:
-    src: templates/nginx.monit.passwd.j2
-    dest: /etc/nginx/monit.passwd
-
 - name: "Deploy nginx configuration"
   template:
     src: templates/nginx.conf.j2
