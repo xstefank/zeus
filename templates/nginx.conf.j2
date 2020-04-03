@@ -36,6 +36,11 @@ server {
     }
        {% endif %}
     {% endfor %}
+
+    location /{{ jboss_set_shared_maven_repo.name }} {
+      root {{ jboss_set_shared_maven_repo.root }};
+      autoindex on;
+    }
 }
 {% if 'thunder' in ansible_hostname %}
 server {
@@ -109,6 +114,11 @@ server {
       proxy_pass http://{{ ansible_nodename }}:8480 ;
       proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
       include /etc/nginx/proxy.conf;
+    }
+
+    location /{{ jboss_set_shared_maven_repo.name }} {
+      root {{ jboss_set_shared_maven_repo.root }};
+      autoindex on;
     }
 
     # redirect server error pages to the static page /50x.html

@@ -22,3 +22,14 @@
     group: root
     mode: 0755
   loop: "{{ harmonia_target_files }}"
+
+- name: "Set up root folder and shared folder to release Maven artefacts"
+  file:
+    path: "{{ jboss_set_shared_maven_repo.root }}"
+    state: directory
+    owner: jboss
+    group: jboss-set
+    mode: 02775
+  loop:
+    - "{{ jboss_set_shared_maven_repo.root }}"
+    - "{{ jboss_set_shared_maven_repo.root }}/{{ jboss_set_shared_maven_repo.name }}"
