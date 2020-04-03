@@ -111,6 +111,10 @@ server {
       include /etc/nginx/proxy.conf;
     }
 
+    location /https://thunder.sin2.redhat.com/set-future-artefacts. {
+      index /home/jboss/set-future-artefacts;
+    }
+
     # redirect server error pages to the static page /50x.html
     error_page   500 502 503 504  /50x.html;
     location = /50x.html {

@@ -22,3 +22,11 @@
     group: root
     mode: 0755
   loop: "{{ harmonia_target_files }}"
+
+- name: "Set up shared directory for jboss-set group"
+  file:
+    dest: /home/jboss/set-future-artefacts
+    state: directory
+    owner: jboss-set
+    groupe: jboss-set
+    mode: 2775
