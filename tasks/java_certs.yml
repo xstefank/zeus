@@ -1,3 +1,15 @@
+- name: Remove SSL certificates in {{ jdk.name }}
+  when: rebuild_keystore|default(false)
+  java_cert:
+    cert_url: "{{ item.cert_url }}"
+    keystore_path: "{{ jdk.java_home }}/jre/lib/security/cacerts"
+    cert_alias: "{{ item.alias }}"
+    executable: "{{ jdk.java_home }}/bin/keytool"
+    keystore_pass: changeit
+    keystore_create: no
+    state: absent
+  with_items: "{{ certificate_list }}"
+
 - name: Import SSL certificates in {{ jdk.name }}
   java_cert:
     cert_url: "{{ item.cert_url }}"
