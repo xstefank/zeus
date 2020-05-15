@@ -1,0 +1,9 @@
+#! /bin/bash
+
+container_name='{{postgres_db.name}}'
+
+if [ "$(docker inspect -f '{{.State.Running}}' ${container_name} 2>/dev/null)" = "true" ]; then
+  return 1;
+else
+  return 0;
+fi
