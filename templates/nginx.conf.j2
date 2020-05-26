@@ -98,10 +98,8 @@ server {
       include /etc/nginx/proxy.conf;
     }
 
-    location /mjolnir {
-      proxy_pass http://{{ ansible_nodename }}:8480 ;
-      proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
-      include /etc/nginx/proxy.conf;
+    location ~ ^/mjolnir(.*) {
+      return 301 {{ mjolnir_url }}$1;
     }
 
     location /mjolnir-dev {
