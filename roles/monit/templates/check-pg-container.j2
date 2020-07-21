@@ -1,9 +1,6 @@
-#! /bin/bash
+#!/bin/bash
+set -euo pipefail
 
-container_name='{{postgres_db.name}}'
+readonly CONTAINER_NAME=${CONTAINER_NAME:-'{{ postgres_db.name }}'}
 
-if [ "$(docker inspect -f '{%raw%}{{.State.Running}}{%endraw%}' ${container_name} 2>/dev/null)" = "true" ]; then
-  exit 0
-else
-  exit 1
-fi
+docker inspect -f '{%raw%}{{.State.Running}}{%endraw%}' "${CONTAINER_NAME}" 2>/dev/null | grep -e 'true' -q
