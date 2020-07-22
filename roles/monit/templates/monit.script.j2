@@ -1,3 +1,7 @@
-check program {{ item.check_name }} with path {{ scripts_home.path }}/{{ item.script_name }}
+{% if item.script_args is defined %}
+check program {{ item.check_name }} with path "{{ scripts_home.path }}/{{ item.script_name }} {{ item.script_args }}"
+{% else %}
+check program {{ item.check_name }} with path "{{ scripts_home.path }}/{{ item.script_name }}"
+{% endif %}
     with timeout {{ item.timeout }} seconds
     if status != 0 then alert

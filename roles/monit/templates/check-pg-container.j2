@@ -1,6 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-readonly CONTAINER_NAME=${CONTAINER_NAME:-'{{ postgres_db.name }}'}
-
-docker inspect -f '{%raw%}{{.State.Running}}{%endraw%}' "${CONTAINER_NAME}" 2>/dev/null | grep -e 'true' -q
