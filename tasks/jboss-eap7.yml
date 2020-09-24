@@ -2,13 +2,6 @@
 - name: "Ensures jboss-eap7 RPM package is installed"
   import_tasks: tasks/rpminfo.yml
 
-- set_fact: package_name={{ jboss.saml_adapter_package_name }}
-- name: "Ensures Keycloak SAML adapter RPM package is installed"
-  import_tasks: tasks/rpminfo.yml
-
-#- name: "Install Keycloak SAML adapter into EAP"
-#  command: "{{ jboss.home }}/bin/jboss-cli.sh --file=files/adapter-install-saml-offline.cli -Dserver.config={{ jboss.config }}"
-
 - name: "Created config directory for jboss-eap7"
   file:
     path: /etc/jboss-eap7/
@@ -20,27 +13,6 @@
   template:
     src: templates/eap7-standalone.service.j2
     dest: /usr/lib/systemd/system/eap7-standalone.service
-    group: jboss
-    owner: jboss
-
-- name: "Set up module dir for Postgres JDBC Driver"
-  file:
-    path: "{{ jboss.home }}/modules/org/postgresql/main/"
-    state: directory
-    group: jboss
-    owner: jboss
-
-- name: "Deploy JDBC driver for PQSL"
-  copy:
-    src: files/postgresql-8.4-703.jdbc4.jar
-    dest: "{{ jboss.home }}/modules/org/postgresql/main/"
-    group: jboss
-    owner: jboss
-
-- name: "Deploy module.xml"
-  copy:
-    src: files/module.xml
-    dest: "{{ jboss.home }}/modules/org/postgresql/main/module.xml"
     group: jboss
     owner: jboss
 

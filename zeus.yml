@@ -44,7 +44,6 @@
       debug: msg=" >>> Set Up Required Infrastructure Services <<<"
 
     - include: tasks/disabled.yml
-    - include: tasks/postgres.yml
     - include: tasks/docker.yml
     - include: tasks/nginx.yml
 
