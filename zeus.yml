@@ -55,6 +55,7 @@
     - include: tasks/pull-request-processor.yml
     - include: tasks/jboss-eap7.yml
     - include: tasks/prbz-overview.yml
+    - include: tasks/payload-status.yml
     - include: tasks/old-releases.yml
     - include: tasks/jenkins.yml
     - name: "Provisioning self-signed certificate to JDKs"
