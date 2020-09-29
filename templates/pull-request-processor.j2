@@ -1,18 +1,21 @@
 {
+    "maxThreadCount": 10,
+    "streamServiceUpdateRate": 12,
+    "initialDelay": 10,
     "issueTrackerConfigs": [
         {
             "url": "https://issues.redhat.com/",
             "username": "{{ jira.username }}",
             "password": "{{ jira.password }}",
             "tracker": "JIRA",
-            "defaultIssueLimit": 10
+            "defaultIssueLimit": 1
         },
         {
             "url": "https://bugzilla.redhat.com/",
             "username": "{{ bugzilla.username }}",
             "password": "{{ bugzilla.password }}",
             "tracker": "BUGZILLA",
-            "defaultIssueLimit": 10
+            "defaultIssueLimit": 1
         }
     ],
     "repositoryConfigs": [
@@ -21,19 +24,12 @@
             "username": "{{ github.username }}",
             "password": "{{ github.token }}",
             "type": "GITHUB"
-        },
-        {
-            "url": "https://gitlab.cee.redhat.com/",
-            "username": "{{ gitlab.username }},
-            "password": "{{ gitlab.token }}",
-            "type": "GITLAB"
         }
     ],
     "streamConfigs": [
         {
-            "url": "file:///home/jboss/pull-request-processor/streams.json",
+            "url": "file://{{ pull_request_processor_home }}/streams.json",
             "type": "JSON"
         }
     ]
 }
-
