@@ -1,5 +1,25 @@
+- set_fact:
+   pull_request_processor_home: "/home/jboss/pull-request-processor/7.1.z"
+
+- name: "Ensures {{ pull_request_processor_home }} is synchronised with {{ jboss_set_streams.url }}"
+  get_url:
+    url: "{{ jboss_set_streams.url }}"
+    dest: "{{ pull_request_processor_home }}/streams.json"
+    owner: jboss
+    group: jboss
+    mode: 0644
+
 - name: "Ensure pull-request-processor folder exists"
-  file: name=/home/jboss/pull-request-processor state=directory owner=jboss group=jboss
+  file:
+    name: "{{ pull_request_processor_home }}"
+    state: directory
+    owner: jboss
+    group: jboss
 
 - name: "Deploy Pull Request Processor configuration"
-  template: src=templates/aphrodite.json.j2 dest=/home/jboss/pull-request-processor/aphrodite.json owner=jboss group=jboss mode=640
+  template:
+    src: "templates/pull-request-processor.j2"
+    dest: "{{ pull_request_processor_home }}/aphrodite.properties.json"
+    owner: jboss
+    group: jboss
+    mode: 0644
