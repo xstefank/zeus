@@ -1,5 +1,5 @@
 #!/bin/bash
 
-echo -n '${{item.name }} - Cleaning logs file in {{ item.root_folder }} older than {{ item.nb_days_oldest }} matching pattern {{ item.filename_pattern }}.'
-find -L {{ item.root_folder }} -mindepth 1 -mtime +{{ item.nb_days_oldest }} -name '{{ item.filename_pattern }}' -delete
+echo -n '$cleaning-eap-server-logs - Cleaning logs file in {{ logs_cleaning.root_folder }} older than {{ logs_cleaning.nb_days_oldest }} matching pattern {{ logs_cleaning.filename_pattern }}.'
+find -L {{ logs_cleaning.root_folder }} -mindepth 1 -mtime +{{ logs_cleaning.nb_days_oldest }} -name '{{ logs_cleaning.filename_pattern }}' -delete
 echo 'Done.'
