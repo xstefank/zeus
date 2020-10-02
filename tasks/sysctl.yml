@@ -1,3 +1,6 @@
 - name: Configure kernel to act as a router
-  sysctl: name=net.ipv4.ip_forward value=1 state=present
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: 1
+    state: present
 

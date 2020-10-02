@@ -1,9 +1,18 @@
-- set_fact: package_name=openssh-server
+- set_fact: 
+    package_name: openssh-server
+
 - name: Checks that SSHd is installed
-  import_tasks: tasks/rpminfo.yml  
+  import_tasks: tasks/rpminfo.yml 
 
 - name: Checks SSHd config
-  copy: src=files/sshd_config dest=/etc/ssh/sshd_config owner=root group=root
+  copy:
+    src: files/sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
 
-- name: Checks that SSHd service is running 
-  service: name=sshd state=started enabled=yes
+- name: Checks that SSHd service is running
+  service: 
+    name: sshd
+    state: started
+    enabled: yes

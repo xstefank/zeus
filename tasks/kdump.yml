@@ -1,5 +1,8 @@
 - name: Check kdump configuration
-  template: src=templates/kdump.j2 dest=/etc/kdump.conf mode=644
+  template:
+    src: templates/kdump.j2
+    dest: /etc/kdump.conf
+    mode: 644
+    owner: root
+    group: root
   when: kdump is defined
-
-
