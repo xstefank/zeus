@@ -1,0 +1,23 @@
+- assert: 
+    that:
+      - package_name is defined 
+    fail_msg: "No package name defined"
+  changed_when: false
+
+- name: "Checks {{ package_name }} webapp is installed"
+  import_tasks: tasks/rpminfo.yml
+
+- name: "Checks {{ package_name }} is deployed"
+  file: 
+    state: link 
+    src: "/usr/share/{{ package_name }}/{{ package_name }}.war"
+    dest: "{{ jboss.home }}/standalone/deployments/{{ package_name }}.war" 
+    owner: root 
+    group: root
+
+- name: "Checks {{ package_name }} folder exists"
+  file: 
+    name: "/home/jboss/{{ package_name }}"
+    state: directory 
+    owner: jboss 
+    group: jboss

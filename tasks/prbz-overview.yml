@@ -1,12 +1,13 @@
-- set_fact: package_name=prbz-overview
-- name: "Checks prbz-overview webapp is installed"
-  import_tasks: tasks/rpminfo.yml
+- set_fact: 
+    package_name: prbz-overview
 
-- name: "Checks prbz-overview is deployed"
-  file: state=link src=/usr/share/prbz-overview/prbz-overview.war dest={{ jboss.home }}/standalone/deployments/prbz-overview.war owner=root group=root
-
-- name: "Checks prbz-overview folder exists"
-  file: name=/home/jboss/prbz-overview state=directory owner=jboss group=jboss
+- include_tasks: tasks/deploy-webapp.yml
 
 - name: "Checks prbz-overview configuration - Aphrodite"
-  template: src=templates/prbz-overview.aphrodite.properties.json.j2 dest=/home/jboss/prbz-overview/aphrodite.properties.json owner=jboss group=jboss mode=644
+  template: 
+    src: templates/prbz-overview.aphrodite.properties.json.j2 
+    dest: /home/jboss/prbz-overview/aphrodite.properties.json 
+    owner: jboss 
+    group: jboss 
+    mode: "0644"
+
