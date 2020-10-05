@@ -18,27 +18,6 @@
     group: jboss
     owner: jboss
 
-- name: "Set up module dir for Postgres JDBC Driver"
-  file:
-    path: "{{ jboss.home }}/modules/org/postgresql/main/"
-    state: directory
-    group: jboss
-    owner: jboss
-
-- name: "Deploy JDBC driver for PQSL"
-  copy:
-    src: files/postgresql-8.4-703.jdbc4.jar
-    dest: "{{ jboss.home }}/modules/org/postgresql/main/"
-    group: jboss
-    owner: jboss
-
-- name: "Deploy module.xml"
-  copy:
-    src: files/module.xml
-    dest: "{{ jboss.home }}/modules/org/postgresql/main/module.xml"
-    group: jboss
-    owner: jboss
-
 - name: "Ensure JBoss EAP 7 is running"
   service:
     name: 'eap7-standalone'
