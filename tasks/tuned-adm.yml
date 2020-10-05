@@ -13,9 +13,7 @@
   #  - ktune
 
 - name: "Configure tuned profile"
-  command: >
-    "/usr/sbin/tuned-adm profile {{ tuned_profile_target }}"
-    creates: /etc/ansible/facts.d/tuned-profile.fact
+  command: /usr/sbin/tuned-adm profile {{ tuned_profile_target }} creates=/etc/ansible/facts.d/tuned-profile.fact
   when : tuned_profile_target is defined or (tuned_profile != tuned_profile_target)
 
 - name: Add tuned profile to facts.d
