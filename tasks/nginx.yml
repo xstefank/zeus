@@ -59,6 +59,7 @@
       - files/img/mjolnir-logo.png
       - files/img/monit-logo.png
       - files/img/pr-bz-overview-logo.png
+      - files/img/payload-status-logo.png
 
   - name: "Deploy custom 404 page for Nginx"
     template:

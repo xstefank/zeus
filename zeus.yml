@@ -44,7 +44,6 @@
       debug: msg=" >>> Set Up Required Infrastructure Services <<<"
 
     - include: tasks/disabled.yml
-    - include: tasks/postgres.yml
     - include: tasks/docker.yml
     - include: tasks/nginx.yml
 
@@ -55,6 +54,7 @@
     - include: tasks/pull-request-processor.yml
     - include: tasks/jboss-eap7.yml
     - include: tasks/prbz-overview.yml
+    - include: tasks/payload-status.yml
     - include: tasks/old-releases.yml
     - include: tasks/jenkins.yml
     - name: "Provisioning self-signed certificate to JDKs"

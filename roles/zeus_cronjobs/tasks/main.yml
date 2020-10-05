@@ -1,34 +1,37 @@
 ---
-# tasks file for zeus_cronjobs
-- name: "Deploy cron-job for Ansible report"
-  template: src=templates/cron-ansible.j2 dest=/root/cron-ansible mode=755 owner=root group=root
+- name: "Deploy Cron script from template: {{ item.template }}"
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ item.dest }}"
+    mode: 755
+    owner: root
+    group: root
+  loop: "{{ cronjobs }}"
+  when: item.template is defined
 
-- name: "Set up cronjob for Ansible report (daily)"
-  cron: name="Ansible Daily Report" minute="0" hour="0" job="/root/cron-ansible"
+- name: "Deploy Cron script from file: {{ item.script }}"
+  copy:
+    src: "{{ item.script }}"
+    dest: "{{ item.dest }}"
+    mode: 755
+    owner: root
+    group: root
+  loop: "{{ fixed_time_cronjobs }}"
+  when: item.script is defined
 
-- name: "Deploy cron-job for Monit Status"
-  template: src=templates/cron-monit.j2 dest=/root/cron-monit mode=755 owner=root group=root
+- name: "Set up cronjob for {{ item.name }} ({{ item.frequency }})"
+  cron:
+    name: "{{ item.name }}"
+    special_time: "{{ item.frequency }}"
+    job: "{{ item.job }}"
+  loop: "{{ cronjobs }}"
+  when: item.frequency is defined
 
-- name: "Set up cronjob for Monit report (weekly)"
-  cron: name="Monit Weekly Report" special_time=weekly job="/root/cron-monit"
-
-- name: "Deploy cron-job for logs cleaning"
-  template: src=templates/cron-cleaning-logs.j2 dest=/root/cron-cleaning-logs mode=755 owner=root group=root
-  with_items: "{{ logs_cleaning }}"
-
-- name: "Set up cronjob for cleaning logs older than a month (daily)"
-  cron: name="Cleaning logfiles" special_time=daily job="/root/cron-cleaning-logs"
-
-- name: "Deploy cron-job for Docker stopped containers cleaned"
-  copy: src=files/cron-cleaning-docker-stopped-containers.sh dest=/root/cron-cleaning-docker-stopped-containers mode=755 owner=root group=root
-
-- name: "Delete all stopped docker containers on a weekly basis"
-  cron: name="Delete all stopped containers" minute=0 hour=10 weekday=2 job="/root/cron-cleaning-docker-stopped-containers >> /var/log/docker.deleted.containers.log"
-
-- name: "Deploy cron-job for ws-cleanup directories cleanup"
-  copy: src=files/cron-cleaning-ws-cleanup-directories.sh dest=/root/cron-cleaning-ws-cleanup-directories.sh mode=755 owner=root group=root
-
-- name: "Delete all *ws-cleanup* directories in Jenkins workspace in a weekly basis"
-  cron: name="Delete all forgotten ws-cleanup directories" minute=0 hour=10 weekday=0 job="/root/cron-cleaning-ws-cleanup-directories.sh >> /var/log/ws-cleanup.log"
-
-
+- name: "Deploy job: {{ item.name }}"
+  cron:
+    name: "{{ item.name }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    weekday: "{{ item.weekday }}"
+    job: "{{ item.job }}"
+  loop: "{{ fixed_time_cronjobs }}"
