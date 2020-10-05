@@ -104,6 +104,12 @@ server {
       include /etc/nginx/proxy.conf;
     }
 
+    location /payload-status {
+      proxy_pass http://{{ ansible_nodename }}:8480 ;
+      proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
+      include /etc/nginx/proxy.conf;
+    }
+
     location /{{ jboss_set_shared_maven_repo.name }} {
       root {{ jboss_set_shared_maven_repo.root }};
       autoindex on;
