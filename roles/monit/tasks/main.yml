@@ -4,20 +4,38 @@
 - import_tasks: tasks/rpminfo.yml
 
 - name: "Deploy Monit main config"
-  copy: src=files/monit.conf dest=/etc/monit.conf owner=root group=root
+  copy:
+    src: files/monit.conf
+    dest: /etc/monit.conf
+    owner: root
+    group: root
 
 - name: "Monit Mail Settings"
-  template: src=templates/monit.mail.j2 dest=/etc/monit.d/mail owner=root group=root
+  template:
+    src: templates/monit.mail.j2
+    dest: /etc/monit.d/mail
+    owner: root
+    group: root
 
 - name: "Ensures monit.conf.d is properly created and set"
-  file: state=directory path=/etc/monit.conf.d/ owner=root group=root
+  file:
+    state: directory
+    path: /etc/monit.conf.d/
+    owner: root
+    group: root
 
 - name: "Set up Monit alert on commonly uses services"
-  template: src=templates/monit.ping.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
+  template:
+    src: templates/monit.ping.j2
+    dest: "/etc/monit.d/{{ item.name }}"
+    owner: root
+    group: root
   with_items: "{{ dnsnames }}"
 
 - name: "Set up Monit alert on disk usage"
-  template: src=templates/monit.disk.j2 dest=/etc/monit.d/{{ item.name }}
+  template:
+    src: templates/monit.disk.j2
+    dest: "/etc/monit.d/{{ item.name }}"
   with_items:
     - { name: 'boot', path: '/boot', threshold: '90%' }
     - { name: 'root', path: '/', threshold: '90%' }
@@ -28,26 +46,59 @@
   # other 'ops' should be moved out to Ansible, as most of the scripts in /opt/jboss-set-ci-scripts
   # are more/less defunct
 - name: "Ensures custom script 'sudo-group-check' is deployed"
-  copy: src=files/sudo-group-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
+  copy:
+    src: files/sudo-group-check
+    dest: /opt/jboss-set-ci-scripts/ops/
+    owner: jboss
+    group: jboss
+    mode: 755
 
 - name: "Ensures custom script 'dns-check' is deployed"
-  copy: src=files/dns-check dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
+  copy:
+    src: files/dns-check
+    dest: /opt/jboss-set-ci-scripts/ops/
+    owner: jboss
+    group: jboss
+    mode: 755
 
 - name: "Ensures custom script 'docker-space-monitoring' is deployed"
-  copy: src=files/docker-space-monitoring dest=/opt/jboss-set-ci-scripts/ops/ owner=jboss group=jboss mode=755
+  copy:
+    src: files/docker-space-monitoring
+    dest: /opt/jboss-set-ci-scripts/ops/
+    owner: jboss
+    group: jboss
+    mode: 755
 
 - name: "Ensures custom script 'check-sudoers-list' is deployed"
-  template: src=check-sudoers-list.j2 dest={{scripts_home.path}}/check-sudoers-list
+  template:
+    src: check-sudoers-list.j2
+    dest: "{{scripts_home.path}}/check-sudoers-list"
+    owner: jboss
+    group: jboss
+    mode: 755
 
 - name: "Ensures custom script 'check-container' is deployed"
-  copy: src=check-container.sh dest={{scripts_home.path}}/check-container owner=jboss group=jboss mode=755
+  copy:
+    src: check-container.sh
+    dest: "{{scripts_home.path}}/check-container"
+    owner: jboss
+    group: jboss
+    mode: 755
 
 - name: "Set Monit checks based on custom scripts"
-  template: src=templates/monit.script.j2 dest=/etc/monit.d/{{ item.check_name }} owner=root group=root
+  template:
+    src: templates/monit.script.j2
+    dest: "/etc/monit.d/{{ item.check_name }}"
+    owner: root
+    group: root
   with_items: "{{ custom_monitoring_scripts }}"
 
 - name: "Ensure required services are running under Monit control"
-  template: src=templates/monit.service.j2 dest=/etc/monit.d/{{ item.name }} owner=root group=root
+  template:
+    src: templates/monit.service.j2
+    dest: "/etc/monit.d/{{ item.name }}"
+    owner: root
+    group: root
   with_items: "{{ services_list }}"
 
 - set_fact:
@@ -69,7 +120,11 @@
   with_items: "{{ maven_http_caches }}"
 
 - name: "Monitor remote HTTP services"
-  template: src=monit.remote.http.service.j2 dest=/etc/monit.d/http-services-{{ item.name }} owner=root group=root
+  template:
+    src: monit.remote.http.service.j2
+    dest: "/etc/monit.d/http-services-{{ item.name }}"
+    owner: root
+    group: root
   with_items: "{{ remote_http_services }}"
 
 # this assume nginx is being used and installed, it would be cleaner to have a "if" here.
@@ -79,5 +134,7 @@
     dest: /etc/nginx/monit.passwd
 
 - name: "Ensure Monit itself is running"
-  service: name=monit enabled=yes state=started
-
+  service:
+    name: monit
+    enabled: yes
+    state: started
