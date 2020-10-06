@@ -1,6 +1,7 @@
 ---
 # tasks file for monit
-- set_fact: package_name=monit
+- set_fact:
+    package_name: monit
 - import_tasks: tasks/rpminfo.yml
 
 - name: "Deploy Monit main config"
@@ -43,31 +44,18 @@
     - { name: 'home', path: '/home', threshold: '90%' }
     - { name: 'docker-part', path: '/var/lib/docker', threshold: '85%' }
 
-  # other 'ops' should be moved out to Ansible, as most of the scripts in /opt/jboss-set-ci-scripts
-  # are more/less defunct
-- name: "Ensures custom script 'sudo-group-check' is deployed"
+- name: "Ensures custom scripts are deployed"
   copy:
-    src: files/sudo-group-check
-    dest: /opt/jboss-set-ci-scripts/ops/
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
     owner: jboss
     group: jboss
-    mode: 755
-
-- name: "Ensures custom script 'dns-check' is deployed"
-  copy:
-    src: files/dns-check
-    dest: /opt/jboss-set-ci-scripts/ops/
-    owner: jboss
-    group: jboss
-    mode: 755
-
-- name: "Ensures custom script 'docker-space-monitoring' is deployed"
-  copy:
-    src: files/docker-space-monitoring
-    dest: /opt/jboss-set-ci-scripts/ops/
-    owner: jboss
-    group: jboss
-    mode: 755
+    mode: 0755
+  with_items:
+    - { src: files/sudo-group-check, dest: /opt/jboss-set-ci-scripts/ops/ }
+    - { src: files/dns-check, dest: /opt/jboss-set-ci-scripts/ops/ }
+    - { src: files/docker-space-monitoring, dest: /opt/jboss-set-ci-scripts/ops/ }
+    - { src: files/check-container.sh, dest: "{{scripts_home.path}}/check-container" }
 
 - name: "Ensures custom script 'check-sudoers-list' is deployed"
   template:
@@ -75,15 +63,7 @@
     dest: "{{scripts_home.path}}/check-sudoers-list"
     owner: jboss
     group: jboss
-    mode: 755
-
-- name: "Ensures custom script 'check-container' is deployed"
-  copy:
-    src: check-container.sh
-    dest: "{{scripts_home.path}}/check-container"
-    owner: jboss
-    group: jboss
-    mode: 755
+    mode: 0755
 
 - name: "Set Monit checks based on custom scripts"
   template:
@@ -91,6 +71,7 @@
     dest: "/etc/monit.d/{{ item.check_name }}"
     owner: root
     group: root
+    mode: 0755
   with_items: "{{ custom_monitoring_scripts }}"
 
 - name: "Ensure required services are running under Monit control"
@@ -99,6 +80,7 @@
     dest: "/etc/monit.d/{{ item.name }}"
     owner: root
     group: root
+    mode: 0755
   with_items: "{{ services_list }}"
 
 - set_fact:
