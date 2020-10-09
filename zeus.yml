@@ -5,8 +5,10 @@
   become_user: root
   vars_files:
     - vars/thunder.yml
+  collections:
+    - wildfly.jcliff
   roles:
-    - redhat-cop.jcliff
+    - jcliff
   tasks:
     - name: " ******* STAGE 0 *******"
       debug: msg=" >>> Check Ansible Set Up <<<"
