@@ -93,20 +93,20 @@ server {
       add_header X-Cache-Status $upstream_cache_status;
       proxy_cache jenkins_cache;
 
-      proxy_pass http://{{ ansible_nodename }}:8480 ;
-      proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
+      proxy_pass http://{{ jboss.bind_addr }}:8480 ;
+      proxy_redirect     http://{{ jboss.bind_addr }}:8480 https://{{ jboss.bind_addr }};
       include /etc/nginx/proxy.conf;
     }
 
     location /prbz-overview {
-      proxy_pass http://{{ ansible_nodename }}:8480 ;
-      proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
+      proxy_pass http://{{ jboss.bind_addr }}:8480 ;
+      proxy_redirect     http://{{ jboss.bind_addr }}:8480 https://{{ jboss.bind_addr }};
       include /etc/nginx/proxy.conf;
     }
 
     location /payload-status {
-      proxy_pass http://{{ ansible_nodename }}:8480 ;
-      proxy_redirect     http://{{ ansible_nodename }}:8480 https://{{ ansible_nodename }};
+      proxy_pass http://{{ jboss.bind_addr }}:8480 ;
+      proxy_redirect     http://{{ jboss.bind_addr }}:8480 https://{{ jboss.bind_addr }};
       include /etc/nginx/proxy.conf;
     }
 
