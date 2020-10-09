@@ -1,4 +1,5 @@
-- set_fact: package_name=docker
+- set_fact: 
+    package_name: docker
 - name: Ensure Docker is installed
   import_tasks: tasks/rpminfo.yml
 
