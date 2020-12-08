@@ -1,0 +1,15 @@
+---
+- assert:
+    that:
+      - sysctl is defined
+      - sysctl.name is defined
+      - sysctl.value is defined
+      - sysctl.name != ""
+      - sysctl.value != ""
+
+- name: "Configure Kernel setting {{ systcl.name }}"
+  sysctl:
+    name: "{{ sysctl.name }}"
+    value: "{{ sysctl.value }}"
+    state: present
+  when: systctl is defined

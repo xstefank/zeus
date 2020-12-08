@@ -1,3 +1,13 @@
+---
+- debug:
+    msg: "HEELo:{{ kdump }}"
+
+- assert:
+    that:
+      - kdump is defined
+      - kdump.level is defined
+      - kdump.level != ""
+
 - name: Check kdump configuration
   template:
     src: templates/kdump.j2
@@ -5,4 +15,3 @@
     mode: 644
     owner: root
     group: root
-  when: kdump is defined

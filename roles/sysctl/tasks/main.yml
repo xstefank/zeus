@@ -1,0 +1,12 @@
+---
+- assert:
+    that:
+      - sysctl_entries is defined
+      - sysctl_entries is iterable
+    quiet: true
+
+- include_tasks: tasks/sysctl.yml
+  loop: "{{ sysctl_entries }}"
+  loop_control:
+    loop_var: sysctl
+  when: sysctl_entries | length > 0
