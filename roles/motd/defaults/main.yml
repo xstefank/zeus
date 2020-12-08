@@ -1,0 +1,3 @@
+---
+motd:
+  font: "{{ override_motd_font | default('standard') }}"
