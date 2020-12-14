@@ -30,6 +30,7 @@
     owner: jboss
     group: jboss-set
     mode: 02775
+  when: jboss_set_shared_maven_repo is defined
   loop:
     - "{{ jboss_set_shared_maven_repo.root }}"
     - "{{ jboss_set_shared_maven_repo.root }}/{{ jboss_set_shared_maven_repo.name }}"
