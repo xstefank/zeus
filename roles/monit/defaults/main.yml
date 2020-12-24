@@ -1,2 +1,27 @@
 ---
-# defaults file for monit
+monit:
+  daemon: "{{ monit_daemon_override | default(60) }}"
+  email:
+    server: "{{ monit_mail_server_hostname | default('localhost') }}"
+    port: "{{ (monit_mail_server_port | default(399)) | int }}"
+    from: "{{ monit_mail_from | default('monit@example.com') }}"
+    to: "{{ monit_mail_from | default('monit@example.com') }}"
+  webapp:
+    port: "{{ monit_webapp_port | default('2812') }}"
+    bind_address: "{{ monit_webapp_bind_address | default('localhost') }}"
+    allow_from: "{{ monit_webapp_allow_from | default('127.0.0.0/16') }}"
+    username: "{{ monit_webapp_username | default('jboss') }}"
+    password: "{{ monit_webapp_password | default('jboss') }}"
+  alerts:
+    dnsnames:
+      - { name: 'raw.githubusercontent.com' }
+      - { name: 'repository.jboss.org' }
+      - { name: 'repo1.maven.org' }
+    disk_usage:
+      - { name: 'boot', path: '/boot', threshold: '90%' }
+      - { name: 'root', path: '/', threshold: '90%' }
+        #      - { name: 'var-crash', path: '/var/crash', threshold: '90%' }
+      - { name: 'home', path: '/home', threshold: '90%' }
+        #      - { name: 'docker-part', path: '/var/lib/docker', threshold: '85%' }
+    services:
+      - { name: 'sshd', pidfile: '/var/run/sshd.pid', start_program: '/usr/bin/systemctl start sshd', stop_program: '/usr/bin/systemctl stop sshd' }
