@@ -1,0 +1,33 @@
+---
+- job:
+    name: {{ item.id }}-testsuite
+    project-type: pipeline
+    parameters:
+      - string:
+          name: GIT_REPOSITORY_URL
+          default: {{ item.git_repo }}
+{% if item.git_branch is defined %}
+      - string:
+          name: GIT_REPOSITORY_BRANCH
+          default: {{ item.git_branch }}
+{% endif %}
+      - string:
+          name: JAVA_HOME
+          default: {{ item.java_home }}
+      - string:
+          name: MAVEN_HOME
+          default: {{ item.maven_home }}
+      - string:
+          name: MAVEN_SETTINGS_XML
+          default: {{ item.maven_settings }}
+    sandbox: true
+    pipeline-scm:
+      scm:
+        - git:
+            url: {{ jenkinsfile.git_repo }}
+            branches:
+              - origin/master
+            clean: true
+      script-path: {{ jenkinsfile.path }}
+      lightweight-checkout: true
+

@@ -1,0 +1,33 @@
+---
+- name: "Ensure jobs defs directory exists: {{ jenkins.jobs_home }}"
+  file:
+    path: "{{ jenkins.jobs_home }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    mode: 0755
+
+- name: "Ensure job definition for build job exists"
+  template: 
+    src: templates/job-build-template.yml.j2
+    dest: "{{ jenkins.jobs_home }}/{{ item.id }}-build.yml"
+    owner: jenkins
+    group: jenkins
+    mode: 0644
+  loop:
+    - { id: "wfly", git_repo: "https://github.com/wildfly/wildfly.git", java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }
+    - { id: 'eap-7.3.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.3.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }
+    - { id: 'eap-7.2.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.2.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }
+    - { id: 'eap-7.1.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.1.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }
+
+- name: "Ensure job defintions for testsuite exists"
+  template:
+    src: templates/job-testsuite-template.yml.j2
+    dest: "{{ jenkins.jobs_home }}/{{ item.id }}-testsuite.yml"
+    owner: jenkins
+    group: jenkins
+    mode: 0644
+  loop:
+    - { id: 'eap-7.1.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.1.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }
+    - { id: 'eap-7.2.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.2.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }
+    - { id: 'eap-7.3.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.3.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" }

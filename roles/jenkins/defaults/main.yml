@@ -1,0 +1,18 @@
+---
+jenkins:
+  groupname: "{{ override_jenkins_group | default('jenkins') }}"
+  bind_addr: localhost
+  port: 8080
+  username: "{{ override_jenkins_name | default('jenkins') }}"
+  uid: "{{ override_jenkins_uid | default(1000)  }}"
+  gid: "{{ override_jenkins_gid | default(1000)  }}"
+  home: "{{ override_jenkins_home | default('/home/jenkins') }}"
+  jobs_home: "{{ override_jobs_home | default('/home/jenkins/jobs_definitions/') }}"
+  default_jdk_home: '/opt/oracle/java'
+  default_mvn_home: '/opt/tools/apache-maven-3.6.3'
+  default_mvn_settings: '/opt/tools/settings.xml'
+jenkinsfile:
+  git_repo: "{{ override_jenkinsfile_git_repo | default('https://github.com/jboss-set/cedalion') }}"
+  path: "{{ override_jenkinsfile_path | default('Jenkinsfile') }}"
+  eap_repo: "{{ git_repo_for_eap }}"
+  
