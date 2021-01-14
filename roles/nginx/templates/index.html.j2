@@ -84,32 +84,23 @@
     </head>
 
     <body>
-        <h1><strong>Thunder: Page or App not found</strong></h1>
-
+        <h1>{{ ansible_nodename }}</h1>
         <div class="content">
-
-            <h3>The page you are looking for is not found.</h3>
-            <br/>
-            <h3>Hosted services</h3>
+            <h2>Hosted services</h2>
             <div style="text-align: center;">
-                <center>
-	      <!--table cellpadding="0" cellspacing="0" border="0"-->
-       <table>
-		<tr>
-		  <td>
-            <a alt="jenkins" href="https://{{ ansible_nodename }}/jenkins">
-		      <img alt="jenkins" src="./img/jenkins-logo.png"/>
-            </a>
+              <center>
+       	        <table>
+		  <tr>
+		    <td>
+            	      <a alt="jenkins" href="https://{{ ansible_nodename }}/jenkins">
+		        <img alt="jenkins" src="./img/jenkins-logo.png"/>
+                      </a>
 		  </td>
 		  <td>
 		    <a href="https://{{ ansible_nodename }}/monit">
 		      <img alt="monit" src="./img/monit-logo.png"/>
  		    </a>
 		  </td>
-		  <td>
-		    <a href="{{ mjolnir.url }}">
-		     <img alt="mjolnir" src="./img/mjolnir-logo.png"/>
-                   </a>
 		  </td>
 		  <td>
 		    <a href="https://{{ ansible_nodename }}/prbz-overview/">
@@ -121,49 +112,22 @@
 		      <img alt="payload-status" src="./img/payload-status-logo.png" />
                    </a>
 		  </td>
-
 	    </tr>
 	    </table>
-                </center>
-            </div>
-            <h3>Maven HTTP Caches (EAP 7)</h3>
+          </center>
+       </div>
+
+{% if nginx.caches is defined %}
+            <h2>Maven HTTP Caches (EAP 7)</h2>
             <center>
             <table style="list-style-type: none;" align: "center">
               <tr><th>URL</th><th>Path</th><th>Source URL</th>
-              {% for cache in maven_http_caches %}
+              {% for cache in nginx.caches.entry %}
               <tr><td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td><td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td></tr>
               {% endfor %}
             </table>
             </center>
-            <h3>Maven HTTP Caches (EAP 6)</h3>
-            <center>
-            <table style="list-style-type: none;" align: "center">
-              <tr><th>URL</th><th>Path</th><th>Source URL</th>
-              {% for cache in maven_http_caches_eap64 %}
-              <tr><td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td><td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td></tr>
-              {% endfor %}
-            </table>
-            </center>
-
-            <h3>Maven Repository for Futures artefacts (JBoss SET)</h3>
-            <center>
-            <table style="list-style-type: none;" align: "center">
-              <tr><th>URL</th><th>Path</th></tr>
-              <tr><td><a href="http://{{ ansible_nodename }}/{{ jboss_set_shared_maven_repo.name }}">{{ jboss_set_shared_maven_repo.name }}</a></td><td>/{{ jboss_set_shared_maven_repo.name }}</td></tr>
-            </table>
-            </center>
-
-            <div class="logos">
-                <a href="http://nginx.net/"><img
-                    src="/nginx-logo.png"
-                    alt="[ Powered by nginx ]"
-                    width="121" height="32" /></a>
-
-                <a href="http://fedoraproject.org/"><img
-                    src="/poweredby.png"
-                    alt="[ Powered by Fedora EPEL ]"
-                    width="88" height="31" /></a>
-            </div>
-            </div>
+	    {% endif %}
+	</div>
     </body>
 </html>

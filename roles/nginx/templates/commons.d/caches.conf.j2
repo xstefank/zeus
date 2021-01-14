@@ -1,0 +1,4 @@
+{% if nginx.caches is defined %}{% for dir in nginx.caches.directories %}
+# {{ dir.id }} 
+proxy_cache_path {{ dir.directory }} levels=1:2 keys_zone={{ dir.name }}:20m max_size={{ dir.max_size }} inactive={{ dir.inactive }};
+{% endfor %}{% endif %}

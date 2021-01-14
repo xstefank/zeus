@@ -25,12 +25,12 @@ under the License.
   <proxies/>
   <servers/>
   <mirrors>
-{% for mvn_cache in maven_http_caches %}
+{% for mvn_cache in nginx.caches.entry %}
     <mirror>
       <id>{{ mvn_cache.name }}</id>
       <mirrorOf>{{ mvn_cache.mirrorOf }}</mirrorOf>
       <name>{{ mvn_cache.desc }}</name>
-      <url>https://{{ ansible_nodename }}{{ mvn_cache.path }}</url>
+      <url>https://thunder.next/{{ mvn_cache.path }}</url>
     </mirror>
 {% endfor %}
   </mirrors>

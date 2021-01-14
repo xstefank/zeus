@@ -1,0 +1,13 @@
+
+ proxy_cache maven_caches;
+ proxy_cache_min_uses 1;
+ proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+ proxy_cache_valid 200 {{ nginx.caches.expires }};
+ expires {{ nginx.caches.expires }};
+
+ add_header {{ ansible_nodename }}-Cache-Status $upstream_cache_status;
+ add_header {{ ansible_nodename }}-Cache True;
+ add_header {{ ansible_nodename }}-IP $remote_addr;
+
+ proxy_ignore_headers Cache-Control Expires X-Accel-Expires Set-Cookie;
+ add_header Cache-Control public;

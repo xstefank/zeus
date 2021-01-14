@@ -1,0 +1,37 @@
+#
+# The default server
+#
+{% if nginx.caches.maven is defined %}
+# Caching for Maven repos
+proxy_cache_path {{ nginx.caches.maven.directory }} levels=1:2 keys_zone={{ nginx.caches.maven.name }}:20m max_size={{ nginx.caches.maven.max_size }} inactive={{ nginx.caches.maven.inactive }};
+{% endif %}
+
+# TODO: HTTP should only be allowed FROM host
+server {
+    listen {{ ansible_nodename }}:80; # ssl
+    server_name {{ ansible_nodename }};
+
+    include {{ nginx.volume }}/commons.d/sites.conf;
+}
+{% if ngin.ssl is defined %}
+server {
+    listen      {{ ansible_nodename }}:443 default_server;
+    server_name {{ ansible_nodename }};
+
+    error_page 404 /jboss-set-404.html;
+
+    ssl on;
+    ssl_certificate /etc/nginx/ssl/{{ ansible_nodename }}.crt;
+    ssl_certificate_key /etc/nginx/ssl/{{ ansible_nodename }}.key;
+    # SSL optimisation - 1) connection credentials caching
+    ssl_session_cache shared:SSL:1m; # 1mb holds 4000 sessions...
+    ssl_session_timeout 180m;
+    # SSL optimisation - 2) Prefer TLS
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    # SSL optimisation - 3) Prefer server ciphers
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
+    
+   include {{ nginx.home }}/commons.d/sites.conf
+}
+{% endif %}

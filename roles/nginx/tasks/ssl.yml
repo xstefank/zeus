@@ -1,0 +1,75 @@
+---
+- assert:
+    that:
+      - nginx.https is defined
+      - nginx.https.ssl is defined
+      - nginx.https.ssl.home is defined
+      - nginx.https.ssl.home != ""
+      - nginx.home is defined
+      - nginx.home != ""
+    quiet: true
+
+- file:
+    path: "{{ nginx.https.ssl.home }}"
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 0755 
+
+- stat: 
+    path: nginx.https.ssl.cert
+  register: ssl_cert
+
+# if the cert is not provided, we generate them
+- include_role:
+    name: certs_gen
+  vars:
+    cert: "{{ nginx.https.ssl.home }}/{{ nginx.https.ssl.cert }}"
+    private_key: "{{ nginx.https.ssl.home }}/{{ nginx.https.ssl.private_key }}"
+    csr: "{{ nginx.https.ssl.home }}/{{ nginx.https.ssl.csr }}"
+    domain_name: "{{ nginx.https.ssl.domain_name }}"
+  when: not ssl_cert.stat.exists
+
+# otherwise, let's deploy the one provided
+- block:
+  - assert:
+      that:
+        - nginx.https.ssl.cert is defined
+        - nginx.https.ssl.cert != ""
+        - nginx.https.ssl.private_key is defined
+        - nginx.https.ssl.private_key != ""
+        - nginx.https.ssl.csr is defined
+        - nginx.https.ssl.csr != ""
+      quiet: true
+
+  - stat:
+      path: nginx.https.ssl.private_key
+    register: private_key
+  
+  - stat:
+      path: nginx.https.ssl.csr
+    register: csr
+
+  - assert:
+      that:
+        - private_key.stat.exists
+        - csr.stat.exists
+      quiet: true 
+  
+  - file:
+      src: "{{ item }}"
+      dest: "{{ nginx.https.ssl.home }}/{{ item }}"
+      owner: nginx
+      group: nginx
+    loop:  
+      - "{{ nginx.https.ssl.cert }}"
+      - "{{ nginx.https.ssl.private_key }}"
+      - "{{ nginx.https.ssl.csr }}"
+
+  when: ssl_cert.stat.exists
+
+- template:
+    src: templates/commons.d/ssl.conf.j2
+    dest: "{{ nginx.home }}/config/commons.d/ssl.conf"
+    owner: nginx
+    group: nginx

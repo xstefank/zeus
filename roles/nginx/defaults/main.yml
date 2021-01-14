@@ -1,0 +1,29 @@
+---
+nginx: 
+  username: "{{ nginx_username_override | default('nginx') }}"
+  uid: "{{ nginx_uid_override | default('101') }}"
+  groupname: "{{ nginx_groupname_override | default('nginx') }}"
+  gid: "{{ nginx_gid_override | default('101') }}"
+  home: "{{ nginx_home_override | default('/home/nginx') }}" 
+  volume: "{{ nginx_volume_override | default('/etc/nginx') }}"
+  docroot: "{{ nginx_http_docroot_override | default('/home/nginx/static/') }}"
+  https:
+    ssl:
+      home: "{{ nginx_https_ssl_home_override | default('/home/nginx/ssl') }}"
+      cert: "{{ nginx_https_ssl_cert_override | default('nginx.crt') }}"
+      private_key: "{{ nginx_https_ssl_private_key_override | default('nginx.pem') }}"
+      csr: "{{ nginx_https_ssl_csr_override | default('nginx.csr') }}"
+      domain_name: thunder.next
+  caches:
+    expires: '90d'
+    directories:
+      - { id: maven, name: 'maven_caches',  directory: '/home/jboss/maven_caches', max_size: '20g', inactive: '90d' }
+    entry:
+      -  { name: 'maven.central.cache', mirrorOf: 'central', desc: 'Maven Central Cache', path: '/maven/', port: '443', protocol: 'HTTPS', url: 'https://repo1.maven.org/maven2/' }
+      -  { name: 'spring.io.cache', mirrorOf: 'repository.spring.maven.libs', desc: 'Spring IO Cache', path: '/spring/', port: '443', protocol: 'HTTPS', url: 'https://repo.spring.io/libs-milestone/' }
+      -  { name: 'jboss.group.org.cache', mirrorOf: 'jboss-public-repository-group', desc: 'Thunder JBoss Public Repositories Cache', path: '/jboss/', port: '443', protocol: 'HTTPS', url: 'https://repository.jboss.org/nexus/content/groups/public/' }
+      -  { name: 'maven.repository.redhat.com.ga', mirrorOf: 'redhat-ga-repository', desc: 'Thunder JBoss Public Repositories Cache', path: '/redhat-ga/', port: '443', protocol: 'HTTPS', url: 'https://maven.repository.redhat.com/ga/' }
+      -  { name: "{{ brew_repos.repo1.id }}", mirrorOf: "{{ brew_repos.repo1.mirrorOf }}", desc: "{{ brew_repos.repo1.desc }}", path: "{{ brew_repos.repo1.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo1.url }}" }
+      -  { name: "{{ brew_repos.repo2.id }}", mirrorOf: "{{ brew_repos.repo2.mirrorOf }}", desc: "{{ brew_repos.repo2.desc }}", path: "{{ brew_repos.repo2.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo2.url }}" }
+      -  { name: "{{ brew_repos.repo3.id }}", mirrorOf: "{{ brew_repos.repo3.mirrorOf }}", desc: "{{ brew_repos.repo3.desc }}", path: "{{ brew_repos.repo3.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo3.url }}" }
+      -  { name: "{{ brew_repos.repo4.id }}", mirrorOf: "{{ brew_repos.repo4.mirrorOf }}", desc: "{{ brew_repos.repo4.desc }}", path: "{{ brew_repos.repo4.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo4.url }}" }

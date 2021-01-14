@@ -1,0 +1,49 @@
+---
+- assert:
+    that:
+      - nginx_config_dir is defined
+      - nginx_config_dir != ""
+    quiet: true
+
+- stat:
+    path: "{{ nginx_config_dir }}"
+  register: nginx_config_dir_path
+
+- file:
+    path: "{{ nginx_config_dir }}"
+    state: directory
+    owner: "{{ nginx.username }}" 
+    group: "{{ nginx.groupname }}"
+    mode: 0775
+  when: nginx_config_dir_path.stat.exists
+
+- block:
+    - name: "Ensure required subfolders exist"
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ nginx.username }}" 
+        group: "{{ nginx.groupname }}"
+        mode: 0775
+      loop:
+        - "{{ nginx_config_dir }}/commons.d"
+    
+    - name: "Deploy nginx configuration"
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: root
+        group: root
+        mode: 0644
+      loop:
+        - { src: templates/nginx.conf.j2, dest: "{{ nginx_config_dir }}/nginx.conf" }
+        - { src: templates/commons.d/sites.conf.j2, dest: "{{ nginx_config_dir }}/commons.d/sites.conf" }
+        - { src: templates/commons.d/proxy.conf.j2, dest: "{{ nginx_config_dir }}/commons.d/proxy.conf" }
+  when: nginx_config_dir_path is defined 
+  
+  # TODO: Replace by boilerplate for podman image to run as a service
+  #- name: "Ensure nginx is running"
+  #  service:
+  #    name: nginx
+  #    state: started
+  #    enabled: yes

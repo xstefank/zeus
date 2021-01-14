@@ -1,0 +1,11 @@
+      ssl_certificate /etc/nginx/ssl/nginx.crt;
+      ssl_certificate_key /etc/nginx/ssl/nginx.pem;
+      # SSL optimisation - 1) connection credentials caching
+      # 		note: 1mb holds 4000 sessions
+      ssl_session_cache shared:SSL:1m;
+      ssl_session_timeout 180m;
+      # SSL optimisation - 2) Prefer TLS
+      ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+      # SSL optimisation - 3) Prefer server ciphers
+      ssl_prefer_server_ciphers on;
+      ssl_ciphers ECDH+AESGCM:ECDH+AES256:ECDH+AES128:DH+3DES:!ADH:!AECDH:!MD5;
