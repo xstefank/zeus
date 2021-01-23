@@ -9,27 +9,36 @@
     override_yum_cache_update: false
     sysctl_entries:
       - { name: net.ipv4.ip_forward, value: 1 }
-    tuned_profile_target : 'throughput-performance'   
+    tuned_profile_target : 'throughput-performance'
+    ansible_nodename: thunder.next
+    ansible_hostname: thunder.next
+    jenkins:
+      bind_addr: localhost
+      port: 8080
   vars_files:
-    - vars/thunder.yml
+          #    - vars/thunder.yml
   roles:
+    - old_releases
     # stage 1 - OS settings and optimizations
-    - selinux
-    - motd
-    - bashrc
-    - kdump
-    - sysctl
-    - tuned
-    # stage 2 - auth and sudoers
-    # stage 3 - core services
-    - sshd
-    # podman, ssh, monit
-    - podman
+#    - selinux
+#    - motd
+#    - bashrc
+#    - kdump
+#    - sysctl
+#    - tuned
+#    # stage 2 - auth and sudoers
+#    # stage 3 - core services
+#    - sshd
+#    - tools
+#- jenkins
+    # podman, ssh, monit, nginx
+    #- podman
+    #- nginx
   tasks:
-    - name: "Ensure ansible facts.d is created"
-      file: 
-        path: /etc/ansible/facts.d/ 
-        state: directory
+#    - name: "Ensure ansible facts.d is created"
+#      file: 
+#        path: /etc/ansible/facts.d/ 
+#        state: directory
 
 # to revisit for stage 1   
 #    - include: tasks/ntp.yml
