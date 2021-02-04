@@ -1,3 +1,9 @@
+---
+- assert:
+    that:
+      - certificate_list is defined
+      - certificate_list is iterable
+
 - name: Remove SSL certificates in {{ jdk.name }}
   when: rebuild_keystore|default(false)
   java_cert:
