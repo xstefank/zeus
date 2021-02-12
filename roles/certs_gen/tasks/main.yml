@@ -1,0 +1,38 @@
+---
+- assert:
+    that:
+      - private_key is defined
+      - private_key != ""
+      - cert is defined
+      - cert != ""
+      - csr is defined
+      - csr != ""
+      - domain_name is defined
+      - domain_name != ""
+    quiet: true
+
+# fails if not a path ?
+- stat:
+    path: "{{ item }}"
+  loop:
+    - private_key
+    - cert
+    - csr
+
+- name: Generate an OpenSSL private key with the default values (4096 bits, RSA)
+  openssl_privatekey:
+    path: "{{ private_key }}"
+
+- name: Generate an OpenSSL Certificate Signing Request
+  openssl_csr:
+    path: "{{ csr }}"
+    privatekey_path: "{{ private_key }}"
+    common_name: "{{ domain_name }}"
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: "{{ cert }}"
+    privatekey_path: "{{ private_key }}"
+    csr_path: "{{ csr }}"
+    provider: selfsigned
+
