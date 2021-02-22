@@ -3,49 +3,30 @@
   gather_facts: no
   become: yes
   become_user: root
-  vars:
-    override_motd_font: bloody
-    override_kdump_level: 0
-    override_yum_cache_update: false
-    sysctl_entries:
-      - { name: net.ipv4.ip_forward, value: 1 }
-    tuned_profile_target : 'throughput-performance'
-    ansible_nodename: thunder.next
-    ansible_hostname: thunder.next
-    jenkins:
-      bind_addr: localhost
-      port: 8080
   vars_files:
-          #    - vars/thunder.yml
+      - vars/olympus.yml
+      - vars/monit.yml
+      - vars/caches.yml
+      - vars/java_certs.yml
   roles:
+     # stage 1 - OS settings and optimizations
+    - selinux
+    - motd
+    - bashrc
+    - kdump
+    - sysctl
+    - tuned
+#    # stage 2 - main services
+    - sshd
+    - monit
+    - nginx
+    # stage 3 - auth and sudoers.yml
+    # TODO
+    #
+    # stage 4 - java and jenkins
+    - java_certs
+    - jenkins
     - old_releases
-    # stage 1 - OS settings and optimizations
-#    - selinux
-#    - motd
-#    - bashrc
-#    - kdump
-#    - sysctl
-#    - tuned
-#    # stage 2 - auth and sudoers
-#    # stage 3 - core services
-#    - sshd
-#    - tools
-#- jenkins
-    # podman, ssh, monit, nginx
-    #- podman
-    #- nginx
-  tasks:
-#    - name: "Ensure ansible facts.d is created"
-#      file: 
-#        path: /etc/ansible/facts.d/ 
-#        state: directory
-
-# to revisit for stage 1   
-#    - include: tasks/ntp.yml
-
-# to revisit for stage 2 (requires vpn)
-#    - include: tasks/authconfig.yml
-
-#    - include: tasks/tools.yml
-#    - zeus_cronjobs
-#    - monit
+      #  pre_tasks:
+          #    - hostname:
+          #name: "{{ ansible_hostname }}"
