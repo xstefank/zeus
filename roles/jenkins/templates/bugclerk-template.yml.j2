@@ -1,16 +1,14 @@
 ---
 - job:
-    name: {{ item.id }}-build
+    name: {{ item.id }}
     project-type: pipeline
     parameters:
       - string:
           name: GIT_REPOSITORY_URL
-          default: {{ item.git_repo }}
-{% if item.git_branch is defined %}
+          default: git@github.com:jboss-set/bug-clerk-report-job.git
       - string:
           name: GIT_REPOSITORY_BRANCH
           default: {{ item.git_branch }}
-{% endif %}
       - string:
           name: JAVA_HOME
           default: {{ item.java_home }}
@@ -20,16 +18,6 @@
       - string:
           name: MAVEN_SETTINGS_XML
           default: {{ item.maven_settings }}
-{% if item.cron is defined %}
-      - string:
-          name: CRON_PATTERN
-          default: "{{ item.cron }}"
-{% endif %}
-{% if item.poll_pattern is defined %}
-      - string:
-          name: POLL_PATTERN
-          default: "{{ item.poll_pattern }}"
-{% endif %}
     sandbox: true
     pipeline-scm:
       scm:
@@ -38,11 +26,6 @@
             branches:
               - origin/master
             clean: true
-      script-path: {{ jenkinsfile.path }}
+      script-path: bugclerk-pipeline
       lightweight-checkout: true
-    build-discarder:
-      days-to-keep: 30
-      num-to-keep: 10
-      artifact-days-to-keep: 60
-      artifact-num-to-keep: 5
 

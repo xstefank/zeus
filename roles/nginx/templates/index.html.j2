@@ -121,9 +121,13 @@
             <h2>Maven HTTP Caches (EAP 7)</h2>
             <center>
             <table style="list-style-type: none;" align: "center">
-              <tr><th>URL</th><th>Path</th><th>Source URL</th>
+              <tr><th>URL</th><th>Mirror ID</th><th>Path</th><th>Source URL</th>
               {% for cache in nginx.caches.entry %}
-              <tr><td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td><td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td></tr>
+              <tr>
+	        <td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td>
+		<td>{{ cache.mirrorOf }}</td>
+		<td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td>
+	      </tr>
               {% endfor %}
             </table>
             </center>

@@ -34,7 +34,7 @@
 #    group: root
 #    mode: 744
 
-- name: generate SSH key "{{ssh_key_filename}}"
+- name: "Generate SSH key {{ jenkins.home }}/.ssh/id_rsa"
   openssh_keypair:
     path: "{{ jenkins.home }}/.ssh/id_rsa"
     type: rsa

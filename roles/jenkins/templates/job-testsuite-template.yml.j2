@@ -20,6 +20,16 @@
       - string:
           name: MAVEN_SETTINGS_XML
           default: {{ item.maven_settings }}
+{% if item.cron is defined %}
+      - string:
+          name: CRON_PATTERN
+          default: "{{ item.cron }}"
+{% endif %}
+{% if item.poll_pattern is defined %}
+      - string:
+          name: POLL_PATTERN
+          default: "{{ item.poll_pattern }}"
+{% endif %}
     sandbox: true
     pipeline-scm:
       scm:

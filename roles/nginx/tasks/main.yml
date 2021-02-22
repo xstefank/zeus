@@ -28,8 +28,5 @@
 - include_tasks: http_cache_setup.yml
   when: nginx.caches is defined 
 
-- include_tasks: monit.yml
-  when: monit is defined
-
 - include_tasks: ssl.yml
   when: nginx.https is defined
