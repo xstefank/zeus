@@ -53,7 +53,11 @@
             url: {{ jenkinsfile.git_repo }}
             branches:
               - origin/master
-            clean: true
-      script-path: {{ item.jenkinsfile_path }}
+      script-path: {{ item.jenkinsfile_path  }}
       lightweight-checkout: true
+    build-discarder:
+      days-to-keep: 30
+      num-to-keep: 10
+      artifact-days-to-keep: 60
+      artifact-num-to-keep: 5
 
