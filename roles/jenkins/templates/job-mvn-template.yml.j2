@@ -11,6 +11,16 @@
           name: GIT_REPOSITORY_BRANCH
           default: {{ item.git_branch }}
 {% endif %}
+{% if item.to is defined %}
+      - string:
+          name: TO_ADDRESS
+          default: {{ item.to }}
+{% endif %}
+{% if item.harmonia_script is defined %}
+      - string:
+          name: HARMONIA_SCRIPT
+          default: {{ item.harmonia_script }}
+{% endif %}
 {% if item.java_home is defined %}
       - string:
           name: JAVA_HOME
@@ -36,16 +46,6 @@
           name: MAVEN_OPTS
           default: "{{ item.maven_opts }}"
 {% endif %}
-{% if item.cron is defined %}
-      - string:
-          name: CRON_PATTERN
-          default: "{{ item.cron }}"
-{% endif %}
-{% if item.poll_pattern is defined %}
-      - string:
-          name: POLL_PATTERN
-          default: "{{ item.poll_pattern }}"
-{% endif %}
     sandbox: true
     pipeline-scm:
       scm:
@@ -53,11 +53,16 @@
             url: {{ jenkinsfile.git_repo }}
             branches:
               - origin/master
-      script-path: {{ item.jenkinsfile_path  }}
+      script-path: {{ item.jenkinsfile }}
       lightweight-checkout: true
     build-discarder:
       days-to-keep: 30
       num-to-keep: 10
       artifact-days-to-keep: 60
       artifact-num-to-keep: 5
-
+{% if item.poll_pattern is defined %}
+    triggers:
+      - pollscm:
+          cron: "{{ item.poll_pattern }}"
+      - timed: "{{ item.cron }}"
+{% endif %}

@@ -7,19 +7,6 @@
     group: jenkins
     mode: 0755
 
-- name: "Ensure job defintions for testsuite builds exists"
-  template:
-    src: templates/job-testsuite-template.yml.j2
-    dest: "{{ jenkins.jobs_home }}/{{ item.id }}-testsuite.yml"
-    owner: jenkins
-    group: jenkins
-    mode: 0644
-  loop:
-    - { id: 'eap-7.1.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.1.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'eap-7.2.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.2.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'eap-7.3.x', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.3.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'wildfly', git_repo: "https://github.com/wildfly/wildfly.git", git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , cron: "@daily", poll_pattern: "@daily" }
-
 - name: "Ensure job definitions for mvn builds exists"
   template:
     src: templates/job-mvn-template.yml.j2
@@ -27,26 +14,16 @@
     owner: jenkins
     group: jenkins
     mode: 0644
-  loop:
-     - { id: "wildfly-build", git_repo: "https://github.com/wildfly/wildfly.git", java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}", jenkinsfile: "{{ jenkinsfile.path }}", cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'eap-7.3.x-build', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.3.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}", jenkinsfile: "{{ jenkinsfile.path }}", cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'eap-7.2.x-build', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.2.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}", jenkinsfile: "{{ jenkinsfile.path }}", cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'eap-7.1.x-build', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: '7.1.x', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}", jenkinsfile: "{{ jenkinsfile.path }}", cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'xp-2.0.x-build', git_repo: "{{ jenkinsfile.eap_repo }}", git_branch: 'xp2', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}", jenkinsfile: "{{ jenkinsfile.path }}", cron: "@daily", poll_pattern: "@daily" }
-    - { id: 'ci-aphrodite', git_repo: 'https://github.com/jboss-set/aphrodite.git', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'ci-assistant', git_repo: 'git@github.com:jboss-set/assistant.git', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'ci-bugclerk', git_repo: 'https://github.com/jboss-set/bug-clerk/', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'ci-mjolnir', git_repo: 'https://github.com/jboss-set/mjolnir', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'ci-prbz-overview', git_repo: 'git@github.com:jboss-set/prbz-overview.git', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'ci-pull-shared', git_repo: 'https://github.com/jboss-set/pull-shared', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'bugclerk-reports-jira-eap720-unresolved', git_repo: 'git@github.com:jboss-set/bug-clerk-report-job.git', git_branch: 'EAP_720', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'bugclerk-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm' , maven_goals: "exec:java -U -Daphrodite.config=/opt/tools/aphrodite.json", cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'bugclerk-reports-jira-eap730-unresolved', git_repo: 'git@github.com:jboss-set/bug-clerk-report-job.git', git_branch: 'EAP_730', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'bugclerk-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', maven_goals: "exec:java -U -Daphrodite.config=/opt/tools/aphrodite.json", cron: "@daily" , poll_pattern: "@daily" }
-    - { id: 'jboss-metadata', git_repo: 'git@github.com:jboss/metadata.git', git_branch: 'master', java_home: "{{ jenkins.default_jdk_home }}", maven_home: "{{ jenkins.default_mvn_home }}" , maven_settings: "{{ jenkins.default_mvn_settings }}" , jenkinsfile_path: 'mvn-pipeline' , maven_opts: '-Dhttps.protocols=TLSv1.2 -Dnorpm', maven_goals: '-U package', cron: "@daily" , poll_pattern: "@daily" }
+  loop: "{{ ci_server.jobs }}"
+  when:
+    - ci_server is defined
+    - ci_server.jobs is defined
+    - ci_server.jobs | length > 0
 
 - block:
   - name: "Ensure job definitions for component-alignment builds exists"
     template:
-      src: templates/job-component-alignment-template.yml.j2
+      src: templates/job-mvn-template.yml.j2
       dest: "{{ jenkins.jobs_home }}/{{ item.id }}.yml"
       owner: jenkins
       group: jenkins
@@ -66,4 +43,24 @@
     - component_alignment.jobs is defined
     - component_alignment.jobs | length > 0
 
+- set_fact:
+    path_to_jobs_sync_wrapper: '/opt/tools/podman-jobs-sync.sh'
 
+- name: Copy file with owner and permissions
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+  loop:
+    - { src: 'templates/jobs-sync.sh.j2', dest: '/opt/tools/jobs-sync.sh' }
+    - { src: 'podman-jobs-sync.sh.j2', dest: "{{ path_to_jobs_sync_wrapper }}" }
+
+- name: 'Synchronise all jobs'
+  command: "runuser -l jenkins -c {{ path_to_jobs_sync_wrapper }}"
+  register: jobs_sync_results
+  changed_when: False
+
+- debug:
+    msg: "{{ jobs_sync_results.stdout_lines }}"

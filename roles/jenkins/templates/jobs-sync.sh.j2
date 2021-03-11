@@ -1,0 +1,16 @@
+#!/bin/bash
+set -euo pipefail
+
+for job in *.yml
+do
+  job_name="${job%.yml}"
+  echo -n "Checking config for ${job_name}..."
+  jenkins-jobs test "${job}" > /dev/null 2>&1 | sed -e '/INFO:/d'
+  echo "Done."
+  echo -n "Updating job ${job_name}..."
+  jenkins-jobs update "${job}" 2>&1 | sed -e '/^INFO:/d'
+  echo "Done"
+  echo '---------------------------'
+  sleep 2
+  echo
+done
