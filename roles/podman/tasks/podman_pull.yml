@@ -1,0 +1,5 @@
+---
+- name: "Ensure remote images are downloaded" 
+  command: "podman pull {{ item.name }}"
+  register: podman_pull_result
+  changed_when: podman_pull_result.stdout != item.id

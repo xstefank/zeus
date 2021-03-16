@@ -1,0 +1,4 @@
+---
+- command: "runuser -u {{ item.owner }} {{ podman_build }} {{ item.name }} {{ item.tag }}"
+  register: res
+  changed_when: not item.id in (res.stdout_lines | last)
