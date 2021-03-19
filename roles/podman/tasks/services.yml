@@ -1,0 +1,30 @@
+---
+- assert:
+    that:
+      - podman is defined
+      - podman.home is defined
+      - podman.services is defined
+      - podman.services | length > 0
+    quiet: yes
+
+- name: "Ensure podman home is created: {{ podman.home }}"
+  file:
+    path: "{{ podman.home }}"
+    owner: root
+    group: root
+    state: directory
+    mode: '0755'
+
+- name: "Deploy script to start/stop podman based services"
+  template:
+    src: templates/podman-service.sh.j2
+    dest: "{{ podman.home }}/podman-service.sh"
+    owner: root
+    group: root
+    mode: 0755
+
+- include_tasks: tasks/configure-systemd-service.yml
+  loop: "{{ podman.services }}"
+  vars:
+    podman_home: "{{ podman.home }}"
+

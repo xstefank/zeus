@@ -1,0 +1,31 @@
+---
+- assert:
+    that: 
+      - item is defined
+      - item.name is defined
+      - podman_home is defined
+    quiet: yes
+
+- name: "Deploy service script for podman based systemd service called {{ item.name }}"
+  template:
+    src: templates/service-settings.sh.j2
+    dest: "{{ podman_home}}/{{ item.name }}-settings.sh"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "Deploy systemd config for service"
+  template:
+    src: templates/systemd.podman.config.j2
+    dest: "/usr/lib/systemd/system/{{ item.name }}.service"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "Create symlink for service"
+  file:
+    src: "{{ podman_home }}/podman-service.sh"
+    dest: "{{ podman_home }}/{{ item.name }}-service.sh"
+    owner: root
+    group: root
+    state: link

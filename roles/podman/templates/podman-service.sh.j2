@@ -1,0 +1,141 @@
+#!/bin/bash
+set -eo pipefail
+
+readonly COMMAND=${1}
+readonly SHELL_INTERPRETER='/bin/bash'
+export PODMAN_IMAGE_NAME=${PODMAN_IMAGE_NAME:-$(basename "${0%-*}")}
+
+readonly DEBUG=${DEBUG:-''}
+readonly PODMAN_IMAGE_NAME="${PODMAN_IMAGE_NAME}"
+readonly PODMAN_CONTAINER_NAME=${PODMAN_CONTAINER_NAME:-${PODMAN_IMAGE_NAME}}
+readonly PODMAN_CONTAINER_MODE=${PODMAN_CONTAINER_MODE:-'-d'}
+readonly ID_FILES_PREFIX=${ID_FILES_PREFIX:-$(basename "${0%-*}")}
+readonly ID_FILES_HOME=${ID_FILES_HOME:-"/var/run/${ID_FILES_PREFIX}/"}
+readonly CID_FILE="${ID_FILES_HOME}/${CID_FILENAME:-${ID_FILES_PREFIX}.cid}"
+readonly PID_FILE="${ID_FILES_HOME}/${PID_FILENAME:-${ID_FILES_PREFIX}.pid}"
+
+source "{{ podman.home }}/${PODMAN_IMAGE_NAME}-settings.sh"
+
+set -u
+
+usage() {
+  echo "$(basename "${0}") [start|stop|status]"
+  echo ''
+}
+
+serviceSanityCheck() {
+ if [ -z "${PODMAN_IMAGE_NAME}" ]; then
+   echo "PODMAN_IMAGE_NAME is not defined."
+   exit 1
+ fi
+}
+
+prepIdFiles() {
+  mkdir -p "${ID_FILES_HOME}"
+  rm -f "${CID_FILE}" "${PID_FILE}"
+  echo "--conmon-pidfile ${PID_FILE} --cidfile ${CID_FILE}"
+}
+
+isVarDefinedAndAnAssociativeArray() {
+
+  local varname="${1}"
+
+  declare -p "${varname}" 2>&1 > /dev/null | grep -q '^declare \-A'
+  if [ "${?}" -eq 0 ] ; then
+    echo 1
+  else
+    echo 0
+  fi
+}
+
+buildPodmanCli() {
+  # design note: sadly, we can't easily pass associative array to a function...
+  local cli="podman run $(prepIdFiles) --rm --name ${PODMAN_IMAGE_NAME}" 
+  if [ $(isVarDefinedAndAnAssociativeArray 'ADD_HOSTS') ]; then
+    for key in "${!ADD_HOSTS[@]}"; 
+    do 
+      cli="${cli} --add-host=${key}:${ADD_HOSTS[${key}]}" 
+    done
+  fi
+
+  if [ $(isVarDefinedAndAnAssociativeArray 'READONLY_VOLUMES') ]; then
+    for key in "${!READONLY_VOLUMES[@]}"
+    do 
+      cli="${cli} -v ${key}:${READONLY_VOLUMES[${key}]}:ro"
+    done
+  fi
+
+  if [ $(isVarDefinedAndAnAssociativeArray 'READWRITE_VOLUMES') ]; then
+    for key in "${!READWRITE_VOLUMES[@]}"
+    do
+      cli="${cli} -v ${key}:${READWRITE_VOLUMES[${key}]}:rw"
+    done
+  fi
+
+  if [ $(isVarDefinedAndAnAssociativeArray 'PORTS_MAPPING') ]; then
+    for key in "${!PORTS_MAPPING[@]}"
+    do 
+      cli="${cli} -p ${key}:${PORTS_MAPPING[${key}]}"
+    done
+  fi
+  echo "${cli} ${PODMAN_CONTAINER_MODE} ${PODMAN_IMAGE_NAME}"
+}
+
+stopContainer() {
+  if [ -e "${CID_FILE}" ]; then
+    local cid="$(cat ${CID_FILE})"
+    if [ -n "${cid}" ]; then    
+      podman stop -i "${cid}"
+    fi
+    rm -f "${CID_FILE}" "${PID_FILE}"
+  fi
+}
+
+readStatusFromPodman() {
+  local cid="${1}"
+{% raw %}
+  podman container inspect "${cid}" \
+	  --format "Service is {{.State.Status}} (dead: {{.State.Dead}}, paused: {{.State.Paused}}) - PID: {{.State.Pid}} [ConmonPID:{{.State.ConmonPid}}] (Error: {{.State.Error}} / ExitCode: {{.State.ExitCode}})" \
+	  | sed -e 's;  *; ;g'
+{% endraw %}
+}
+
+statusContainer() {
+  if [ -e "${CID_FILE}" ]; then
+    readStatusFromPodman "$(cat ${CID_FILE})"
+  else
+    echo "No cid found, looking by name:"
+    podman ps -a | grep "${PODMAN_IMAGE_NAME}"
+  fi
+}
+
+startContainer() {
+  if [ -n "${DEBUG}" ]; then
+    echo $(buildPodmanCli)
+  fi
+  $(buildPodmanCli)
+}
+
+serviceSanityCheck
+
+if [ -z "${COMMAND}" ]; then
+  usage
+  exit 1
+fi
+
+case "${COMMAND}" in
+  restart|start)
+    stopContainer
+    startContainer
+    ;;
+  stop)
+    stopContainer
+    ;;
+  status)
+    statusContainer
+    ;;
+  *)
+    echo "No such option"
+    exit 1
+    ;;
+esac

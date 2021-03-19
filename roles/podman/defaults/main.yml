@@ -1,5 +1,6 @@
 ---
 podman:
+  home: /opt/podman
   packages:
     - slirp4netns 
     - podman
@@ -23,3 +24,27 @@ podman:
       - { name: 'automatons', owner: 'jenkins', tag: 'test-automatons', id: '35328f92d274' }
       - { name: 'hephaestus', owner: 'jenkins', tag: 'test-hepahestus', id: 'd4a91d222bf' }
       - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'test-jbb', id: '9d703271ffa' }
+  services:
+    - name: nginx
+      readonly_volumes:
+        - { src: '/home/nginx/static', dest: '/usr/share/nginx/html' }
+        - { src: '/home/nginx/config/nginx.conf', dest: '/etc/nginx/nginx.conf' }
+        - { src: '/home/nginx/config/commons.d/', dest: '/etc/nginx/commons.d/' }
+        - { src: '/home/nginx/ssl/', dest: '/etc/nginx/ssl/' }
+        - { src: '/home/nginx/config/monit.passwd', dest: '/etc/nginx/monit.passwd' }
+      readwrite_volumes:
+        - { src: '/home/jboss/maven_caches/', dest: '/home/jboss/maven_caches/' }
+      add_hosts:
+        - { src: 'thunder.next', ip: '192.168.0.11' }
+        - { src: 'podman.host', ip: '10.88.0.1' }
+      ports_mapping:
+       - { src: '80', dest: '80' }
+       - { src: '443', dest: '443' }
+    - name: hephaestus
+      readwrite_volumes:
+        - { src: '/home/jenkins', dest: '/var/jenkins_home' }
+      add_hosts:
+        - { src: 'thunder.next', ip: '10.88.0.1' }
+      ports_mapping:
+       - { src: '8080', dest: '8080' }
+

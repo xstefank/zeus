@@ -1,0 +1,15 @@
+[Unit]
+Description=Podman container-{{ item.name }}.service
+Wants=network.target
+After=network-online.target
+
+[Service]
+Restart=on-failure
+ExecStart={{ podman_home }}/{{ item.name }}-service.sh start 
+ExecStop={{ podman_home }}/{{ item.name }}-service.sh stop
+PIDFile=/var/run/{{ item.name }}/{{ item.name }}.pid
+KillMode=none
+Type=forking
+
+[Install]
+WantedBy=multi-user.target default.target
