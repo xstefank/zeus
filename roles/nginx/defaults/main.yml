@@ -13,7 +13,7 @@ nginx:
       cert: "{{ nginx_https_ssl_cert_override | default('nginx.crt') }}"
       private_key: "{{ nginx_https_ssl_private_key_override | default('nginx.pem') }}"
       csr: "{{ nginx_https_ssl_csr_override | default('nginx.csr') }}"
-      domain_name: thunder.next
+      domain_name: "{{ ansible_nodename }}"
   caches:
     expires: '90d'
     directories:

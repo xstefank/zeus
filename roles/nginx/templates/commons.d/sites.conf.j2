@@ -31,7 +31,7 @@ location /jenkins/ {
   access_log /var/log/nginx/jenkins-access.log ;
   error_log /var/log/nginx/jenkins-error.log ;
 
-  proxy_pass http://{{ jenkins.bind_addr }}:{{ jenkins.port }}/ ;
+  proxy_pass http://{{ jenkins.bind_addr }}:{{ jenkins.port }}/jenkins/ ;
   proxy_redirect     http://{{ jenkins.bind_addr }}:{{ jenkins.port }}/ https://{{ jenkins.bind_addr }};
   include /etc/nginx/commons.d/proxy.conf;
 }

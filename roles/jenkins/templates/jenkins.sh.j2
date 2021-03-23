@@ -5,8 +5,8 @@ readonly JENKINS_DOCKER_CONTAINER_NAME=${JENKINS_DOCKER_CONTAINER_NAME:-'jenkins
 readonly JENKINS_DOCKER_IMAGE=${JENKINS_DOCKER_IMAGE:-'jenkins/jenkins'}
 readonly JENKINS_DOCKER_IMAGE_VERSION=${JENKINS_DOCKER_IMAGE_VERSION:-'2.235.5-lts'}
 
-podman run -d -p 8080:8080 --add-host=thunder.next:10.88.0.1 \
+podman run -d -p {{ jenkis.port }}:{{ jenkins.port }} \
+	   --add-host={{ known_hosts.server.name }}:{{ known_hosts.server.ip }} \
 	   --name "${JENKINS_DOCKER_CONTAINER_NAME}" --rm \
 	   -v "${JENKINS_HOME}:/var/jenkins_home:rw" \
 	   "${JENKINS_DOCKER_IMAGE}:${JENKINS_DOCKER_IMAGE_VERSION}"
-

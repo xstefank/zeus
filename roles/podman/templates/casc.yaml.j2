@@ -9,7 +9,7 @@ tool:
 
 unclassified:
   location:
-    url: http://{{ ansible_nodename }}:8080/jenkins
+    url: http://{{ ansible_nodename }}:{{ override_jenkins_port | default('8080') }}/jenkins
   mailer:
     replyToAddress: {{ mailer.replyTo }}
     smtpHost: {{ mailer.smtp.host }}

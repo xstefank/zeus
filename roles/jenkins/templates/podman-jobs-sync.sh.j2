@@ -1,5 +1,6 @@
 #!/bin/bash
-podman run --add-host=thunder.next:10.88.0.1 --workdir=/work \
+podman run --add-host={{  known_hosts.server.name }}:{{ known_hosts.server.ip }} \
+	   --workdir=/work \
 	   -v /home/jenkins/jobs_definitions:/work:rw \
  	   -v /opt/:/opt:ro \
 	   -t localhost/jenkins-job-builder /opt/tools/jobs-sync.sh

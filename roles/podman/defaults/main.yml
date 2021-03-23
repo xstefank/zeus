@@ -21,9 +21,9 @@ podman:
       - { src: jenkins_jobs.ini.j2, dest: jenkins-job-builder/jenkins_jobs.ini, owner: jenkins }
       - { src: casc.yaml.j2, dest: hephaestus/casc.yaml, owner: jenkins }
     locals:
-      - { name: 'automatons', owner: 'jenkins', tag: 'test-automatons', id: '35328f92d274' }
-      - { name: 'hephaestus', owner: 'jenkins', tag: 'test-hepahestus', id: 'd4a91d222bf' }
-      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'test-jbb', id: '9d703271ffa' }
+      - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: 'c25fe5a13ec0' }
+      - { name: 'hephaestus', owner: 'jenkins', tag: 'hepahestus', id: '5c0e1a0edc4a' }
+      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: '09b804aab532' }
   services:
     - name: nginx
       readonly_volumes:
@@ -35,8 +35,8 @@ podman:
       readwrite_volumes:
         - { src: '/home/jboss/maven_caches/', dest: '/home/jboss/maven_caches/' }
       add_hosts:
-        - { src: 'thunder.next', ip: '192.168.0.11' }
-        - { src: 'podman.host', ip: '10.88.0.1' }
+        - { src: "{{ known_hosts.server.name  }}", ip: "{{ known_hosts.server.ip }}" }
+        - { src: "{{ known_hosts.podman.name }}", ip: "{{ known_hosts.podman.ip }}" }
       ports_mapping:
        - { src: '80', dest: '80' }
        - { src: '443', dest: '443' }
@@ -44,7 +44,7 @@ podman:
       readwrite_volumes:
         - { src: '/home/jenkins', dest: '/var/jenkins_home' }
       add_hosts:
-        - { src: 'thunder.next', ip: '10.88.0.1' }
+        - { src: "{{ known_hosts.podman.name }}", ip: "{{ known_hosts.podman.ip }}" }
+        - { src: "{{ known_hosts.server.name }}", ip: "{{ known_hosts.server.ip }}" }
       ports_mapping:
-       - { src: '8080', dest: '8080' }
-
+       - { src: "{{ override_jenkins_port | default('8080') }}", dest: "{{ override_jenkins_port | default('8080') }}" }
