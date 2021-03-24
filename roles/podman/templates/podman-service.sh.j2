@@ -14,7 +14,7 @@ readonly ID_FILES_HOME=${ID_FILES_HOME:-"/var/run/${ID_FILES_PREFIX}/"}
 readonly CID_FILE="${ID_FILES_HOME}/${CID_FILENAME:-${ID_FILES_PREFIX}.cid}"
 readonly PID_FILE="${ID_FILES_HOME}/${PID_FILENAME:-${ID_FILES_PREFIX}.pid}"
 
-source "{{ podman.home }}/${PODMAN_IMAGE_NAME}-settings.sh"
+source "{{ podman.home }}/${PODMAN_IMAGE_NAME}.config.sh"
 
 set -u
 

@@ -9,7 +9,7 @@
 - name: "Deploy service script for podman based systemd service called {{ item.name }}"
   template:
     src: templates/service-settings.sh.j2
-    dest: "{{ podman_home}}/{{ item.name }}-settings.sh"
+    dest: "{{ podman_home}}/{{ item.name }}.config.sh"
     owner: root
     group: root
     mode: 0755
