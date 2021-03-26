@@ -32,3 +32,9 @@ PORTS_MAPPING['{{ p.src }}']='{{ p.dest }}'
 {% endfor %}
 export PORTS_MAPPING
 {% endif %}
+
+{% if item.ip is defined %}
+readonly CONTAINER_STATIC_IP={{ item.ip }}
+export CONTAINER_STATIC_IP
+{% endif %}
+

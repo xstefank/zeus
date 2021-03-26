@@ -26,6 +26,7 @@ podman:
       - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: '09b804aab532' }
   services:
     - name: nginx
+      ip: "{{ known_hosts.nginx.ip | default('10.88.0.2') }}"
       readonly_volumes:
         - { src: '/home/nginx/static', dest: '/usr/share/nginx/html' }
         - { src: '/home/nginx/config/nginx.conf', dest: '/etc/nginx/nginx.conf' }
@@ -41,6 +42,7 @@ podman:
        - { src: '80', dest: '80' }
        - { src: '443', dest: '443' }
     - name: hephaestus
+      ip: "{{ known_hosts.jenkins.ip | default('10.88.0.3') }}"
       readwrite_volumes:
         - { src: '/home/jenkins', dest: '/var/jenkins_home' }
       add_hosts:

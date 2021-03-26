@@ -78,6 +78,11 @@ buildPodmanCli() {
       cli="${cli} -p ${key}:${PORTS_MAPPING[${key}]}"
     done
   fi
+
+  if [ -n "${CONTAINER_STATIC_IP}" ]; then
+    cli="${cli} --ip ${CONTAINER_STATIC_IP}"
+  fi
+
   echo "${cli} ${PODMAN_CONTAINER_MODE} ${PODMAN_IMAGE_NAME}"
 }
 
