@@ -65,3 +65,6 @@
 
 - debug:
     msg: "{{ jobs_sync_results.stdout_lines }}"
+  when:
+    - jobs_sync_results is defined
+    - jobs_sync_results.stdout_lines is defined
