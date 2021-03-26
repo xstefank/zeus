@@ -14,6 +14,9 @@ nginx:
       private_key: "{{ nginx_https_ssl_private_key_override | default('nginx.pem') }}"
       csr: "{{ nginx_https_ssl_csr_override | default('nginx.csr') }}"
       domain_name: "{{ ansible_nodename }}"
+  apps:
+    prbz_overview:
+      url: "{{ override_prbz_overview_url | default('/prbz-overview/') }}"
   caches:
     expires: '90d'
     directories:
