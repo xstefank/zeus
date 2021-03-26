@@ -37,15 +37,11 @@
 
 - name: "Deploy tools logo for landing page"
   copy:
-    src: "{{ item }}"
+    src: "files/{{ item.logo }}"
     dest: "{{ nginx.docroot }}/img/"
     owner: "{{ nginx.username }}"
     group: "{{ nginx.groupname }}"
-  with_items:
-    - files/img/jenkins-logo.png
-    - files/img/monit-logo.png
-    - files/img/pr-bz-overview-logo.png
-    - files/img/payload-status-logo.png
+  with_items: "{{ nginx.apps }}"
 
 - name: "Deploy landing page"
   template:

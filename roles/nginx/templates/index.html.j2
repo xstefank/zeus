@@ -85,53 +85,41 @@
 
     <body>
         <h1>{{ ansible_nodename }}</h1>
+{% if nginx.apps is defined %}
         <div class="content">
             <h2>Hosted services</h2>
             <div style="text-align: center;">
               <center>
-       	        <table>
-		  <tr>
-		    <td>
-            	      <a alt="jenkins" href="https://{{ ansible_nodename }}/jenkins">
-		        <img alt="jenkins" src="./img/jenkins-logo.png"/>
+                <table>
+                  <tr>
+                  {% for app in nginx.apps %}
+                    <td>
+                      <a alt="{{ app.name }}" href="{{ app.url }}">
+                        <img alt="{{ app.name }}-logo" src="{{ app.logo }}"/><br/><center><b>{{ app.name }}</b></center>
                       </a>
-		  </td>
-		  <td>
-		    <a href="https://{{ ansible_nodename }}/monit">
-		      <img alt="monit" src="./img/monit-logo.png"/>
- 		    </a>
-		  </td>
-		  </td>
-		  <td>
-	              <a href="{{ nginx.apps.prbz_overview.url }}">
-		      <img alt="prbz-overview" src="./img/pr-bz-overview-logo.png" />
-                   </a>
-		  </td>
-		  <td>
-		    <a href="https://{{ ansible_nodename }}/payload-status">
-		      <img alt="payload-status" src="./img/payload-status-logo.png" />
-                   </a>
-		  </td>
-	    </tr>
-	    </table>
-          </center>
-       </div>
+                    </td>
+                    {% endfor %}
+                  </tr>
+                </table>
+              </center>
+            </div>
+{% endif %}
 
 {% if nginx.caches is defined %}
-            <h2>Maven HTTP Caches (EAP 7)</h2>
-            <center>
-            <table style="list-style-type: none;" align: "center">
-              <tr><th>URL</th><th>Mirror ID</th><th>Path</th><th>Source URL</th>
-              {% for cache in nginx.caches.entry %}
-              <tr>
-	        <td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td>
-		<td>{{ cache.mirrorOf }}</td>
-		<td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td>
-	      </tr>
+       <h2>Maven HTTP Caches (EAP 7)</h2>
+         <center>
+           <table style="list-style-type: none;" align: "center">
+             <tr><th>URL</th><th>Mirror ID</th><th>Path</th><th>Source URL</th>
+             {% for cache in nginx.caches.entry %}
+             <tr>
+                <td><a href="http://{{ ansible_nodename }}{{ cache.path }}">{{ cache.desc }}</a></td>
+                <td>{{ cache.mirrorOf }}</td>
+                <td>{{ cache.path }}</td><td align="left"><a href="{{ cache.url }}">{{ cache.url }}</a></td>
+              </tr>
               {% endfor %}
             </table>
-            </center>
-	    {% endif %}
-	</div>
+          </center>
+{% endif %}
+      </div>
     </body>
 </html>
