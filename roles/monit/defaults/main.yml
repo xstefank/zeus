@@ -25,3 +25,5 @@ monit:
         #      - { name: 'docker-part', path: '/var/lib/docker', threshold: '85%' }
     services:
       - { name: 'sshd', pidfile: '/var/run/sshd.pid', start_program: '/usr/bin/systemctl start sshd', stop_program: '/usr/bin/systemctl stop sshd' }
+      - { name: 'hephaestus', pidfile: '/var/run/hephaestus/hephaestus.pid', start_program: '/usr/bin/systemctl start hephaestus', stop_program: '/usr/bin/systemctl stop hephaestus' }
+      - { name: 'nginx', pidfile: '/var/run/nginx/nginx.pid', start_program: '/usr/bin/systemctl start nginx', stop_program: '/usr/bin/systemctl stop nginx' }

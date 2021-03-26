@@ -10,25 +10,25 @@
       - vars/java_certs.yml
       - vars/jobs.yml
       - vars/component-alignment.yml
+      - vars/mailer.yml
   roles:
-     # stage 1 - OS settings and optimizations
+    # stage 1 - OS settings and optimizations
 #    - selinux
 #    - motd
 #    - bashrc
 #    - kdump
 #    - sysctl
 #    - tuned
-##    # stage 2 - main services
+#    # stage 2 - main services
 #    - sshd
-#    - monit
-#    - nginx
-#    # stage 3 - auth and sudoers.yml
-#    # TODO
-#    #
-#    # stage 4 - java and jenkins
+    - podman
 #    - java_certs
+#    - old_releases
     - jenkins
-      #    - old_releases
-      #  pre_tasks:
-          #    - hostname:
-          #name: "{{ ansible_hostname }}"
+    - nginx
+    - monit
+    # stage 3 - auth and sudoers.yml
+    # TODO
+  pre_tasks:
+    - hostname:
+        name: "{{ ansible_hostname }}"
