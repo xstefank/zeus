@@ -20,6 +20,7 @@ location /monit/ {
 
   proxy_pass http://podman.host:2812/;
   proxy_redirect     off;
+  proxy_set_header Authorization "Basic {{ encoded_monit_username_password }}";
   include /etc/nginx/commons.d/proxy.conf;
 }
 {% endif %}
