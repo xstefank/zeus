@@ -7,23 +7,25 @@
       - vars/olympus.yml
       - vars/monit.yml
       - vars/caches.yml
+      - vars/java.yml
       - vars/java_certs.yml
       - vars/jobs.yml
       - vars/component-alignment.yml
       - vars/mailer.yml
   roles:
     # stage 1 - OS settings and optimizations
-#    - selinux
-#    - motd
-#    - bashrc
-#    - kdump
-#    - sysctl
-#    - tuned
+    - selinux
+    - motd
+    - bashrc
+    - kdump
+    - sysctl
+    - tuned
 #    # stage 2 - main services
-#    - sshd
+    - sshd
     - podman
-#    - java_certs
-#    - old_releases
+    - java
+    - java_certs
+    - old_releases
     - jenkins
     - nginx
     - monit
