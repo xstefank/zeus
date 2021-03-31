@@ -155,13 +155,9 @@ set log syslog
 ## enable SSL for the HTTP interface.
 #
 set httpd port {{ monit.webapp.port }} and
-    use address {{ monit.webapp.bind_address }}  # only accept connection from localhost (drop if you use M/Monit)
+    use address {{ monit.webapp.bind_address }}
     allow {{ monit.webapp.allow_from }}
-    allow {{ monit.webapp.username }}:{{ monit.webapp.password }}  
-    #allow admin:monit      # require user 'admin' with password 'monit'
-    #with ssl {            # enable SSL/TLS and set path to server certificate
-    #    pemfile: /etc/ssl/certs/monit.pem
-    #}
+    allow {{ monit.webapp.username }}:{{ monit.webapp.password }} read-only 
 
 ###############################################################################
 ## Services
