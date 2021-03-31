@@ -3,18 +3,19 @@ set -eo pipefail
 
 readonly COMMAND=${1}
 readonly SHELL_INTERPRETER='/bin/bash'
-export PODMAN_IMAGE_NAME=${PODMAN_IMAGE_NAME:-$(basename "${0%-*}")}
+readonly SERVICE_NAME=${SERVICE_NAME:-$(basename "${0%-*}")}
 
 readonly DEBUG=${DEBUG:-''}
-readonly PODMAN_IMAGE_NAME="${PODMAN_IMAGE_NAME}"
-readonly PODMAN_CONTAINER_NAME=${PODMAN_CONTAINER_NAME:-${PODMAN_IMAGE_NAME}}
+
+source "{{ podman.home }}/${SERVICE_NAME}.config.sh"
+
+readonly PODMAN_IMAGE_NAME=${PODMAN_IMAGE_NAME:-${SERVICE_NAME}}
+readonly PODMAN_CONTAINER_NAME=${PODMAN_CONTAINER_NAME:-${SERVICE_NAME}}
 readonly PODMAN_CONTAINER_MODE=${PODMAN_CONTAINER_MODE:-'-d'}
-readonly ID_FILES_PREFIX=${ID_FILES_PREFIX:-$(basename "${0%-*}")}
+readonly ID_FILES_PREFIX=${ID_FILES_PREFIX:-${SERVICE_NAME}}
 readonly ID_FILES_HOME=${ID_FILES_HOME:-"/var/run/${ID_FILES_PREFIX}/"}
 readonly CID_FILE="${ID_FILES_HOME}/${CID_FILENAME:-${ID_FILES_PREFIX}.cid}"
 readonly PID_FILE="${ID_FILES_HOME}/${PID_FILENAME:-${ID_FILES_PREFIX}.pid}"
-
-source "{{ podman.home }}/${PODMAN_IMAGE_NAME}.config.sh"
 
 set -u
 

@@ -5,12 +5,20 @@ jenkins:
       users:
        - id: ${JENKINS_ADMIN_ID}
          password: ${JENKINS_ADMIN_PASSWORD}
+    ldap:
+      configurations:
+        - server: ldap.corp.redhat.com
+          rootDN: ou=users,dc=redhat,dc=com
+          userSearch: "memberOf=cn=cdewolf-all"
+
 tool:
 
 unclassified:
   location:
-    url: http://{{ ansible_nodename }}:{{ override_jenkins_port | default('8080') }}/jenkins
+    url: https://{{ ansible_nodename }}/jenkins
   mailer:
     replyToAddress: {{ mailer.replyTo }}
     smtpHost: {{ mailer.smtp.host }}
     smtpPort: {{ mailer.smtp.port }}
+  extendedEmailPublisher:
+    smtpServer: {{ mailer.smtp.host }}
