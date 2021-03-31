@@ -1,0 +1,28 @@
+---
+- assert:
+    that:
+      - jdk_list is defined 
+      - jdk_list is iterable
+      - jdk_home_folder is defined
+      - home_folder is defined
+
+- name: Symlink to Java default version
+  file:
+    src: "{{ jdk_default  }}"
+    dest: "{{ jdk_default_link }}"
+    state: link
+  when: 
+    - jdk_default_link is defined
+    - jdk_default is defined
+
+- name: "Ensures the JDKs home dir exits: {{ jdk_home_folder }}"
+  file:
+    state: directory
+    path: "{{ jdk_home_folder }}"
+
+- include_tasks: jdk_install.yml
+  loop: "{{ jdk_list }}"
+
+- include_tasks: mvn_install.yml
+  loop: "{{ mvn_list }}"
+

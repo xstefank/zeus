@@ -1,0 +1,4 @@
+---
+jdk_home_folder: /opt/oracle
+jdk_default_link: /opt/oracle/java
+home_folder: /opt/tools

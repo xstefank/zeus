@@ -1,0 +1,42 @@
+---
+- assert:
+    that:
+      - item is defined
+      - item.name is defined
+      - item.source is defined
+      - item.owner is defined
+    quiet: true
+
+- set_fact:
+    jdk_archive: "{{ jdk_home_folder }}/{{ item.name }}.tgz"
+
+- stat:
+    path: "{{ jdk_archive }}"
+  register: path_to_jdk_archive 
+
+- name: "Download jdk from {{ item.source }}"
+  command: wget -q -O {{ jdk_archive }} {{ item.source }}
+  register: jdk_download
+  when:
+    - path_to_jdk_archive.stat is defined
+    - not path_to_jdk_archive.stat.exists
+
+- stat:
+    path: "{{ item.java_home }}"
+  register: path_to_java_home
+
+- name: "Unpack archive {{ jdk_archive }}"
+  command: "tar -zxf {{ jdk_archive }} -C {{ item.java_home }}"
+  when: 
+    - jdk_download is defined
+    - path_to_java_home.stat is defined
+    - not path_to_java_home.stat.exists
+
+- name: "Ensure appropriate owner/group for jdk: {{ item.java_home }}."
+  file: 
+    state: directory 
+    path: "{{ item.java_home }}" 
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
+    recurse: yes
+

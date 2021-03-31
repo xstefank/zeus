@@ -9,10 +9,3 @@
   loop: "{{ jdk_list }}"
   loop_control:
     loop_var: jdk
-
-- name: Symlink to Java default version
-  file:
-    src: "{{ jdk_default  }}"
-    dest: "{{ jdk_default_link }}"
-    state: link
-  when: jdk_default_link is defined

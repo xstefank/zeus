@@ -1,0 +1,56 @@
+---
+- assert:
+    that:
+      - home_folder is defined
+      - home_folder != ""
+      - item is defined
+      - item.name is defined
+      - item.name != ""
+      - item.source is defined
+      - item.source != ""
+      - item.owner is defined
+      - item.owner != ""
+    quiet: true
+
+- stat:
+    path: "{{ home_folder }}"
+  register: path_to_home_folder
+
+- assert:
+    that:
+      - path_to_home_folder.stat is defined
+      - path_to_home_folder.stat.exists
+
+- set_fact:
+    path_to_archive: "{{ home_folder }}/{{ item.name }}.tgz"
+
+- stat:
+    path: "{{ path_to_archive }}"
+  register: archive 
+
+- name: "Download archive from {{ item.source }}"
+  command: wget -q -O {{ path_to_archive }} {{ item.source }}
+  register: archive_download
+  when:
+    - archive.stat is defined
+    - not archive.stat.exists
+
+- stat:
+    path: "{{ item.home }}"
+  register: path_to_home
+
+- name: "Unpack archive {{ path_to_archive }}"
+  command: "tar -zxf {{ path_to_archive }} -C {{ item.home }}"
+  when: 
+    - archive_download is defined
+    - path_to_home.stat is defined
+    - not path_to_home.stat.exists
+
+- name: "Ensure appropriate owner/group for jdk: {{ item.home }}."
+  file: 
+    state: directory 
+    path: "{{ item.home }}" 
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
+    recurse: yes
+
