@@ -30,5 +30,5 @@
   register: podman_services
 
 - name: "Ensures jenkins can use podman"
-  command: loginctl enable-linger 1000
+  command: loginctl enable-linger jenkins
   changed_when: false

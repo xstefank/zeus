@@ -5,11 +5,6 @@ jenkins:
       users:
        - id: ${JENKINS_ADMIN_ID}
          password: ${JENKINS_ADMIN_PASSWORD}
-    ldap:
-      configurations:
-        - server: ldap.corp.redhat.com
-          rootDN: ou=users,dc=redhat,dc=com
-          userSearch: "memberOf=cn=cdewolf-all"
 
 tool:
 

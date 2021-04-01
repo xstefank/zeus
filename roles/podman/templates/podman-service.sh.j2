@@ -9,8 +9,9 @@ readonly DEBUG=${DEBUG:-''}
 
 source "{{ podman.home }}/${SERVICE_NAME}.config.sh"
 
-readonly PODMAN_IMAGE_NAME=${PODMAN_IMAGE_NAME:-${SERVICE_NAME}}
-readonly PODMAN_CONTAINER_NAME=${PODMAN_CONTAINER_NAME:-${SERVICE_NAME}}
+readonly PODMAN_REGISTRY_NAME=${PODMAN_REGISTRY_NAME:-'localhost'}
+readonly PODMAN_IMAGE_NAME=${PODMAN_IMAGE_NAME:-"${PODMAN_REGISTRY_NAME}/${SERVICE_NAME}"}
+readonly PODMAN_CONTAINER_NAME=${PODMAN_CONTAINER_NAME:-"${SERVICE_NAME}"}
 readonly PODMAN_CONTAINER_MODE=${PODMAN_CONTAINER_MODE:-'-d'}
 readonly ID_FILES_PREFIX=${ID_FILES_PREFIX:-${SERVICE_NAME}}
 readonly ID_FILES_HOME=${ID_FILES_HOME:-"/var/run/${ID_FILES_PREFIX}/"}
@@ -51,7 +52,7 @@ isVarDefinedAndAnAssociativeArray() {
 
 buildPodmanCli() {
   # design note: sadly, we can't easily pass associative array to a function...
-  local cli="podman run $(prepIdFiles) --rm --name ${PODMAN_IMAGE_NAME}" 
+  local cli="podman run $(prepIdFiles) --rm --name ${SERVICE_NAME}"
   if [ $(isVarDefinedAndAnAssociativeArray 'ADD_HOSTS') ]; then
     for key in "${!ADD_HOSTS[@]}"; 
     do 

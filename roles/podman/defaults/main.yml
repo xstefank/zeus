@@ -21,9 +21,9 @@ podman:
       - { src: jenkins_jobs.ini.j2, dest: jenkins-job-builder/jenkins_jobs.ini, owner: jenkins }
       - { src: casc.yaml.j2, dest: hephaestus/casc.yaml, owner: jenkins }
     locals:
-      - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: 'c25fe5a13ec0' }
-      - { name: 'hephaestus', owner: 'jenkins', tag: 'hepahestus', id: '5c0e1a0edc4a' }
-      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: '09b804aab532' }
+      - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: '20566e63e884b94fd706366bdad355cd3750069c547d74af1723fe977f0c1768' }
+      - { name: 'hephaestus', owner: 'root', tag: 'hephaestus', id: '20566e63e884b94fd706366bdad355cd3750069c547d74af1723fe977f0c1768' }
+      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: '1c724b87ae1c94e8d85ceeda7ef835950569e1832eeb56c1f9659c80ce844dee' }
   services:
     - name: nginx
       ip: "{{ known_hosts.nginx.ip | default('10.88.0.2') }}"
