@@ -25,6 +25,13 @@
     path: "{{ item.java_home }}"
   register: path_to_java_home
 
+- name: "Create home dir {{ item.java_home }}"
+  file:
+    state: directory
+    path: "{{ item.java_home }}" 
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
+
 - name: "Unpack archive {{ jdk_archive }}"
   command: "tar -zxf {{ jdk_archive }} -C {{ item.java_home }}"
   when: 

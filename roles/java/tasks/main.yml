@@ -6,6 +6,14 @@
       - jdk_home_folder is defined
       - home_folder is defined
 
+- name: "Ensures the JDKs home dir exits: {{ jdk_home_folder }}"
+  file:
+    state: directory
+    path: "{{ jdk_home_folder }}"
+
+- include_tasks: jdk_install.yml
+  loop: "{{ jdk_list }}"
+
 - name: Symlink to Java default version
   file:
     src: "{{ jdk_default  }}"
@@ -14,14 +22,6 @@
   when: 
     - jdk_default_link is defined
     - jdk_default is defined
-
-- name: "Ensures the JDKs home dir exits: {{ jdk_home_folder }}"
-  file:
-    state: directory
-    path: "{{ jdk_home_folder }}"
-
-- include_tasks: jdk_install.yml
-  loop: "{{ jdk_list }}"
 
 - include_tasks: mvn_install.yml
   loop: "{{ mvn_list }}"

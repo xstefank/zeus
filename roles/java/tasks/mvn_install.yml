@@ -16,10 +16,14 @@
     path: "{{ home_folder }}"
   register: path_to_home_folder
 
-- assert:
-    that:
-      - path_to_home_folder.stat is defined
-      - path_to_home_folder.stat.exists
+- file:
+    state: directory
+    path: "{{ home_folder }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
+  when:
+    - path_to_home_folder.stat is defined
+    - path_to_home_folder.stat.exists
 
 - set_fact:
     path_to_archive: "{{ home_folder }}/{{ item.name }}.tgz"
