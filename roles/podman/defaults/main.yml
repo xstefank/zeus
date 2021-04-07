@@ -26,6 +26,7 @@ podman:
       - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: '1c724b87ae1c94e8d85ceeda7ef835950569e1832eeb56c1f9659c80ce844dee' }
   services:
     - name: nginx
+      image: 'docker.io/library/nginx'
       ip: "{{ known_hosts.nginx.ip | default('10.88.0.2') }}"
       readonly_volumes:
         - { src: '/home/nginx/static', dest: '/usr/share/nginx/html' }
