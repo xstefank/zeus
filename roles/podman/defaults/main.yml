@@ -16,14 +16,14 @@ podman:
       branch: "{{ podman_images_git_branch_override | default('olympus') }}"
       folder_name: "{{ podman_images_git_folder_name_override | default('ares.git') }}"
     remotes:
-      - { name: 'docker.io/library/nginx', id: '6084105296a952523c36eea261af38885f41e9d1d0001b4916fa426e45377ffe' }
+      - { name: 'docker.io/library/nginx', id: "{{ podman_image_id_nginx }}" }
     missing_config_files:
       - { src: jenkins_jobs.ini.j2, dest: jenkins-job-builder/jenkins_jobs.ini, owner: jenkins }
       - { src: casc.yaml.j2, dest: hephaestus/casc.yaml, owner: jenkins }
     locals:
-      - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: '20566e63e884b94fd706366bdad355cd3750069c547d74af1723fe977f0c1768' }
-      - { name: 'hephaestus', owner: 'root', tag: 'hephaestus', id: '20566e63e884b94fd706366bdad355cd3750069c547d74af1723fe977f0c1768' }
-      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: '1c724b87ae1c94e8d85ceeda7ef835950569e1832eeb56c1f9659c80ce844dee' }
+      - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: "{{ podman_image_id_automatons  }}" }
+      - { name: 'hephaestus', owner: 'root', tag: 'hephaestus', id: "{{ podman_image_id_hephaestus  }}" }
+      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: "{{ podman_image_id_jbb  }}" }
   services:
     - name: nginx
       image: 'docker.io/library/nginx'
