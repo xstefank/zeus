@@ -2,6 +2,6 @@
 sshd:
   port: 22
   bind_addr: 0.0.0.0
-  permit_root_login: "no"
+  permit_root_login: "{{ override_sshd_permit_root_login | default('no') }}"
   password_auth: "yes"
   x11_forwarding: "yes"
