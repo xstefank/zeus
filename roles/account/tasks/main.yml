@@ -5,11 +5,9 @@
       - account.group is defined
       - account.group != ""
       - account.gid is defined
-      - account.gid | length > 0
       - account.username is defined
       - account.username != ""
       - account.uid is defined
-      - account.uid | length > 0
       - account.home is defined
       - account.home != ""
     quiet: true
