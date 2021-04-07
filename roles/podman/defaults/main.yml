@@ -33,7 +33,6 @@ podman:
         - { src: '/home/nginx/config/nginx.conf', dest: '/etc/nginx/nginx.conf' }
         - { src: '/home/nginx/config/commons.d/', dest: '/etc/nginx/commons.d/' }
         - { src: '/home/nginx/ssl/', dest: '/etc/nginx/ssl/' }
-        - { src: '/home/nginx/config/monit.passwd', dest: '/etc/nginx/monit.passwd' }
       readwrite_volumes:
         - { src: '/home/jboss/maven_caches/', dest: '/home/jboss/maven_caches/' }
       add_hosts:
