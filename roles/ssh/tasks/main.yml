@@ -1,0 +1,36 @@
+---
+- assert:
+    that:
+      - ssh is defined
+      - ssh.hosts is defined
+    quiet: true
+
+- set_fact:
+    ssh_user: jenkins
+    ssh_home: /home/jenkins
+
+
+- name: "Ensure .ssh folder in {{ ssh_home }} exists."
+  file:
+    state: directory
+    path: "{{ ssh_home }}/.ssh"
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: 0700
+
+- name: "Deploy identity file"
+  copy:
+    src: vars/files/jboss_set_github_rsa
+    dest: "{{ ssh_home }}/.ssh/jboss_set_github_rsa"
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: 0400
+
+- name: "Deploy gitconfig for user jenkins"
+  template:
+    src: templates/config.j2
+    dest: "{{ ssh_home }}/.ssh/config"
+    owner: "{{ ssh_user }}"
+    group: "{{ ssh_user }}"
+    mode: 0600
+  loop: "{{ ssh.hosts }}"
