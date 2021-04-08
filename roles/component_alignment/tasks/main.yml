@@ -1,0 +1,33 @@
+---
+
+- assert:
+    that:
+      - component_alignment is defined
+      - component_alignment.url is defined
+      - component_alignment.path is defined
+      - component_alignment.config is defined
+      - component_alignment.config.dir is defined
+    quiet: true 
+
+- name: "Fetch component-alignment jar from {{ component_alignment.url }}"
+  get_url:
+    url: "{{ component_alignment.url }}"
+    dest: "{{ component_alignment.path }}"
+
+- name: "Ensure {{ component_alignment.path }} has the appropriate owner, groups and privilege"
+  file:
+    path: "{{ component_alignment.path }}"
+    owner: jenkins
+    group: jenkins
+    mode: 0644
+
+- name: "Ensure component_alignment.config.dir }} exists"
+  file:
+    state: directory
+    path: "{{ component_alignment.config.dir }}"
+    owner: jenkins
+    group: jenkins
+    mode: 0755 
+
+- include_tasks: tasks/deploy_config.yml
+  loop: "{{ component_alignment.config.files }}"    
