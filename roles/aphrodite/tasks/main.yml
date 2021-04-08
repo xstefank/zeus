@@ -1,0 +1,16 @@
+---
+- assert:
+    that:
+      - aphrodite is defined
+      - aphrodite.trackers is defined
+      - aphrodite.repos is defined
+      - aphrodite.streams is defined
+    quiet: true
+
+- name: "Deploy aphrodite configuration to {{ aphrodite.path }}"
+  template:
+    src: "{{ aphrodite.template }}"
+    dest: "{{ aphrodite.path }}"
+    owner: jenkins
+    group: jenkins
+    mode: 0644
