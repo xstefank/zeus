@@ -11,6 +11,9 @@ jenkins:
   default_jdk_home: '/opt/oracle/java'
   default_mvn_home: '/opt/tools/apache-maven-3.6.3'
   default_mvn_settings: '/opt/tools/settings.xml'
+  admin:
+    id: 'admin'
+    password: "{{ override_jenkins_password }}"
 jenkinsfile:
   git_repo: "{{ override_jenkinsfile_git_repo | default('https://github.com/jboss-set/cedalion') }}"
   path: "{{ override_jenkinsfile_path | default('Jenkinsfile') }}"

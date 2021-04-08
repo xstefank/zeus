@@ -3,8 +3,8 @@ jenkins:
     local:
       allowsSignup: false
       users:
-       - id: ${JENKINS_ADMIN_ID}
-         password: ${JENKINS_ADMIN_PASSWORD}
+       - id: {{ jenkins.admin.id }}
+         password: {{ jenkins.admin.password }}
 
 tool:
 
@@ -15,5 +15,3 @@ unclassified:
     replyToAddress: {{ mailer.replyTo }}
     smtpHost: {{ mailer.smtp.host }}
     smtpPort: {{ mailer.smtp.port }}
-  extendedEmailPublisher:
-    smtpServer: {{ mailer.smtp.host }}
