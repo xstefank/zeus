@@ -3,9 +3,11 @@
     name: {{ item.id }}
     project-type: pipeline
     parameters:
+{% if item.git_repo is defined %}
       - string:
           name: GIT_REPOSITORY_URL
           default: {{ item.git_repo }}
+{% endif %}
 {% if item.git_branch is defined %}
       - string:
           name: GIT_REPOSITORY_BRANCH
@@ -45,6 +47,11 @@
       - string:
           name: MAVEN_OPTS
           default: "{{ item.maven_opts }}"
+{% endif %}
+{% if item.version is defined %}
+      - string:
+          name: VERSION
+          default: "{{ item.version }}"
 {% endif %}
     sandbox: true
     pipeline-scm:

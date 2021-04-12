@@ -14,6 +14,23 @@ jenkins:
   admin:
     id: 'admin'
     password: "{{ override_jenkins_password }}"
+  view:
+    streams:
+      - eap-7.1.x
+      - eap-7.2.x
+      - eap-7.3.x
+      - wildfly
+      - xp-2.0.x
+    tabs:
+      columns:
+        - "status"
+        - "weather"
+        - "jobName"
+        - "lastSuccess"
+        - "lastFailure"
+        - "lastDuration"
+        - "buildButton"
+
 jenkinsfile:
   git_repo: "{{ override_jenkinsfile_git_repo | default('https://github.com/jboss-set/cedalion') }}"
   path: "{{ override_jenkinsfile_path | default('Jenkinsfile') }}"
