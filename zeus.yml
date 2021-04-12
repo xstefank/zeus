@@ -14,8 +14,6 @@
       - vars/component-alignment.yml
       - vars/mailer.yml
   roles:
-    - aphrodite
-    - ssh
     # stage 1 - OS settings and optimizations
     - selinux
     - motd
@@ -30,10 +28,14 @@
     - java_certs
     - old_releases
     - jenkins
+    - ssh
     - nginx
     - monit
     # stage 3 - auth and sudoers.yml
-    # TODO
+    - component_alignment
+    - pr_processor
+    - aphrodite
+
   pre_tasks:
 
     - name: permit traffic in default zone for https service
