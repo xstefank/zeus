@@ -6,6 +6,8 @@
     - podman_pull_request is defined
     - podman_pull_request.stdout is defined
     - podman_pull_result.stdout != item.id
+  when:
+    - podman_pull_enabled is defined
 
 - debug:
     msg: "Image for {{ item.name }} was updated : {{ podman_pull_result.stdout }} (previous id was: {{ item.id }}"
