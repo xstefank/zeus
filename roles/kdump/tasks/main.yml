@@ -1,7 +1,4 @@
 ---
-- debug:
-    msg: "HEELo:{{ kdump }}"
-
 - assert:
     that:
       - kdump is defined

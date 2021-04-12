@@ -4,9 +4,6 @@
   vars:
     package_name: monit
 
-- debug:
-    msg: "monit.daemon: {{ monit.daemon }}"
-
 - assert:
     that:
       - monit is defined
