@@ -1,0 +1,26 @@
+---
+- assert:
+    that:
+      - pr_processor is defined
+      - pr_processor.home is defined
+      - pr_processor.owner is defined
+      - pr_processor.group is defined
+      - pr_processor.url is defined
+      - pr_processor.version is defined
+    quiet: true
+
+- name: "Ensure pr-processor home exists: {{ pr_processor.home }}"
+  file:
+    path: "{{ pr_processor.home }}"
+    state: directory
+    owner: "{{ pr_processor.owner }}"
+    group: "{{ pr_processor.group }}"
+    mode: 0755
+
+- name: "Ensure pull_processor v{{ pr_processor.version }} is properly installed (fetch from {{ pr_processor.url }}"
+  get_url:
+    url: "{{ pr_processor.url }}"
+    dest: "{{ pr_processor.home }}"
+    owner: "{{ pr_processor.owner }}"
+    group: "{{ pr_processor.group }}"
+    mode: 0755
