@@ -6,6 +6,10 @@ location / {
   index /index.html;
 } 
 
+location /publish {
+    autoindex on;
+}
+
 {% if nginx.caches is defined %}{% for cache in nginx.caches.entry %}location {{ cache.path }} {
    include /etc/nginx/commons.d/maven.cache.conf;
    proxy_pass {{ cache.url }};
