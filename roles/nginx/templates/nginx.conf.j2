@@ -38,7 +38,7 @@ http {
 
 {% if nginx.https is defined %}
   server {
-      listen      443 default_server ssl;
+      listen      443 default_server;
       listen  [::]:443;
  
       include /etc/nginx/commons.d/ssl.conf; 
