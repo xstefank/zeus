@@ -9,17 +9,8 @@ podman:
     max_user_namespaces: 28633
     user_namespaces_config_file: /etc/sysctl.d/userns.conf
   images:
-    home: "{{ podman_images_home_override | default('/home/jenkins') }}"
-    user: "{{ podman_images_user_ovveride | default('jenkins') }}"
-    git:
-      repo: "{{ podman_images_git_repo_override | default('git@github.com:jboss-set/ares.git') }}"
-      branch: "{{ podman_images_git_branch_override | default('olympus') }}"
-      folder_name: "{{ podman_images_git_folder_name_override | default('ares.git') }}"
     remotes:
       - { name: 'docker.io/library/nginx', id: "{{ podman_image_id_nginx }}" }
-    missing_config_files:
-      - { src: jenkins_jobs.ini.j2, dest: jenkins-job-builder/jenkins_jobs.ini, owner: jenkins }
-      - { src: casc.yaml.j2, dest: hephaestus/casc.yaml, owner: jenkins }
     locals:
       - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: "{{ podman_image_id_automatons  }}" }
       - { name: 'hephaestus', owner: 'root', tag: 'hephaestus', id: "{{ podman_image_id_hephaestus  }}" }

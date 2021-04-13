@@ -30,3 +30,9 @@ jenkins:
         - "lastFailure"
         - "lastDuration"
         - "buildButton"
+
+jenkinsfile:
+  git_repo: "{{ override_jenkinsfile_git_repo | default('https://github.com/jboss-set/cedalion') }}"
+  path: "{{ override_jenkinsfile_path | default('Jenkinsfile') }}"
+  eap_repo: "{{ git_repo_for_eap }}"
+  

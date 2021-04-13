@@ -1,0 +1,14 @@
+---
+- assert:
+    that:
+      - ares is defined
+      - ares.home is defined
+      - ares.owner is defined
+    quiet: true
+
+- name: "Deploy Jenkins Job builder configuration file into {{ ares.home }}"
+  templates:
+    src: templates/jenkins_jobs.ini.j2
+    dest: "{{ ares.home }}/jenkins-job-builder/jenkins_jobs.ini"
+    owner: "{{ ares.owner }}"
+    group: "{{ ares.owner }}"

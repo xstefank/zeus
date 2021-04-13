@@ -1,0 +1,25 @@
+---
+- assert:
+    that:
+      - ares is defined
+      - ares.home is defined
+      - ares.home != ""
+      - ares.git is defined
+      - ares.git.repo is defined
+      - ares.git.branch is defined
+    quiet: true
+
+- name: "Fetch images defintion from {{ ares.git.repo }} from branch {{ ares.git.branch }}."
+  git:
+    repo: "{{ ares.git.repo }}"
+    dest: "{{ ares.home }}"
+    version: "{{ ares.git.branch }}"
+    key_file: "{{ ares.git.keyfile }}"
+
+- name: "Ensure {{ ares.home }} belongs to {{ ares.owner }}"
+  file:
+    path: "{{ ares.home }}"
+    recurse: yes
+    owner: "{{ ares.owner }}"
+    group: "{{ ares.group }}"
+  changed_when: false # weirdly this task always ends up in changed=true

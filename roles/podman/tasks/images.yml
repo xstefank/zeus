@@ -4,33 +4,7 @@
   loop: "{{ podman.images.remotes }}"
 
 - set_fact:
-    images_defs_folder: "{{ podman.images.home }}/{{ podman.images.git.folder_name }}"
-
-- name: "Fetch images defintion from {{ podman.images.git.repo }} from branch {{ podman.images.git.branch }}."
-  git:
-    repo: "{{ podman.images.git.repo }}"
-    dest: "{{ images_defs_folder }}"
-    version: "{{ podman.images.git.branch }}"
-    key_file: '/home/jenkins/.ssh/jboss_set_github_rsa'
-
-- name: "Ensure {{ images_defs_folder }} belongs to {{ podman.images.user }}"
-  file:
-    path: "{{ images_defs_folder }}"
-    recurse: yes
-    owner: "{{ podman.images.user }}"
-    group: "{{ podman.images.user }}"
-  changed_when: false # weirdly this task always ends up in changed=true
-
-- set_fact:
-    podman_build: "{{ images_defs_folder }}/podman-build.sh"
-
-- name: "Deploy missing configuration file {{ item.name }} into {{ images_defs_folder }}/{{ dest }}."
-  template:
-    src: "templates/{{ item.src }}"
-    dest: "{{ images_defs_folder }}/{{ item.dest }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.owner }}"
-  loop: "{{ podman.images.missing_config_files }}"
+    podman_build: "{{ ares.home }}/podman-build.sh"
 
 - include_tasks: tasks/podman_build.yml
   loop: "{{ podman.images.locals }}"

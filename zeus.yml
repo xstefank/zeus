@@ -21,8 +21,10 @@
     - kdump
     - sysctl
     - tuned
-#    # stage 2 - main services
+    # stage 2 - main services
     - sshd
+    - ares
+    - jenkins
     - podman
     - java
     - java_certs
@@ -60,3 +62,13 @@
           group: "{{ override_jenkins_group }}"
           gid: "{{ override_jenkins_gid }}"
           home: /home/jenkins
+
+#    - include_role:
+#        name: account
+#      vars:
+#        account: 
+#          username: "{{ jenkins.username }}"
+#          uid: "{{ jenkins.uid }}"
+#          group: "{{ jenkins.groupname }}"
+#          gid: "{{ jenkins.gid }}"
+#          home: "{{ jenkins.home }}"
