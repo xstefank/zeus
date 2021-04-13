@@ -35,7 +35,7 @@
     - component_alignment
     - pr_processor
     - aphrodite
-
+    - jobs
   pre_tasks:
 
     - name: permit traffic in default zone for https service

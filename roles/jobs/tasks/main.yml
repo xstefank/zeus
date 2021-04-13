@@ -9,7 +9,7 @@
 
 - name: "Ensure job definitions for mvn builds exists"
   template:
-    src: templates/job-mvn-template.yml.j2
+    src: templates/job-template.yml.j2
     dest: "{{ jenkins.jobs_home }}/{{ item.id }}.yml"
     owner: jenkins
     group: jenkins
@@ -23,7 +23,7 @@
 - block:
   - name: "Ensure job definitions for component-alignment builds exists"
     template:
-      src: templates/job-mvn-template.yml.j2
+      src: templates/job-template.yml.j2
       dest: "{{ jenkins.jobs_home }}/{{ item.id }}.yml"
       owner: jenkins
       group: jenkins
@@ -37,7 +37,6 @@
       owner: jenkins
       group: jenkins
       mode: 0644
-
   when:
     - component_alignment is defined
     - component_alignment.jobs is defined

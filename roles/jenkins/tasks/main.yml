@@ -14,8 +14,6 @@
       - jenkins.home != ""
     quiet: true
 
-- include_tasks: tasks/jobs.yml
-
 - include_role:
     name: account
   vars:
@@ -25,14 +23,6 @@
       group: "{{ jenkins.groupname }}"
       gid: "{{ jenkins.gid }}"
       home: "{{ jenkins.home }}"
-
-#- name: "Ensures init script exists"
-#  template:
-#    src: templates/jenkins.sh.j2
-#    dest: /jenkins.sh
-#    owner: root
-#    group: root
-#    mode: 744
 
 - name: "Generate SSH key {{ jenkins.home }}/.ssh/id_rsa"
   openssh_keypair:
