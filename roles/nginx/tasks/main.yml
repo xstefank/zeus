@@ -1,6 +1,6 @@
 ---
 - include_tasks: user_setup.yml
-  
+
 - include_tasks: static_content.yml
 
 - set_fact:
@@ -18,15 +18,15 @@
   register: nginx_config_dir_path
 
 - assert:
-    that: 
+    that:
       - nginx_config_dir_path is defined
-     
-- include_tasks: nginx_config.yml 
+
+- include_tasks: nginx_config.yml
 
 - include_tasks: static_content.yml
 
 - include_tasks: http_cache_setup.yml
-  when: nginx.caches is defined 
+  when: nginx.caches is defined
 
 - include_tasks: ssl.yml
   when: nginx.https is defined
