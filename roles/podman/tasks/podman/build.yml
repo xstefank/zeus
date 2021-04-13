@@ -21,8 +21,15 @@
     msg: "{{ res }}"
   when: res is defined
 
+- set_fact:
+    item_image:
+      - { name: "{{ item.tag }}", id: "{{ (res.stdout_lines | last) }}" }
+
+- set_fact:
+    podman_images: "{{ podman_images }} + {{ item_image }}"
+
 - debug:
-    msg: "Images ID for {{ item.name }}: {{ res.stdout_lines | last }}"
+    msg: "Images ID fo {{ item.name }}: {{ res.stdout_lines | last }}"
   when:
     - item.name is defined
     - res is defined
