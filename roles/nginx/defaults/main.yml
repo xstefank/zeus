@@ -39,3 +39,20 @@ nginx:
       -  { name: "{{ brew_repos.repo3.id }}", mirrorOf: "{{ brew_repos.repo3.mirrorOf }}", desc: "{{ brew_repos.repo3.desc }}", path: "{{ brew_repos.repo3.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo3.url }}" }
       -  { name: "{{ brew_repos.repo4.id }}", mirrorOf: "{{ brew_repos.repo4.mirrorOf }}", desc: "{{ brew_repos.repo4.desc }}", path: "{{ brew_repos.repo4.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo4.url }}" }
       -  { name: "{{ brew_repos.repo5.id }}", mirrorOf: "{{ brew_repos.repo5.mirrorOf }}", desc: "{{ brew_repos.repo5.desc }}", path: "{{ brew_repos.repo5.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo5.url }}" }
+  service:
+    - name: nginx
+      image: 'docker.io/library/nginx'
+      ip: "{{ known_hosts.nginx.ip | default('10.88.0.2') }}"
+      readonly_volumes:
+        - { src: '/home/nginx/static', dest: '/usr/share/nginx/html' }
+        - { src: '/home/nginx/config/nginx.conf', dest: '/etc/nginx/nginx.conf' }
+        - { src: '/home/nginx/config/commons.d/', dest: '/etc/nginx/commons.d/' }
+        - { src: '/home/nginx/ssl/', dest: '/etc/nginx/ssl/' }
+      readwrite_volumes:
+        - { src: '/home/jboss/maven_caches/', dest: '/home/jboss/maven_caches/' }
+      add_hosts:
+        - { src: "{{ known_hosts.server.name  }}", ip: "{{ known_hosts.server.ip }}" }
+        - { src: "{{ known_hosts.podman.name }}", ip: "{{ known_hosts.podman.ip }}" }
+      ports_mapping:
+       - { src: '80', dest: '80' }
+       - { src: '443', dest: '443' }

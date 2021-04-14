@@ -30,3 +30,13 @@ jenkins:
         - "lastFailure"
         - "lastDuration"
         - "buildButton"
+  service:
+    - name: hephaestus
+      ip: "{{ known_hosts.jenkins.ip | default('10.88.0.3') }}"
+      readwrite_volumes:
+        - { src: '/home/jenkins', dest: '/var/jenkins_home' }
+      add_hosts:
+        - { src: "{{ known_hosts.podman.name }}", ip: "{{ known_hosts.podman.ip }}" }
+        - { src: "{{ known_hosts.server.name }}", ip: "{{ known_hosts.server.ip }}" }
+      ports_mapping:
+       - { src: "{{ override_jenkins_port | default('8080') }}", dest: "{{ override_jenkins_port | default('8080') }}" }
