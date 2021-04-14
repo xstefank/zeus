@@ -30,3 +30,15 @@
 
 - include_tasks: ssl.yml
   when: nginx.https is defined
+
+- name: permit traffic in default zone for https service
+  firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  loop:
+    - http
+    - https
+
+- set_fact:
+    podman_services: "{{ podman_services }} + {{ nginx.service }}"
