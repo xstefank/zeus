@@ -1,4 +1,5 @@
 ---
+podman_services: []
 ares:
   home: "{{ podman_images_home_override | default('/home/jenkins/ares.git') }}"
   owner: "{{ podman_images_user_ovveride | default('jenkins') }}"
