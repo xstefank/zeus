@@ -13,6 +13,12 @@
   notify:
     - restart sshd
 
+- name: "Ensure SSH traffic is allowed"
+  firewalld:
+    service: ssh
+    permanent: yes
+    state: enabled
+
 - name: "Ensure SSHd is running"
   service:
     name: sshd
