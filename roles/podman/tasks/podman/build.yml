@@ -17,6 +17,7 @@
     - res is defined
     - res.stdout_lines is defined
     - not image_id in (res.stdout_lines | last)
+  notify: "Restart podman based services"
 
 - debug:
     msg: "{{ res }}"
