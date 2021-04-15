@@ -50,6 +50,49 @@ jenkins:
         - "{{ ci_job.id }}"
 {% endif %}{% endfor %}
 
+  - dashboard:
+      name: "Failing Jobs"
+      columns:
+{% for col in jenkins.view.tabs.columns  %}
+        - "{{ col }}"
+{% endfor %}
+      includeStdJobList: true
+      jobFilters:
+      - jobStatusFilter:
+          aborted: false
+          disabled: false
+          failed: true
+          includeExcludeTypeString: "includeMatched"
+          stable: false
+          unstable: false
+      - jobStatusFilter:
+          aborted: false
+          disabled: true
+          failed: false
+          includeExcludeTypeString: "excludeMatched"
+          stable: false
+          unstable: false
+      statusFilter: true
+  - dashboard:
+      name: "Bugclerk"
+      columns:
+{% for col in jenkins.view.tabs.columns  %}
+        - "{{ col }}"
+{% endfor %}
+      includeStdJobList: true
+      jobNames:
+{% for ci_job in ci_server.jobs %}{% if ci_job.id.startswith("bugclerk-reports-") %}
+        - "{{ ci_job.id }}"
+{% endif %}{% endfor %}
+      leftPortlets:
+      - unstableJobsPortlet:
+          name: "Unstable Jobs"
+          recurse: false
+          showOnlyFailedJobs: false
+      name: "Bugclerk"
+      rightPortlets:
+      - statBuilds:
+          name: "Build statistics"
   viewsTabBar: "standard"
 tool:
 
