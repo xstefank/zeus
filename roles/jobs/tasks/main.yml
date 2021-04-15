@@ -15,6 +15,8 @@
     group: jenkins
     mode: 0644
   loop: "{{ ci_server.jobs }}"
+  notify:
+    - sync_jobs
   when:
     - ci_server is defined
     - ci_server.jobs is defined
@@ -29,6 +31,8 @@
       group: jenkins
       mode: 0644
     loop: "{{ component_alignment.jobs }}"
+    notify:
+      - sync_jobs
 
   - name: "Generate configfile for jobs"
     template:
@@ -37,6 +41,8 @@
       owner: jenkins
       group: jenkins
       mode: 0644
+    notify:
+     - sync_jobs
   when:
     - component_alignment is defined
     - component_alignment.jobs is defined
@@ -56,14 +62,3 @@
     - { src: 'templates/jobs-sync.sh.j2', dest: '/opt/tools/jobs-sync.sh' }
     - { src: 'podman-jobs-sync.sh.j2', dest: "{{ path_to_jobs_sync_wrapper }}" }
 
-- name: 'Synchronise all jobs'
-  command: "runuser -l jenkins -c {{ path_to_jobs_sync_wrapper }}"
-  register: jobs_sync_results
-  changed_when: False
-  when: ovveride_jobs_sync is not defined
-
-- debug:
-    msg: "{{ jobs_sync_results.stdout_lines }}"
-  when:
-    - jobs_sync_results is defined
-    - jobs_sync_results.stdout_lines is defined

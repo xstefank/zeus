@@ -1,0 +1,3 @@
+---
+- name: sync_jobs
+  include_tasks: sync_jobs.yml

@@ -1,0 +1,12 @@
+---
+- command: "runuser -l jenkins -c {{ path_to_jobs_sync_wrapper }}"
+  register: jobs_sync_results
+  changed_when: False
+  when: 
+    - override_jobs_sync is not defined
+  
+- debug:
+    msg: "{{ jobs_sync_results.stdout_lines }}"
+  when:
+    - jobs_sync_results is defined
+    - jobs_sync_results.stdout_lines is defined
