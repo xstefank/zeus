@@ -20,3 +20,9 @@
     owner: root
     group: root
     mode: 0755
+
+- name: "Add podman based services to systemd"
+  include_role:
+    name: systemd
+    tasks_from: podman.yml
+  loop: "{{ podman_services }}"

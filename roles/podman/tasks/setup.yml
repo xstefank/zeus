@@ -27,7 +27,6 @@
     - { name: podman.socket, enabled: yes, state: started }
     - { name: podman, enabled: yes, state: stopped }
       #    - { name: podman.slice, enabled: yes, state: stopped }
-  register: podman_services
 
 - name: "Ensures jenkins can use podman"
   command: loginctl enable-linger jenkins

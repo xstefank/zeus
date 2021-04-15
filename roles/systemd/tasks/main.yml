@@ -1,9 +1,1 @@
 ---
-- set_fact:
-    podman_home: "{{ podman.home }}"
-
-- debug:
-    msg: "{{ podman_services }}"
-
-- include_tasks: podman.yml
-  loop: "{{ podman_services }}"
