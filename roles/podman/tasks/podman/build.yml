@@ -6,31 +6,33 @@
       - item.tag is defined
       - item.owner is defined
       - podman_build is defined
-      - item.id is defined
     quiet: true
+
+- include_tasks: "podman/inspect.yml"
 
 - name: "Building images for {{ item.name }} [tag: {{ item.tag }}]."
   command: "runuser -l {{ item.owner }} {{ podman_build }} {{ item.name }} {{ item.tag }}"
   register: res
   changed_when:
     - res is defined
-    - res.stdout_lines
-    - not item.id in (res.stdout_lines | last)
+    - res.stdout_lines is defined
+    - not image_id in (res.stdout_lines | last)
 
 - debug:
     msg: "{{ res }}"
-  when: res is defined
+  when: 
+    - res is defined
+    - podman_debug is defined
+    - podman_debug is true
 
-- set_fact:
-    item_image:
-      - { name: "{{ item.tag }}", id: "{{ (res.stdout_lines | last) }}" }
-
-- set_fact:
-    podman_images: "{{ podman_images }} + {{ item_image }}"
-
-- debug:
-    msg: "Images ID fo {{ item.name }}: {{ res.stdout_lines | last }}"
+- block:
+    - set_fact:
+        item_image:
+          - { name: "{{ item.tag }}", id: "{{ image_id }}" }
+  
+    - set_fact:
+        podman_images: "{{ podman_images }} + {{ item_image }}"
   when:
-    - item.name is defined
     - res is defined
     - res.stdout_lines is defined
+    - not image_id in (res.stdout_lines | last)

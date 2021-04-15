@@ -10,8 +10,8 @@ podman:
     user_namespaces_config_file: /etc/sysctl.d/userns.conf
   images:
     remotes:
-      - { name: 'docker.io/library/nginx', id: "{{ podman_image_id_nginx }}" }
+      - { name: 'docker.io/library/nginx' }
     locals:
-      - { name: 'automatons', owner: 'jenkins', tag: 'automatons', id: "{{ podman_image_id_automatons  }}" }
-      - { name: 'hephaestus', owner: 'root', tag: 'hephaestus', id: "{{ podman_image_id_hephaestus  }}" }
-      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb', id: "{{ podman_image_id_jbb  }}" }
+      - { name: 'automatons', owner: 'jenkins', tag: 'automatons' }
+      - { name: 'hephaestus', owner: 'root', tag: 'hephaestus' }
+      - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb' }
