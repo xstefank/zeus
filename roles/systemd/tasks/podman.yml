@@ -21,6 +21,8 @@
     owner: root
     group: root
     mode: 0755
+  notify:
+    - Systemd Daemon reload
 
 - name: "Create symlink for service"
   file:
