@@ -30,9 +30,9 @@
     - java
     - java_certs
     - old_releases
+    - systemd
     - podman
     - monit
-    - systemd
     # stage 3 - auth and sudoers.yml
     - component_alignment
     - pr_processor
