@@ -20,6 +20,10 @@
     url: "{{ config_file_url }}"
     dest: "{{ config_file_path }}"
     validate_certs: no
+  register: res
+  changed_when:
+    - res.checksum_dest != res.checksum_src
+    - not ansible_check_mode
  
 - name: "Ensure config file {{ config_file_path }} has appropriate owner, group and mode."
   file:
