@@ -2,7 +2,7 @@
 podman:
   home: /opt/podman
   packages:
-    - slirp4netns 
+    - slirp4netns
     - podman
     - podman-docker
   kernel:
@@ -13,5 +13,6 @@ podman:
       - { name: 'docker.io/library/nginx' }
     locals:
       - { name: 'automatons', owner: 'jenkins', tag: 'automatons' }
+      - { name: 'bashomatons', owner: 'jenkins', tag: 'bashomatons' }
       - { name: 'hephaestus', owner: 'root', tag: 'hephaestus' }
       - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb' }
