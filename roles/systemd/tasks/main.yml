@@ -1,1 +1,12 @@
 ---
+- name: "Following services needs to be refreshed"
+  debug:
+    msg: "{{ item.name }}"
+  loop: "{{ systemd_services_to_refresh }}"
+  when:
+    - systemd_services_to_refresh is defined
+    - systemd_services_to_refresh | length > 0
+  changed_when:
+    - systemd_services_to_refresh is defined
+    - systemd_services_to_refresh | length > 0
+  notify: "Refresh services"

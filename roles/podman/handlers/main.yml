@@ -3,3 +3,10 @@
   command: >
     sysctl -p  "{{ podman.kernel.user_namespaces_config_file }}"
   changed_when: False
+
+- name: "Restart podman based services"
+  set_fact:
+    systemd_services_to_refresh: "{{ podman_images }}"
+  when:
+    - podman_images is defined
+    - podman_images | length > 0
