@@ -53,6 +53,17 @@
           name: VERSION
           default: "{{ item.version }}"
 {% endif %}
+{% if item.script is defined %}
+      - string:
+          name: PATH_TO_SCRIPT
+          default: "{{ item.script }}"
+{% endif %}
+{% if item.container_image is defined %}
+      - string:
+          name: BUILD_PODMAN_IMAGE
+          default: "{{ item.container_image }}"
+{% endif %}
+
     sandbox: true
     pipeline-scm:
       scm:
