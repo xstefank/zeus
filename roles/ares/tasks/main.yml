@@ -7,6 +7,18 @@
       - ares.git is defined
       - ares.git.repo is defined
       - ares.git.branch is defined
+      - ares.git.keyfile is defined
+    quiet: true
+
+- stat:
+    path: "{{ ares.git.keyfile }}"
+  register: github_keyfile_path
+
+- assert:
+    that:
+      - github_keyfile_path is defined
+      - github_keyfile_path.stat is defined
+      - github_keyfile_path.stat.exists
     quiet: true
 
 - name: "Fetch images defintion from {{ ares.git.repo }} from branch {{ ares.git.branch }}."
