@@ -14,5 +14,6 @@ podman:
     locals:
       - { name: 'automatons', owner: 'jenkins', tag: 'automatons' }
       - { name: 'bashomatons', owner: 'jenkins', tag: 'bashomatons' }
+      - { name: 'yarn-builder', owner: 'jenkins', tag: 'yarn-builder' }
       - { name: 'hephaestus', owner: 'root', tag: 'hephaestus' }
       - { name: 'jenkins-job-builder', owner: 'jenkins', tag: 'jbb' }

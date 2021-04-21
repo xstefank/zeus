@@ -51,10 +51,18 @@
         - { src: templates/commons.d/sites.conf.j2, dest: "{{ nginx_config_dir }}/commons.d/sites.conf" }
         - { src: templates/commons.d/proxy.conf.j2, dest: "{{ nginx_config_dir }}/commons.d/proxy.conf" }
   when: nginx_config_dir_path is defined 
-  
-  # TODO: Replace by boilerplate for podman image to run as a service
-  #- name: "Ensure nginx is running"
-  #  service:
-  #    name: nginx
-  #    state: started
-  #    enabled: yes
+
+#- name: "Ensures that resulting configuration is valid."
+#  include_role:
+#    name: podman
+#    tasks_from: podman/run.yml
+#  vars:
+#    item:
+#      image_name: docker.io/library/nginx
+#      volume:
+#        src: "{{ payload_status.home }}"
+#        dest: /workspace
+#      script: '/build.sh'
+#      owner: "{{ payload_status.owner }}"
+# 
+#        - include_role: 

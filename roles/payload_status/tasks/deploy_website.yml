@@ -1,0 +1,42 @@
+---
+- name: "Build payload_status within podman"
+  include_role:
+    name: podman
+    tasks_from: podman/run.yml
+  vars:
+    item:
+      name: 'yarn-buider'
+      src: "{{ payload_status.home }}"
+      dest: /workspace
+      script: '/build.sh'
+
+- set_fact:
+    build_dir: "{{ payload_status.home }}/build"
+
+- stat:
+    path: "{{ build_dir }}"
+  register: path_to_build_dir
+
+- debug:
+    msg: "{{ path_to_build_dir }}"
+
+- assert:
+    that:
+      - path_to_build_dir is defined
+      - path_to_build_dir.stat is defined
+      - path_to_build_dir.stat.exists
+   quiet: true
+
+- name: "Ensure symlink to nginx docroot is set"
+  file:
+    state: link
+    src: "{{ payload_status.home }}"
+    dest: "{{ nginx.docroot }}/payload_status }}"
+    owner: "{{ nginx.username }}"
+    group: "{{ nginx.groupename }}"
+  when:
+    - path_to_build_dir.stat.exists
+    - nginx is defined
+    - nginx.docroot is defined
+    - nginx.username is defined
+

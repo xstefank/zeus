@@ -32,6 +32,7 @@
     - old_releases
     - systemd
     - podman
+    - payload_status
     - monit
     # stage 3 - auth and sudoers.yml
     - component_alignment

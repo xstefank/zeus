@@ -10,6 +10,14 @@ location /publish {
     autoindex on;
 }
 
+{% if payload_status is defined and payload_status.context is defined %}
+location {{ payload_status.context }} {
+  index /index.html ;
+  access_log /var/log/nginx/payload_status-access.log ;
+  error_log /var/log/nginx/payload_status-error.log ;
+}
+{% endif %}
+
 {% if nginx.caches is defined %}{% for cache in nginx.caches.entry %}location {{ cache.path }} {
    include /etc/nginx/commons.d/maven.cache.conf;
    proxy_pass {{ cache.url }};

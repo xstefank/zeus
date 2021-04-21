@@ -1,0 +1,121 @@
+---
+- assert:
+    that:
+      - ares.home is defined
+      - ares.home != ""
+    quiet: true
+
+- stat:
+    path: "{{ ares.home }}"
+  register: ares_home
+ 
+- debug:
+    msg: "{{ ares_home }}"
+
+- assert:
+    that:
+      - ares_home is defined
+      - ares_home.stat is defined
+      - ares_home.stat.exists
+    quiet: true
+
+- stat:
+    path: "{{ payload_status.git.keyfile}}"
+  register: github_keyfile_path
+
+- assert:
+    that:
+      - github_keyfile_path is defined
+      - github_keyfile_path.stat is defined
+      - github_keyfile_path.stat.exists
+    quiet: true
+
+- name: "Checkout payload_status from git: {{ payload_status.git.url }}"
+  git:
+    repo: "{{ payload_status.git.url }}"
+    dest: "{{ payload_status.home }}"
+    version: "{{ payload_status.git.version }}"
+    key_file: "{{ payload_status.git.keyfile }}"
+  register: git_results
+
+- debug:
+    msg: "{{ git_results.changed }}"
+
+- name: "Ensure {{ payload_status.home }} belongs to {{ payload_status.owner }}"
+  file:
+    path: "{{ payload_status.home }}"
+    recurse: yes
+    owner: "{{ payload_status.owner }}"
+    group: "{{ payload_status.group }}"
+  changed_when: false # weirdly this task always ends up in changed=true
+
+- name: "Ensures yarn build env vars are set"
+  template:
+    src: templates/env.j2
+    dest: "{{ payload_status.home }}/.env"
+    owner: "{{ payload_status.owner }}"
+    group: "{{ payload_status.group }}"
+
+- name: "Build payload_status within podman"
+  include_role:
+    name: podman
+    tasks_from: podman/run.yml
+  vars:
+    item:
+      image_name: localhost/yarn-builder
+      volume:
+        src: "{{ payload_status.home }}"
+        dest: /workspace
+      script: '/build.sh'
+      owner: "{{ payload_status.owner }}"
+  when:
+    - git_results.changed
+
+- set_fact:
+    build_dir: "{{ payload_status.home }}/build"
+
+- stat:
+    path: "{{ build_dir }}"
+  register: path_to_build_dir
+
+- assert:
+    that:
+      - path_to_build_dir is defined
+      - path_to_build_dir.stat is defined
+      - path_to_build_dir.stat.exists
+    quiet: true
+
+- set_fact:
+    payload_status_deploy_dir: "{{ nginx.docroot }}/payload-status"
+  when:
+    - nginx is defined
+    - nginx.docroot is defined
+
+- name: "Delete previous deployment"
+  file:
+    state: absent
+    path: "{{ payload_status_deploy_dir }}"
+  when:
+    - git_results.changed
+
+- stat:
+    path: "{{ payload_status_deploy_dir }}"
+  register: path_to_payload_status_deploy_dir
+
+- name: "Create new deployment dir if needed"
+  block:
+    - file:
+        state: directory
+        path: "{{ payload_status_deploy_dir }}"
+        owner: "{{ nginx.username }}"
+        group: "{{ nginx.groupname }}"
+
+    - command: "rsync -Avrz {{ build_dir }}/ {{ nginx.docroot }}/payload-status/"
+      register: rsync_results
+
+    - debug:
+        msg: "{{ rsync_results }}"
+  when:
+    - path_to_payload_status_deploy_dir is defined
+    - path_to_payload_status_deploy_dir.stat is defined
+    - not path_to_payload_status_deploy_dir.stat.exists
