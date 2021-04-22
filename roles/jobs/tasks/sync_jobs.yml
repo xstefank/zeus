@@ -1,10 +1,16 @@
 ---
-- command: "runuser -l jenkins -c {{ path_to_jobs_sync_wrapper }}"
+- debug:
+    msg: "{{ jenkins_jobs_to_update_list }}"
+
+- command: "runuser -l jenkins -c {{ path_to_jobs_sync_wrapper }} {{ item }}"
   register: jobs_sync_results
   changed_when: False
-  when: 
+  loop: "{{ jenkins_jobs_to_update_list }}"
+  when:
     - override_jobs_sync is not defined
-  
+    - jenkins_jobs_to_update_list is defined
+    - jenkins_jobs_to_update_list | length > 0
+
 - debug:
     msg: "{{ jobs_sync_results.stdout_lines }}"
   when:

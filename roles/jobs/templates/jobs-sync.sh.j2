@@ -1,16 +1,24 @@
 #!/bin/bash
 set -euo pipefail
 
-for job in *.yml
-do
-  job_name="${job%.yml}"
-  echo -n "Checking config for ${job_name}..."
-  jenkins-jobs test "${job}" > /dev/null 2>&1 | sed -e '/INFO:/d'
-  echo "Done."
-  echo -n "Updating job ${job_name}..."
-  jenkins-jobs update "${job}" 2>&1 | sed -e '/^INFO:/d'
-  echo "Done"
+printSeparationLine() {
   echo '---------------------------'
-  sleep 2
-  echo
-done
+}
+
+readonly JOB_ID=${1}
+
+if [ -z "${JOB_ID}" ]; then
+  echo 'No JOB_ID provided - abort.'
+  exit 1
+fi
+
+printSeparationLine
+job_file="${JOB_ID}.yml"
+echo -n "Checking config for ${job_file}..."
+jenkins-jobs test "${job_file}" > /dev/null 2>&1 | sed -e '/INFO:/d'
+echo 'Done.'
+echo -n "Updating job ${job_file}..."
+jenkins-jobs update "${job_file}" 2>&1 | sed -e '/^INFO:/d'
+echo 'Done.'
+printSeparationLine
+echo

@@ -1,0 +1,11 @@
+---
+- name: "Deploy scripts for jobs_sync"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: jenkins
+    group: jenkins
+    mode: '0755'
+  loop:
+    - { src: 'templates/jobs-sync.sh.j2', dest: '/opt/tools/jobs-sync.sh' }
+    - { src: 'podman-jobs-sync.sh.j2', dest: '/opt/tools/podman-jobs-sync.sh' }

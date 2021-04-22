@@ -7,32 +7,25 @@
     group: jenkins
     mode: 0755
 
-- name: "Ensure job definitions for mvn builds exists"
-  template:
-    src: templates/job-template.yml.j2
-    dest: "{{ jenkins.jobs_home }}/{{ item.id }}.yml"
-    owner: jenkins
-    group: jenkins
-    mode: 0644
+- include_tasks: job-sync-deploy.yml
+
+- include_tasks: jobs_config.yml
   loop: "{{ ci_server.jobs }}"
-  notify:
-    - sync_jobs
   when:
     - ci_server is defined
     - ci_server.jobs is defined
-    - ci_server.jobs | length > 0
+    - ci_server.jobs | length > 1
 
 - block:
-  - name: "Ensure job definitions for component-alignment builds exists"
-    template:
-      src: templates/job-template.yml.j2
-      dest: "{{ jenkins.jobs_home }}/{{ item.id }}.yml"
-      owner: jenkins
-      group: jenkins
-      mode: 0644
+  - include_tasks: jobs_config.yml
     loop: "{{ component_alignment.jobs }}"
-    notify:
-      - sync_jobs
+    when:
+      - ci_server is defined
+      - component_alignment.jobs is defined
+      - component_alignment.jobs | length > 1
+
+    vars:
+      jobs_list: "{{ component_alignment.jobs }}"
 
   - name: "Generate configfile for jobs"
     template:
@@ -41,24 +34,9 @@
       owner: jenkins
       group: jenkins
       mode: 0644
-    notify:
-     - sync_jobs
+        #    notify:
+        #- sync_all_jobs
   when:
-    - component_alignment is defined
-    - component_alignment.jobs is defined
-    - component_alignment.jobs | length > 0
-
-- set_fact:
-    path_to_jobs_sync_wrapper: '/opt/tools/podman-jobs-sync.sh'
-
-- name: Copy file with owner and permissions
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: jenkins
-    group: jenkins
-    mode: '0755'
-  loop:
-    - { src: 'templates/jobs-sync.sh.j2', dest: '/opt/tools/jobs-sync.sh' }
-    - { src: 'podman-jobs-sync.sh.j2', dest: "{{ path_to_jobs_sync_wrapper }}" }
+   - component_alignment is defined
+   - component_alignment.jobs is defined
 

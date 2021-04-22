@@ -1,38 +1,6 @@
 ---
-jenkins:
-  groupname: "{{ override_jenkins_group | default('jenkins') }}"
-  bind_addr: "{{ override_jenkins_bind_addr | default('localhost') }}"
-  port: "{{ override_jenkins_port | default('8080') }}"
-  username: "{{ override_jenkins_name | default('jenkins') }}"
-  uid: "{{ override_jenkins_uid | default(1000)  }}"
-  gid: "{{ override_jenkins_gid | default(1000)  }}"
-  home: "{{ override_jenkins_home | default('/home/jenkins') }}"
-  jobs_home: "{{ override_jobs_home | default('/home/jenkins/jobs_definitions/') }}"
-  default_jdk_home: '/opt/oracle/java'
-  default_mvn_home: '/opt/tools/apache-maven-3.6.3'
-  default_mvn_settings: '/opt/tools/settings.xml'
-  admin:
-    id: 'admin'
-    password: "{{ override_jenkins_password }}"
-  view:
-    streams:
-      - eap-7.1.x
-      - eap-7.2.x
-      - eap-7.3.x
-      - wildfly
-      - xp-2.0.x
-    tabs:
-      columns:
-        - "status"
-        - "weather"
-        - "jobName"
-        - "lastSuccess"
-        - "lastFailure"
-        - "lastDuration"
-        - "buildButton"
-
+jenkins_jobs_to_update_list: []
 jenkinsfile:
   git_repo: "{{ override_jenkinsfile_git_repo | default('https://github.com/jboss-set/cedalion') }}"
   path: "{{ override_jenkinsfile_path | default('Jenkinsfile') }}"
   eap_repo: "{{ git_repo_for_eap }}"
-  
