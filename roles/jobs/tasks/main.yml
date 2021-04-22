@@ -1,7 +1,7 @@
 ---
-- name: "Ensure jobs defs directory exists: {{ jenkins.jobs_home }}"
+- name: "Ensure jobs defs directory exists: {{ jobs.descriptors.home }}"
   file:
-    path: "{{ jenkins.jobs_home }}"
+    path: "{{ jobs.descriptors.home }}"
     state: directory
     owner: jenkins
     group: jenkins
@@ -34,9 +34,12 @@
       owner: jenkins
       group: jenkins
       mode: 0644
-        #    notify:
-        #- sync_all_jobs
   when:
    - component_alignment is defined
    - component_alignment.jobs is defined
+
+- name: "Ensure that all jobs with a descriptor exists on server"
+  include_tasks: sync_jobs.yml
+  vars:
+    item: ""
 

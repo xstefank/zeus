@@ -2,7 +2,7 @@
 - name: "Generating job configuration for {{ item.id }}"
   template:
     src: templates/job-template.yml.j2
-    dest: "{{ jenkins.jobs_home }}/{{ item.id }}.yml"
+    dest: "{{ jobs.descriptors.home }}/{{ item.id }}.yml"
     owner: jenkins
     group: jenkins
     mode: 0644

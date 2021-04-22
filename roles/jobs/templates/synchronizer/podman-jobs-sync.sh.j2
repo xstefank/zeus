@@ -1,0 +1,6 @@
+#!/bin/bash
+podman run --add-host={{  known_hosts.server.name }}:{{ known_hosts.server.ip }} \
+	   --workdir={{ jobs.descriptors.home }} \
+	   -v {{ jobs.descriptors.home }}:{{ jobs.descriptors.home }}:rw \
+ 	   -v {{ jobs.synchronizer.home }}:{{ jobs.synchronizer.home }}:ro \
+	   -t localhost/jbb {{ jobs.synchronizer.home }}/{{ jobs.synchronizer.script.name }} ${@}

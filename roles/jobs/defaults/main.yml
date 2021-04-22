@@ -1,5 +1,16 @@
 ---
 jenkins_jobs_to_update_list: []
+jobs:
+  descriptors:
+    home: "{{ override_jobs_home | default('/home/jenkins/jobs_definition') }}"
+  synchronizer:
+    home: "{{ override_jobs_synchronizer | default('/opt/tools/jobs-synchronizer/') }}"
+    script:
+      src: 'templates/synchronizer/jobs-sync.sh.j2' 
+      name: 'jobs-sync.sh'
+    container:
+      src: 'templates/synchronizer/podman-jobs-sync.sh.j2'
+      name: 'podman-jobs-sync.sh'
 jenkinsfile:
   git_repo: "{{ override_jenkinsfile_git_repo | default('https://github.com/jboss-set/cedalion') }}"
   path: "{{ override_jenkinsfile_path | default('Jenkinsfile') }}"

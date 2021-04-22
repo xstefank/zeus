@@ -2,17 +2,14 @@
 - debug:
     msg: "{{ jenkins_jobs_to_update_list }}"
 
-- command: "runuser -l jenkins -c {{ path_to_jobs_sync_wrapper }} {{ item }}"
+- command: "runuser -l jenkins -c '{{ jobs.synchronizer.home }}/{{ jobs.synchronizer.container.name }} {{ item }}'"
   register: jobs_sync_results
   changed_when: False
-  loop: "{{ jenkins_jobs_to_update_list }}"
-  when:
-    - override_jobs_sync is not defined
-    - jenkins_jobs_to_update_list is defined
-    - jenkins_jobs_to_update_list | length > 0
 
 - debug:
     msg: "{{ jobs_sync_results.stdout_lines }}"
+  changed_when: 
+    - jobs_sync_results.stdout_lines | length > 0
   when:
     - jobs_sync_results is defined
     - jobs_sync_results.stdout_lines is defined
