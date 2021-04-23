@@ -68,21 +68,24 @@ setupAnsibleVars() {
 fixupUserUsingJenkinsUID() {
   local uid='1000'
   local guid='1000'
+  local id_shift='666'
   local uid_file=/etc/passwd
 
   set -e
-  res=$(grep -e "${uid}" ${uid_file} | wc -l)
+  res=$(grep -c -e "${uid}" ${uid_file} )
   if [ "${res}" -eq 1 ]; then
     username=$(echo "${res}" | cut -f1 -d: )
     echo "user ${username} already uses UID ${uid}. Kill all tied process before uid change..."
-    pids=$(ps -eF | grep "^${username}" | sed -e "s/^${username} *//" | cut -f1 -d\  )
+    pids=$(pgrep -u "${username}" )
+    # shellcheck disable=SC2086
     kill ${pids}
+    # shellcheck disable=SC2086
     kill -9 ${pids}
     set +e
-    usermod -u 3000 "${username}"
-    groupmod -g 3000 "${username}"
+    usermod -u $(( "${uid}" + "${id_shift}" )) "${username}"
+    groupmod -g $(( "${guid}" + "${id_shift}" )) "${username}"
   fi
-  
+
 }
 
 registrationAndSubs "${USERNAME}" "${RHN_PASSWORD}" "${POOL_ID}" "${REPO_TO_ENABLE}"
