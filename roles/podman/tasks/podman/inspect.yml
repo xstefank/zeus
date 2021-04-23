@@ -21,7 +21,7 @@
     - inspect_results.stdout != ""
 
 - set_fact:
-    image_id: -1
+    image_id: "no image exists for {{ item.tag }}"
   when:
     - image_id is not defined
 
