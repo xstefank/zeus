@@ -3,9 +3,9 @@
   command: >
     yum module install -y container-tools
   args:
-    creates: /usr/lib/python3.6/site-packages/podman/ 
+    creates: /usr/lib/python3.6/site-packages/podman/
 
-- include_role: 
+- include_role:
     name: fast_yum_install
   vars:
     package_name: "{{ item }}"
