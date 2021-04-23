@@ -10,7 +10,7 @@
 
 - include_tasks: "podman/inspect.yml"
 
-- name: "Building images for {{ item.name }} [tag: {{ item.tag }}]."
+- name: "Building image for {{ item.name }} [tag: {{ item.tag }}]."
   command: "runuser -l {{ item.owner }} {{ podman_build }} {{ item.name }} {{ item.tag }}"
   register: res
   changed_when:
