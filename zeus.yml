@@ -13,6 +13,7 @@
       - vars/jobs.yml
       - vars/component-alignment.yml
       - vars/mailer.yml
+      - vars/ldap.yml
   roles:
     # stage 1 - OS settings and optimizations
     - selinux

@@ -15,6 +15,14 @@ jenkins:
   admin:
     id: 'admin'
     password: "{{ override_jenkins_password }}"
+  ldap:
+    search:
+      group:
+        base: "{{ override_ldap_group_search_base | default('') }}"
+        filter: "{{ override_ldap_group_search_filter | default('') }}"
+    inhibit_root_dn: false
+    rootDn: "{{ override_ldap_root_dn | default('') }}"
+    url: "{{ override_ldap_url | default('') }}"
   view:
     streams:
       - eap-7.1.x

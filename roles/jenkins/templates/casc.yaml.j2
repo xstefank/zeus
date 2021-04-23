@@ -1,10 +1,21 @@
 jenkins:
+  numExecutors: {{ jenkins.executors.num }}
+{% if jenkins.ldap.url is defined and jenkins.ldap.url != ""  %}
   securityRealm:
+    ldap:
+      configurations:
+      - groupSearchBase: "{{ jenkins.ldap.search.group.base }}"
+        groupSearchFilter: "{{ jenkins.ldap.search.group.filter }}"
+        inhibitInferRootDN: false
+        rootDN: "{{ jenkins.ldap.rootDn }}"
+        server: "{{ jenkins.ldap.url }}"
+{% else %}
     local:
       allowsSignup: false
       users:
        - id: {{ jenkins.admin.id }}
          password: {{ jenkins.admin.password }}
+{% endif %}
   views:
   - all:
       name: "all"
