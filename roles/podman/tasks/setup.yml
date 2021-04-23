@@ -31,3 +31,11 @@
 - name: "Ensures jenkins can use podman"
   command: loginctl enable-linger jenkins
   changed_when: false
+
+- name: "Ensures any user can access podman keys (podman pull)"
+  file:
+    dest: /etc/docker/certs.d/
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    recurse: yes
