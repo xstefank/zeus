@@ -1,0 +1,8 @@
+---
+- name: "Ensures gitconfig is deployed for user root"
+  template:
+    src: templates/gitconfig.j2
+    dest: /root/.gitconfig
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r

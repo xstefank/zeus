@@ -1,0 +1,30 @@
+---
+- assert:
+    that:
+      - item is defined
+      - item.ssh_home is defined
+      - item.ssh_home != ""
+      - item.ssh_user is defined
+      - item.ssh_user != ""
+      - ssh is defined
+      - ssh.hosts is defined
+    quiet: true
+
+- name: "Deploy identity file into {{ item.ssh_home }}"
+  copy:
+    src: vars/files/jboss_set_github_rsa
+    dest: "{{ item.ssh_home }}/.ssh/jboss_set_github_rsa"
+    owner: "{{ item.ssh_user }}"
+    group: "{{ item.ssh_user }}"
+    mode: 0400
+
+- name: "Deploy ssh config for user jenkins"
+  template:
+    src: templates/config.j2
+    dest: "{{ item.ssh_home }}/.ssh/config"
+    owner: "{{ item.ssh_user }}"
+    group: "{{ item.ssh_user }}"
+    mode: 0600
+  loop: "{{ ssh.hosts }}"
+  loop_control:
+    loop_var: host
