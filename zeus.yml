@@ -27,6 +27,7 @@
     - ssh
     - ares
     - jenkins
+    - jenkins_job_builder
     - nginx
     - java
     - java_certs

@@ -7,7 +7,7 @@
     quiet: true
 
 - name: "Deploy Jenkins Job builder configuration file into {{ ares.home }}"
-  templates:
+  template:
     src: templates/jenkins_jobs.ini.j2
     dest: "{{ ares.home }}/jenkins-job-builder/jenkins_jobs.ini"
     owner: "{{ ares.owner }}"
