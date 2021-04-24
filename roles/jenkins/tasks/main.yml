@@ -12,7 +12,17 @@
       - jenkins.uid | length > 0
       - jenkins.home is defined
       - jenkins.home != ""
+      - jenkins.tools is defined
+      - jenkins.tools.home is defined
+      - jenkins.tools.home != ""
     quiet: true
+
+- name: "Ensures tools home directory ({{ jenkins.tools.home }} exists."
+  file:
+    state: directory
+    path: "{{ jenkins.tools.home }}"
+    owner: "{{ jenkins.username }}"
+    group: "{{ jenkins.username }}"
 
 - name: "Deploy missing configuration file for Jenkins into {{ ares.home }}."
   template:
