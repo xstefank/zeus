@@ -33,7 +33,9 @@
   register: archive 
 
 - name: "Download archive from {{ item.source }}"
-  command: wget -q -O {{ path_to_archive }} {{ item.source }}
+  get_url:
+    url: "{{ item.source }}"
+    dest: "{{ path_to_archive }}"
   register: archive_download
   when:
     - archive.stat is defined
@@ -44,7 +46,19 @@
   register: path_to_home
 
 - name: "Unpack archive {{ path_to_archive }}"
-  command: "tar -zxf {{ path_to_archive }} -C {{ item.home }}"
+  block:
+    - name: "Deleting previous folder if existing {{ item.home }}"
+      file:
+        state: absent
+        path: "{{ item.home }}"
+    
+    - name: "Create home directory {{ item.home }}"
+      file:
+        state: directory
+        path: "{{ item.home }}"
+
+    - name: "Decompress archive {{ path_to_archive }}"
+      command: "tar xvfz {{ path_to_archive }} -C {{ item.home }}"
   when: 
     - archive_download is defined
     - path_to_home.stat is defined

@@ -15,7 +15,9 @@
   register: path_to_jdk_archive 
 
 - name: "Download jdk from {{ item.source }}"
-  command: wget -q -O {{ jdk_archive }} {{ item.source }}
+  get_url:
+    url: "{{ item.source }}"
+    dest: "{{ jdk_archive }"
   register: jdk_download
   when:
     - path_to_jdk_archive.stat is defined
@@ -32,8 +34,15 @@
     owner: "{{ item.owner }}"
     group: "{{ item.owner }}"
 
-- name: "Unpack archive {{ jdk_archive }}"
-  command: "tar -zxf {{ jdk_archive }} -C {{ item.java_home }}"
+- name: "Deploy jdk {{ item.java_home }}"
+  block:
+    - name: "Deleting {{ item.java_home }} if already exists"
+      file:
+        state: absent
+        path: "{{ item.java_home }}"
+
+    - name: "Unpack archive {{ jdk_archive }}"
+      command: "tar xvfz {{ jdk_archive }} -C {{ item.java_home }}"
   when: 
     - jdk_download is defined
     - path_to_java_home.stat is defined
