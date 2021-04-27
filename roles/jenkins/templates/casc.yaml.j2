@@ -1,7 +1,7 @@
 jenkins:
   numExecutors: {{ jenkins.executors.num }}
-{% if jenkins.ldap.url is defined and jenkins.ldap.url != ""  %}
   securityRealm:
+{% if jenkins.ldap.url is defined and jenkins.ldap.url != ""  %}
     ldap:
       configurations:
       - groupSearchBase: "{{ jenkins.ldap.search.group.base }}"
