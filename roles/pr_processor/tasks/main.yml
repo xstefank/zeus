@@ -24,7 +24,12 @@
     owner: "{{ pr_processor.owner }}"
     group: "{{ pr_processor.group }}"
     mode: 0755
+  retries: 3
+  delay: 5
   register: res
   changed_when:
+    - res is defined
+    - res.checksum_dest is defined
+    - res.checksum_src is defined
     - res.checksum_dest != res.checksum_src
     - not ansible_check_mode
