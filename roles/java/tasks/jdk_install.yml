@@ -42,8 +42,11 @@
         path: "{{ item.java_home }}"
 
     - name: "Unpack archive {{ jdk_archive }}"
-      command: "tar xvfz {{ jdk_archive }} -C {{ item.java_home }}"
-  when: 
+      unarchive:
+        src: "{{ jdk_archive }}"
+        dest: /opt/oracle
+        remote_src: true
+  when:
     - jdk_download is defined
     - path_to_java_home.stat is defined
     - not path_to_java_home.stat.exists
