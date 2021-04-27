@@ -9,9 +9,6 @@
     path: "{{ ares.home }}"
   register: ares_home
  
-- debug:
-    msg: "{{ ares_home }}"
-
 - assert:
     that:
       - ares_home is defined
@@ -37,9 +34,6 @@
     version: "{{ payload_status.git.version }}"
     key_file: "{{ payload_status.git.keyfile }}"
   register: git_results
-
-- debug:
-    msg: "{{ git_results.changed }}"
 
 - name: "Ensure {{ payload_status.home }} belongs to {{ payload_status.owner }}"
   file:
@@ -112,9 +106,6 @@
 
     - command: "rsync -Avrz {{ build_dir }}/ {{ nginx.docroot }}/payload-status/"
       register: rsync_results
-
-    - debug:
-        msg: "{{ rsync_results }}"
   when:
     - path_to_payload_status_deploy_dir is defined
     - path_to_payload_status_deploy_dir.stat is defined
