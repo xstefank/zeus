@@ -1,4 +1,12 @@
 ---
+- name: "Podman based services under Systemd control:"
+  debug:
+    msg: "- {{ item.name }}"
+  loop: "{{ podman_services }}"
+
+- include_tasks: podman.yml
+  loop: "{{ podman_services }}"
+
 - name: "Following services needs to be refreshed"
   debug:
     msg: "{{ item.name }}"
@@ -10,3 +18,10 @@
     - systemd_services_to_refresh is defined
     - systemd_services_to_refresh | length > 0
   notify: "Refresh services"
+
+- name: "Ensures podman_services are running"
+  service:
+    name: "{{ item.name }}"
+    state: started
+    enabled: yes
+  loop: "{{ podman_services }}"
