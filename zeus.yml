@@ -22,6 +22,7 @@
     - kdump
     - sysctl
     - tuned
+    - hosts
     # stage 2 - main services
     - git
     - sshd

@@ -1,0 +1,24 @@
+---
+
+#- name: Add IP addressies of all known hosts
+#  lineinfile:
+#    dest: /etc/hosts
+#    regexp: '.*{{ item }}$'
+#    line: "{{ hostvars[item].ansible_host }} {{item}}"
+#    state: present
+#  when: hostvars[item].ansible_host is defined
+#  with_items: "{{ groups.all }}"
+- block:
+  - name: Add Ansible inventory mappings to /etc/hosts
+    become: true
+    blockinfile:
+      path: /etc/hosts
+      block: |
+        {% for host in hosts.list %}
+        {{ host.ip }} {{ host.names }}
+        {% endfor %}
+  when:
+    - hosts is defined
+    - hosts.list is defined
+    - hosts.list is iterable
+    - hosts.list | length > 0
