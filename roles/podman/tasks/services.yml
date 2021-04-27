@@ -3,6 +3,8 @@
     that:
       - podman is defined
       - podman.home is defined
+      - podman_services is defined
+      - podman_services | length > 0
     quiet: yes
 
 - name: "Ensure podman home is created: {{ podman.home }}"
