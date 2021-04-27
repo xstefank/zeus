@@ -41,6 +41,5 @@
     owner: "{{ jenkins.username }}"
     group: "{{ jenkins.groupname }}"
 
-
 - set_fact:
      podman_services: "{{ podman_services }} + {{ jenkins.service }}"
