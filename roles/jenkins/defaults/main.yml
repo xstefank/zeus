@@ -12,7 +12,7 @@ jenkins:
   executors:
     num: "{{ override_jenkins_num_executors | default(4) }}"
   default_jdk_home: '/opt/oracle/java'
-  default_mvn_home: '/opt/tools/apache-maven-3.6.3'
+  default_mvn_home: '/opt/apache/maven'
   default_mvn_settings: '/opt/tools/settings.xml'
   admin:
     id: 'admin'

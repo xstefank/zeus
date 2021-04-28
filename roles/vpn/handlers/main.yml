@@ -1,0 +1,5 @@
+---
+- name: nmcli-connection-reload
+  command: >
+    nmcli connection reload
+
