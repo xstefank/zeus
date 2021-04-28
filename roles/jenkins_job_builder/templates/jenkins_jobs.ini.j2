@@ -8,5 +8,5 @@ allow_duplicates=False
 update=all
 
 [jenkins]
-url=http://{{ ansible_nodename }}/jenkins/
+url=http://{{ override_jenkins_bind_addr }}:8080/jenkins/
 query_plugins_info=False
