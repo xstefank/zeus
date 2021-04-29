@@ -27,6 +27,10 @@
       - github_keyfile_path.stat.exists
     quiet: true
 
+- stat:
+    path: "{{ payload_status.home }}/build"
+  register: payload_build_dir_path
+
 - name: "Checkout payload_status from git: {{ payload_status.git.url }}"
   git:
     repo: "{{ payload_status.git.url }}"
@@ -34,6 +38,10 @@
     version: "{{ payload_status.git.version }}"
     key_file: "{{ payload_status.git.keyfile }}"
   register: git_results
+  when:
+    - payload_build_dir_path is defined
+    - payload_build_dir_path.stat is defined
+    - not payload_build_dir_path.stat.exists
 
 - name: "Ensure {{ payload_status.home }} belongs to {{ payload_status.owner }}"
   file:
