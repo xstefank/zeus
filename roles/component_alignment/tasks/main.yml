@@ -3,31 +3,42 @@
 - assert:
     that:
       - component_alignment is defined
+      - component_alignment.home is defined
+      - component_alignment.home != ""
       - component_alignment.url is defined
       - component_alignment.path is defined
       - component_alignment.config is defined
       - component_alignment.config.dir is defined
-    quiet: true 
+    quiet: true
+
+- name: "Ensures component alignment home exists: {{ component_alignment.home }}"
+  file:
+    state: directory
+    path: "{{ component_alignment.home }}"
+    owner: "{{ component_alignment.owner }}"
+    group: "{{ component_alignment.group }}"
 
 - name: "Fetch component-alignment jar from {{ component_alignment.url }}"
   get_url:
     url: "{{ component_alignment.url }}"
     dest: "{{ component_alignment.path }}"
+  retries: 3
+  delay: 5
 
 - name: "Ensure {{ component_alignment.path }} has the appropriate owner, groups and privilege"
   file:
     path: "{{ component_alignment.path }}"
-    owner: jenkins
-    group: jenkins
+    owner: "{{ component_alignment.owner }}"
+    group: "{{ component_alignment.group }}"
     mode: 0644
 
 - name: "Ensure component_alignment.config.dir }} exists"
   file:
     state: directory
     path: "{{ component_alignment.config.dir }}"
-    owner: jenkins
-    group: jenkins
-    mode: 0755 
+    owner: "{{ component_alignment.owner }}"
+    group: "{{ component_alignment.group }}"
+    mode: 0755
 
 - include_tasks: tasks/deploy_config.yml
-  loop: "{{ component_alignment.config.files }}"    
+  loop: "{{ component_alignment.config.files }}"
