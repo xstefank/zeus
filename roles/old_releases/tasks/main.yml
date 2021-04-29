@@ -25,6 +25,8 @@
     get_url:
       url: "{{ old_releases.url }}/eap7/{{ item }}/jboss-eap-{{ item }}.zip"
       dest: "{{ old_releases.dir }}/jboss-eap-{{ item }}.zip"
+    retries: 3
+    delay: 5
     with_items:
       - 7.0.0
       - 7.1.0
@@ -34,6 +36,8 @@
     get_url:
       url: "{{ old_releases.url }}/eap6/{{ item }}/jboss-eap-{{ item }}.zip"
       dest: "{{ old_releases.dir }}/jboss-eap-{{ item }}.zip"
+    retries: 3
+    delay: 5
     with_items:
       - 6.1.0
       - 6.1.1
@@ -46,6 +50,8 @@
     get_url:
       url: "{{ old_releases.url }}/eap6/{{ item }}/zip/jboss-eap-{{ item }}.zip"
       dest: "{{ old_releases.dir }}/jboss-eap-{{ item }}.zip"
+    retries: 3
+    delay: 5
     with_items:
       - 6.0.0
       - 6.0.1
