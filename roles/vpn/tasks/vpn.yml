@@ -1,0 +1,45 @@
+---
+
+- stat:
+    path: /etc/yum.repos.d/epel.repo
+  register: epel_path
+
+- assert:
+    that:
+      - epel_path is defined
+      - epel_path.stat is defined
+    quiet: true
+
+- name: "Ensures EPEL repo are installed: {{ vpn.epel.url }}"
+  yum: 
+    name: "{{ vpn.epel.url }}"
+    state: present
+  when: 
+    - not epel_path.stat.exists
+
+- include_role:
+    name: fast_yum_install
+  vars:
+    package_name: NetworkManager-openvpn
+
+
+- name: "Ensures OpenVPN settings exists."
+  template:
+    src: "{{ vpn.ovpn.file }}"
+    dest: /etc/NetworkManager/system-connections/
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - 'nmcli-connection-reload'
+
+- name: "Deploy VPN pem"
+  copy:
+    src: "{{ vpn.pem.file }}"
+    dest: /etc/pki/tls/certs/
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - 'nmcli-connection-reload'
+

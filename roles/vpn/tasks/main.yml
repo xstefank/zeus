@@ -1,26 +1,5 @@
 ---
-- include_role:
-    name: fast_yum_install
-  vars:
-    package_name: NetworkManager-openvpn
-
-- name: "Ensures OpenVPN settings exists."
-  template:
-    src: "{{ vpn.ovpn.file }}"
-    dest: /etc/NetworkManager/system-connections/
-    owner: root
-    group: root
-    mode: 0600
-  notify:
-    - 'nmcli-connection-reload'
-
-- name: "Deploy VPN pem"
-  copy:
-    src: "{{ vpn.pem.file }}"
-    dest: /etc/pki/tls/certs/,
-    owner: root
-    group: root
-    mode: 0644
-  notify:
-    - 'nmcli-connection-reload'
-
+- include_tasks: tasks/vpn.yml
+  when:
+    - vpn_is_required is defined
+    - vpn_is_required
