@@ -32,8 +32,8 @@
     - java
     - java_certs
     - old_releases
-    - systemd
     - podman
+    - systemd
     - payload_status
     - monit
     # stage 3 - auth and sudoers.yml
