@@ -22,6 +22,9 @@
   get_url:
     url: "{{ component_alignment.url }}"
     dest: "{{ component_alignment.path }}"
+    owner: "{{ component_alignment.owner }}"
+    group: "{{ component_alignment.group }}"
+    mode: 0755
   retries: 3
   delay: 5
 
