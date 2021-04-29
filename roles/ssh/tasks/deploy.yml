@@ -10,6 +10,13 @@
       - ssh.hosts is defined
     quiet: true
 
+- name: "Ensure {{ item.ssh_home }}/.ssh exists."
+  file:
+    path: "{{ item.ssh_home }}/.ssh"
+    state: directory
+    owner: "{{ item.ssh_user }}"
+    group: "{{ item.ssh_user }}"
+
 - name: "Deploy identity file into {{ item.ssh_home }}"
   copy:
     src: vars/files/jboss_set_github_rsa
