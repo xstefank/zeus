@@ -63,6 +63,11 @@
           name: BUILD_PODMAN_IMAGE
           default: "{{ item.container_image }}"
 {% endif %}
+{% if item.id.startswith('component-alignment') and component_alignment.config.loggerurl is defined %}
+      - string:
+          name: COMPONENT_UPGRADE_LOGGER
+          default: "{{ component_alignment.config.loggerurl }}"
+{% endif %}
 
     sandbox: true
     pipeline-scm:
