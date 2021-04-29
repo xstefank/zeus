@@ -2,6 +2,12 @@
 git:
   ssl:
     verify: false
-  root:
-    email: rpelisse@redhat.com
-    name: 'Romain Pelisse'
+  users:
+    - user: root
+      email: rpelisse@redhat.com
+      name: 'Romain Pelisse'
+      home: /root
+    - user: jenkins    
+      email: jboss-set@redhat.com
+      name: "JBoss SET"
+      home: /home/jenkins

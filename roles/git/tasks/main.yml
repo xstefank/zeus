@@ -1,8 +1,14 @@
 ---
+- include_role:
+    name: fast_yum_install
+  vars:
+    package_name: git
+  
 - name: "Ensures gitconfig is deployed for user root"
   template:
     src: templates/gitconfig.j2
-    dest: /root/.gitconfig
-    owner: root
-    group: root
+    dest: "{{ item.home }}/.gitconfig"
+    owner: "{{ item.user }}"
+    group: "{{ item.user }}"
     mode: u=rw,g=r,o=r
+  loop: "{{ git.users }}"

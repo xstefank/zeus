@@ -23,6 +23,7 @@
     - sysctl
     - tuned
     # stage 2 - main services
+    - git
     - sshd
     - ssh
     - ares
@@ -55,6 +56,8 @@
           group: "{{ override_jenkins_group }}"
           gid: "{{ override_jenkins_gid }}"
           home: /home/jenkins
+
+
 
 #    - include_role:
 #        name: account
