@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>{{ ansible_nodename }}</title>
+	<title>{{ ansible_nodename }}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <style type="text/css">
             /*<![CDATA[*/
@@ -84,7 +84,7 @@
     </head>
 
     <body>
-        <h1>{{ ansible_nodename }}</h1>
+        <h1>{{ ansible_nodename }} ({{ olympus_ip }})</h1>
 {% if nginx.apps is defined %}
         <div class="content">
             <h2>Hosted services</h2>
