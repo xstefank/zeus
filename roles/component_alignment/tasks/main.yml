@@ -5,6 +5,10 @@
       - component_alignment is defined
       - component_alignment.home is defined
       - component_alignment.home != ""
+      - component_alignment.owner is defined
+      - component_alignment.owner != ""
+      - component_alignment.group is defined
+      - component_alignment.group != ""
       - component_alignment.url is defined
       - component_alignment.path is defined
       - component_alignment.config is defined
