@@ -36,12 +36,13 @@
     - podman
     - systemd
     - payload_status
-    - monit
     # stage 3 - auth and sudoers.yml
     - component_alignment
     - pr_processor
     - aphrodite
     - jobs
+    # monitoring
+    - monit
   pre_tasks:
 
     - hostname:
