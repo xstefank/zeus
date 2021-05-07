@@ -31,7 +31,8 @@
       - 7.0.0
       - 7.1.0
       - 7.2.0
-  
+      - 7.3.0
+
   - name: "Download old EAP6 releases"
     get_url:
       url: "{{ old_releases.url }}/eap6/{{ item }}/jboss-eap-{{ item }}.zip"
