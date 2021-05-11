@@ -26,21 +26,20 @@ http {
 
   keepalive_timeout  65;
 
-  #gzip  on;
   
   include /etc/nginx/commons.d/caches.conf;
   server {
     listen       80;
     listen  [::]:80;
-
-    include /etc/nginx/commons.d/sites.conf;
+    return 301 https://$host/$request_uri;
   }
+
 
 {% if nginx.https is defined %}
   server {
       listen      443 default_server ssl;
       listen  [::]:443;
- 
+
       include /etc/nginx/commons.d/ssl.conf; 
 
       include /etc/nginx/commons.d/sites.conf;
