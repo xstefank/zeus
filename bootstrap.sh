@@ -98,10 +98,10 @@ checkArgumentsWithPhase() {
 
   if [ -n "${expectedPhase}" ]; then
       if [ -z "${phase}" ]; then
-        phase="one"
+        phase="${expectedPhase}"
       fi
 
-      if [ "${phase}" != 'one' ]; then
+      if [ "${phase}" != "${expectedPhase}" ]; then
         echo "Conflicting argument, aborting".
         exit 1
       fi
@@ -125,7 +125,7 @@ checkArgument() {
 set +u
 
 phase=""
-while getopts hu:p:i:g OPT; do
+while getopts hu:p:i:g: OPT; do
   case "$OPT" in
     h)
       usage
