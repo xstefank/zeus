@@ -39,4 +39,4 @@ if [ ! -e "${PARENT_JOB_PERMALINK}" ]; then
   exit 5
 fi
 
-grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -d\ -f2
+grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -d\  -f2
