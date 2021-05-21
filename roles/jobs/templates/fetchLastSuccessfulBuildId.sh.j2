@@ -17,6 +17,7 @@ fi
 if [ ! -e "${PARENT_JOB_DIR}" ]; then
   echo "${PARENT_JOB_DIR} does not exist."
   exit 2
+fi
 
 if [ ! -d "${PARENT_JOB_DIR}" ]; then
   echo "PARENT_JOB_DIR is not a directory: ${PARENT_JOB_DIR}."
@@ -38,4 +39,4 @@ if [ ! -e "${PARENT_JOB_PERMALINK}" ]; then
   exit 5
 fi
 
-grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -f2 -d\   
+grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -d\ -f2
