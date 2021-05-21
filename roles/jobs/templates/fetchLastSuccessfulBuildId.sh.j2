@@ -1,0 +1,41 @@
+#!/bin/bash
+set -eo pipefail
+
+readonly PARENT_JOB_NAME=${1}
+readonly JENKINS_HOME=${JENKINS_HOME:-'/var/jenkins_home'}
+readonly PARENT_JOB_DIR="${JENKINS_HOME}/jobs/${PARENT_JOB_NAME}"
+readonly PARENT_JOB_BUILDS_DIR="${PARENT_JOB_DIR}/builds"
+readonly PARENT_JOB_PERMALINK="${PARENT_JOB_BUILDS_DIR}/permalinks"
+
+set -u
+
+if [ -z "${PARENT_JOB_NAME}" ]; then
+  echo "Missing required argument PARENT_JOB_NAME"
+  exit 1
+fi
+
+if [ ! -e "${PARENT_JOB_DIR}" ]; then
+  echo "${PARENT_JOB_DIR} does not exist."
+  exit 2
+
+if [ ! -d "${PARENT_JOB_DIR}" ]; then
+  echo "PARENT_JOB_DIR is not a directory: ${PARENT_JOB_DIR}."
+  exit 3
+fi
+
+if [ ! -e "${PARENT_JOB_BUILDS_DIR}" ]; then
+  # parent build has not run yet, but legit
+  echo 0
+fi
+
+if [ ! -d "${PARENT_JOB_BUILDS_DIR}" ]; then
+  echo "PARENT_JOB_BUILDS_DIR is NOT a directory: ${PARENT_JOB_BUILDS_DIR}"
+  exit 4
+fi
+
+if [ ! -e "${PARENT_JOB_PERMALINK}" ]; then
+  echo "PARENT_JOB_PERMALINK file does not exists: ${PARENT_JOB_PERMALINK}."
+  exit 5
+fi
+
+grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -f2 -d\   
