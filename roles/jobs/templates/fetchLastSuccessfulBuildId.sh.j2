@@ -39,4 +39,14 @@ if [ ! -e "${PARENT_JOB_PERMALINK}" ]; then
   exit 5
 fi
 
-grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -d\  -f2
+readonly lastSuccessfulBuild=$(grep -e lastSuccessfulBuild "${PARENT_JOB_PERMALINK}" | cut -d\  -f2 )
+if [ -z "${lastSuccessfulBuild}" ]; then
+  echo "No last successful build ID found!"
+  exit 6
+fi
+if [ "${lastSuccessfulBuild}" -le 0 ]; then
+  echo "BuildId can't be negative: ${lastSuccessfulBuild}"
+  exit 7
+fi
+
+echo "${buildId}"
