@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: zeus
   gather_facts: no
   become: yes
   become_user: root

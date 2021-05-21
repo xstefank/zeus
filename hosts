@@ -1,1 +1,5 @@
 localhost ansible_connection=local
+
+[zeus]
+olympus1 override_olympus_ip=192.168.0.11
+#olympus2 override_olympus_ip=192.168.0.2
