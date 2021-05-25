@@ -3,6 +3,11 @@
     that:
       - home_folder is defined
 
+- include_role:
+    name: fast_yum_install
+  vars:
+    package_name: tar
+
 - include_tasks: tasks/tool_install.yml
   vars:
     home_folder: "{{ jdk_home_folder }}"
