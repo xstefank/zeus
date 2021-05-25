@@ -4,14 +4,14 @@
     "initialDelay": 10,
     "issueTrackerConfigs": [
         {
-            "url": "https://issues.redhat.com/",
+            "url": "{{ aphrodite.jira_url }}",
             "username": "{{ jira.username }}",
             "password": "{{ jira.password }}",
             "tracker": "JIRA",
             "defaultIssueLimit": 1
         },
         {
-            "url": "https://bugzilla.redhat.com/",
+            "url": "{{ aphrodite.bugzilla_url }}",
             "username": "{{ bugzilla.username }}",
             "password": "{{ bugzilla.password }}",
             "tracker": "BUGZILLA",
@@ -20,10 +20,16 @@
     ],
     "repositoryConfigs": [
         {
-            "url": "https://github.com/",
+            "url": "{{ aphrodite.github_url }}",
             "username": "{{ github.username }}",
             "password": "{{ github.token }}",
             "type": "GITHUB"
+        },
+        {
+            "url": "{{ aphrodite.gitlab_url }}",
+            "username": "{{ gitlab.username }}",
+            "password": "{{ gitlab.token }}",
+            "type": "GITLAB"
         }
     ],
     "streamConfigs": [
