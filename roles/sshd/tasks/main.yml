@@ -24,3 +24,24 @@
     name: sshd
     state: started
     enabled: yes
+
+- set_fact:
+    path_to_key: "/root/.ssh/{{ ansible_nodename }}_rsa"
+
+- name: "Generate SSH key for server {{ path_to_key }}"
+  openssh_keypair:
+    path: "{{ path_to_key }}"
+    type: rsa
+    size: 4096
+    state: present
+    force: no
+    owner: "root"
+    group: "root"
+
+- name: "Hard link generated key to /root/.ssh/authorized_keys"
+  file:
+    state: hard
+    src: "{{ path_to_key }}.pub"
+    dest: "/root/.ssh/authorized_keys"
+    owner: "root"
+    group: "root"
