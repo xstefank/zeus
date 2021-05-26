@@ -1,9 +1,18 @@
 ---
+- set_fact:
+    yum_module_name: container-tools
+
+- name: "Check if {{ yum_module_name }}"
+  command: >
+    yum module list --installed  {{ yum_module_name }}
+  register: is_yum_module_installed
+  changed_when: false
+
 - name: "Install yum module for Podman"
   command: >
     yum module install -y container-tools
-  args:
-    creates: /usr/lib/python3.6/site-packages/podman/
+  when:
+    - is_yum_module_installed.rc
 
 - include_role:
     name: fast_yum_install
