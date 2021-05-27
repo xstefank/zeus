@@ -17,6 +17,13 @@
     mode: 0775
   when: nginx_config_dir_path.stat.exists
 
+- file:
+    state: link
+    src: "{{ nginx_config_dir }}"
+    dest: /etc/nginx
+    owner: "{{ nginx.username }}"
+    group: "{{ nginx.groupname }}"
+
 - block:
     - name: "Ensure required subfolders exist"
       file:
