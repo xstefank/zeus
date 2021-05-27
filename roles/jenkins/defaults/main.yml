@@ -24,7 +24,10 @@ jenkins:
         filter: "{{ override_ldap_group_search_filter | default('') }}"
     inhibit_root_dn: false
     rootDn: "{{ override_ldap_root_dn | default('') }}"
+    host: "{{ override_ldap_host | default('') }}"
+    port: "{{ override_ldap_port | default('636') }}"
     url: "{{ override_ldap_url | default('') }}"
+    keystore: "{{ override_ldap_keystore }}"
   view:
     streams:
       - eap-7.1.x

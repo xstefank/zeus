@@ -49,5 +49,18 @@
     owner: "{{ jenkins.username }}"
     group: "{{ jenkins.groupname }}"
 
+- name: "Import SSL certificates from {{ jenkins.ldap.url }}"
+  java_cert:
+    cert_url: "{{ jenkins.ldap.host }}"
+    cert_port: "{{ jenkins.ldap.port }}"
+    keystore_path: "{{ jenkins.ldap.keystore }}"
+    cert_alias: "{{ jenkins.ldap.host }}"
+    executable: "{{ jenkins.default_jdk_home }}/bin/keytool"
+    keystore_pass: changeit
+    keystore_create: yes
+    state: present
+  when:
+    - jenkins.ldap is defined
+
 - set_fact:
      podman_services: "{{ podman_services }} + {{ jenkins.service }}"
