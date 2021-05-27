@@ -8,5 +8,9 @@ allow_duplicates=False
 update=all
 
 [jenkins]
+{% if jenkins_token is defined %}
+user={{ jenkins_token_username }}
+password={{ jenkins_token }}
+{% endif %}
 url=http://{{ override_jenkins_bind_addr }}:8080/jenkins/
 query_plugins_info=False

@@ -46,6 +46,19 @@
     - monit
   pre_tasks:
 
+    - set_fact:
+        secrets_filename: /etc/ansible/secrets.yml
+
+    - stat:
+        path: "{{ secrets_filename }}"
+      register: secrets
+
+    - name: "Load secrets"
+      include_vars: "{{ secrets_filename }}"
+      when:
+        - secrets.stat.exists
+        - ansible_hostname != 'olympus'
+
     - hostname:
         name: "{{ ansible_hostname }}"
 

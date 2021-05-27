@@ -1,4 +1,9 @@
 jenkins:
+{% if jenkins_token is defined %}
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+{% endif %}
   numExecutors: {{ jenkins.executors.num }}
   securityRealm:
 {% if jenkins.ldap.url is defined and jenkins.ldap.url != ""  %}
