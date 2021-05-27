@@ -1,8 +1,6 @@
 ---
 - include_tasks: user_setup.yml
 
-- include_tasks: static_content.yml
-
 - set_fact:
     nginx_config_dir: "{{ nginx.home }}/config"
 
