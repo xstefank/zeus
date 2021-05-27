@@ -30,6 +30,7 @@ jenkins:
       - eap-7.1.x
       - eap-7.2.x
       - eap-7.3.x
+      - eap-7.4.x
       - wildfly
       - xp-2.0.x
     tabs:
