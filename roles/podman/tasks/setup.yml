@@ -12,6 +12,8 @@
   command: >
     yum module install -y container-tools
   when:
+    - is_yum_module_installed is defined
+    - is_yum_module_installed.rc is defined
     - is_yum_module_installed.rc
 
 - include_role:
