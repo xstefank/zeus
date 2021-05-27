@@ -2,7 +2,6 @@
 - set_fact:
     podman_images: []
 
-
 - name: "Ensure remote images are downloaded"
   include_tasks: tasks/podman/pull.yml
   loop: "{{ podman.images.remotes }}"
