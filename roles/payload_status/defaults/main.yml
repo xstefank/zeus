@@ -4,7 +4,7 @@ payload_status:
   group: jenkins
   git:
     url: 'git@github.com:jboss-set/payload-status.git'
-    version: 1.1.5
+    version: main
     keyfile: "{{ github_keyfile }}"
   home: "{{ override_payload_status_home | default('/home/jenkins/payload_status.git') }}"
   dest: "{{ override_payload_status_dest | default('/home/nginx/static/payload_status') }}"
