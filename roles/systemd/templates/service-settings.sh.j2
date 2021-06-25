@@ -37,6 +37,16 @@ PORTS_MAPPING['{{ p.src }}']='{{ p.dest }}'
 export PORTS_MAPPING
 {% endif %}
 
+{% if item.vars is defined %}
+declare -A VARS
+{% for v in item.vars %}
+VARS['{{ v.name }}']='{{ v.value }}'
+{% endfor %}
+export VARS
+{% endif %}
+
+
+
 {% if item.ip is defined %}
 readonly CONTAINER_STATIC_IP={{ item.ip }}
 export CONTAINER_STATIC_IP

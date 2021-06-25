@@ -1,0 +1,17 @@
+---
+- assert:
+    that: 
+      - sql_script_to_run is defined
+      - sql_script_to_run | length > 0
+
+- debug:
+    msg: "{{ sql_script_to_run }}"
+
+- postgresql_query:
+    db: "{{ item.instance.db_name }}"
+    path_to_script: "{{ item.path }}"
+    login_host: localhost
+    port: "{{ item.instance.port }}"
+    login_user: "{{ item.instance.username }}"
+    login_password: "{{ item.instance.password }}"
+  loop: "{{ sql_script_to_run }}"

@@ -12,8 +12,10 @@
       - vars/java_certs.yml
       - vars/jobs.yml
       - vars/component-alignment.yml
+      - vars/mjolnir.yml
       - vars/mailer.yml
       - vars/ldap.yml
+      - vars/pgsql.yml
   roles:
     # stage 1 - OS settings and optimizations
     - selinux
@@ -30,6 +32,7 @@
     - ares
     - jenkins
     - jenkins_job_builder
+    - pgsql
     - nginx
     - java
     - java_certs

@@ -1,0 +1,39 @@
+---
+- assert:
+    that:
+      - script is defined
+      - script.name is defined
+      - script.name | length > 0 
+      - dest is defined
+    quiet: true
+
+- name: "Ensures {{ script.name }} exists."
+  template:
+    src: "{{ script.name }}.j2"
+    dest: "{{ dest }}"
+  register: script_template_execution
+  when:
+    - script.url is not defined
+  notify: run sql init scripts
+
+- name: "Ensures {{ script.name }} exists (source: {{ script.url }}."
+  get_url:
+    url: "{{ script.url }}"
+    dest: "{{ dest }}"
+  register: script_geturl_execution
+  when: 
+    - script.url is defined
+  notify: run sql init scripts
+
+- block:
+  - set_fact:
+      path_to_sql_script_to_run: 
+        - { path: "{{ dest }}", instance: "{{ db_info }}" }
+  
+  - set_fact:
+      sql_script_to_run: "{{ sql_script_to_run }} + {{ path_to_sql_script_to_run }}"
+
+  - debug:
+      msg: "{{ sql_script_to_run }}"
+  when: 
+    - script_geturl_execution.changed or script_template_execution.changed

@@ -49,11 +49,14 @@
     - not payload_build_dir_path.stat.exists
 
 - name: "Ensure {{ payload_status.home }} belongs to {{ payload_status.owner }}"
-  file:
-    path: "{{ payload_status.home }}"
-    recurse: yes
-    owner: "{{ payload_status.owner }}"
-    group: "{{ payload_status.group }}"
+  command:
+    cmd: "chown -R {{ payload_status.owner }}:{{ payload_status.group }} {{ payload_status.home }}"
+#
+#  file:
+#   path: "{{ payload_status.home }}"
+#    recurse: yes
+#    owner: "{{ payload_status.owner }}"
+#    group: "{{ payload_status.group }}"
   changed_when: false # weirdly this task always ends up in changed=true
 
 - name: "Ensures yarn build env vars are set"

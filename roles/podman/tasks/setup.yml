@@ -5,6 +5,8 @@
 - name: "Check if {{ yum_module_name }}"
   command: >
     yum module list --installed  {{ yum_module_name }}
+  args:
+    warn: false
   register: is_yum_module_installed
   changed_when: false
 

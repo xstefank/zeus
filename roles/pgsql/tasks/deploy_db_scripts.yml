@@ -1,0 +1,23 @@
+---
+- assert:
+    that:
+      - item is defined
+    quiet: true
+
+- include_tasks: deploy/db.yml
+  vars:
+    script: "{{ item.create_db }}"
+    dest: "{{ pgsql.scripts.home }}/{{ item.create_db.name }}"
+    db_info: "{{ item }}"
+  when: 
+    - item.create_db is defined
+    - item.create_db.name is defined
+
+- include_tasks: deploy/db.yml
+  vars:
+    script: "{{ item.load_data }}"
+    dest: "{{ pgsql.scripts.home }}/{{ item.load_data.name }}"
+    db_info: "{{ item }}"
+  when:
+    - item.load_data is defined
+    - item.load_data.name is defined

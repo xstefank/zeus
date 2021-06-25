@@ -54,15 +54,15 @@ buildPodmanCli() {
   # design note: sadly, we can't easily pass associative array to a function...
   local cli="podman run $(prepIdFiles) --rm --name ${SERVICE_NAME}"
   if [ $(isVarDefinedAndAnAssociativeArray 'ADD_HOSTS') ]; then
-    for key in "${!ADD_HOSTS[@]}"; 
-    do 
-      cli="${cli} --add-host=${key}:${ADD_HOSTS[${key}]}" 
+    for key in "${!ADD_HOSTS[@]}";
+    do
+      cli="${cli} --add-host=${key}:${ADD_HOSTS[${key}]}"
     done
   fi
 
   if [ $(isVarDefinedAndAnAssociativeArray 'READONLY_VOLUMES') ]; then
     for key in "${!READONLY_VOLUMES[@]}"
-    do 
+    do
       cli="${cli} -v ${key}:${READONLY_VOLUMES[${key}]}:ro"
     done
   fi
@@ -76,10 +76,18 @@ buildPodmanCli() {
 
   if [ $(isVarDefinedAndAnAssociativeArray 'PORTS_MAPPING') ]; then
     for key in "${!PORTS_MAPPING[@]}"
-    do 
+    do
       cli="${cli} -p ${key}:${PORTS_MAPPING[${key}]}"
     done
   fi
+  if [ $(isVarDefinedAndAnAssociativeArray 'VARS') ]; then
+    for key in "${!VARS[@]}"
+    do
+      cli="${cli} -e ${key}:${VARS[${key}]}"
+    done
+  fi
+
+
 
   if [ -n "${CONTAINER_STATIC_IP}" ]; then
     cli="${cli} --ip ${CONTAINER_STATIC_IP}"
@@ -91,7 +99,7 @@ buildPodmanCli() {
 stopContainer() {
   if [ -e "${CID_FILE}" ]; then
     local cid="$(cat ${CID_FILE})"
-    if [ -n "${cid}" ]; then    
+    if [ -n "${cid}" ]; then
       podman stop -i "${cid}"
     fi
     rm -f "${CID_FILE}" "${PID_FILE}"
