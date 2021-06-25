@@ -77,17 +77,15 @@ buildPodmanCli() {
   if [ $(isVarDefinedAndAnAssociativeArray 'PORTS_MAPPING') ]; then
     for key in "${!PORTS_MAPPING[@]}"
     do
-      cli="${cli} -p ${key}:${PORTS_MAPPING[${key}]}"
+      cli="${cli} -p ${PORTS_MAPPING[${key}]}:${key}"
     done
   fi
   if [ $(isVarDefinedAndAnAssociativeArray 'VARS') ]; then
     for key in "${!VARS[@]}"
     do
-      cli="${cli} -e ${key}:${VARS[${key}]}"
+      cli="${cli} -e ${key}=${VARS[${key}]}"
     done
   fi
-
-
 
   if [ -n "${CONTAINER_STATIC_IP}" ]; then
     cli="${cli} --ip ${CONTAINER_STATIC_IP}"
