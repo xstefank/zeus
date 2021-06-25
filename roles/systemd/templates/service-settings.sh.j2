@@ -45,10 +45,7 @@ VARS['{{ v.name }}']='{{ v.value }}'
 export VARS
 {% endif %}
 
-
-
 {% if item.ip is defined %}
 readonly CONTAINER_STATIC_IP={{ item.ip }}
 export CONTAINER_STATIC_IP
 {% endif %}
-
