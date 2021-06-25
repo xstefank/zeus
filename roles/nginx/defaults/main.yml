@@ -40,6 +40,7 @@ nginx:
       -  { name: "{{ brew_repos.repo3.id }}", mirrorOf: "{{ brew_repos.repo3.mirrorOf }}", desc: "{{ brew_repos.repo3.desc }}", path: "{{ brew_repos.repo3.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo3.url }}" }
       -  { name: "{{ brew_repos.repo4.id }}", mirrorOf: "{{ brew_repos.repo4.mirrorOf }}", desc: "{{ brew_repos.repo4.desc }}", path: "{{ brew_repos.repo4.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo4.url }}" }
       -  { name: "{{ brew_repos.repo5.id }}", mirrorOf: "{{ brew_repos.repo5.mirrorOf }}", desc: "{{ brew_repos.repo5.desc }}", path: "{{ brew_repos.repo5.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo5.url }}" }
+      -  { name: "{{ brew_repos.repo6.id }}", mirrorOf: "{{ brew_repos.repo6.mirrorOf }}", desc: "{{ brew_repos.repo6.desc }}", path: "{{ brew_repos.repo6.path }}", port: '443', protocol: 'HTTPS', url: "{{ brew_repos.repo6.url }}" }
   service:
     - name: nginx
       image: 'docker.io/library/nginx'
