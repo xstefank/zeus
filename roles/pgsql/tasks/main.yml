@@ -1,30 +1,33 @@
 ---
-- assert:
-    that:
-      - pgsql is defined
-      - pgsql.scripts is defined
-      - pgsql.scripts.home is defined
-    quiet: true
+- block:
+  - assert:
+      that:
+        - pgsql is defined
+        - pgsql.scripts is defined
+        - pgsql.scripts.home is defined
+      quiet: true
 
-- include_role:
-    name: fast_yum_install
-  vars:
-    package_name: python3-psycopg2
+  - include_role:
+      name: fast_yum_install
+    vars:
+      package_name: python3-psycopg2
 
-- name: "Ensures {{ pgsql.scripts.home }} exists."
-  file:
-    path: "{{ pgsql.scripts.home }}"
-    state: directory
-    owner: jenkins
-    group: jenkins
+  - name: "Ensures {{ pgsql.scripts.home }} exists."
+    file:
+      path: "{{ pgsql.scripts.home }}"
+      state: directory
+      owner: jenkins
+      group: jenkins
 
-- name: "Deploys pgsql SQL scripts for each instance"
-  include_tasks: deploy_db_scripts.yml
-  loop:
-    - "{{ pgsql.instances.mjolnir_preprod }}"
-    - "{{ pgsql.instances.component_upgrade }}"
+  - name: "Deploys pgsql SQL scripts for each instance"
+    include_tasks: deploy_db_scripts.yml
+    loop:
+      - "{{ pgsql.instances.mjolnir_preprod }}"
+      - "{{ pgsql.instances.component_upgrade }}"
+    when:
+      - pgsql.instances is defined
+
+  - set_fact:
+      podman_services: "{{ podman_services }} + {{ postgres_instances.services }}"
   when:
-    - pgsql.instances is defined
-
-- set_fact:
-    podman_services: "{{ podman_services }} + {{ postgres_instances.services }}"
+    - pgsql_skip is not defined
