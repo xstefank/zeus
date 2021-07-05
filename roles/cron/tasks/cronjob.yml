@@ -1,0 +1,29 @@
+---
+- assert:
+    that:
+      - item is defined
+      - item.name is defined
+      - item.name != ""
+      - item.src is defined
+      - item.src != ""
+      - item.dest is defined
+      - item.dest != ""
+      - item.special_time is defined
+      - item.special_time != ""
+    quiet: true
+
+- name: "Ensures script job for {{ item.name }} is deployed"
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0745
+
+- name: "Ensures cron task for {{ item.name }} is defined."
+  cron:
+    name: "{{ item.name }}"
+    job: "{{ item.dest }}"
+    special_time: "{{ item.special_time }}"
+  when:
+    - item.special_time is defined

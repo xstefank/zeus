@@ -1,0 +1,13 @@
+---
+- assert:
+    that:
+      - cronjobs is defined
+      - cronjobs | length > 0
+
+- include_role:
+    name: fast_yum_install
+  vars:
+    package_name: mailx
+
+- include_tasks: cronjob.yml
+  loop: "{{ cronjobs }}"

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ansible-playbook -D /etc/ansible/zeus.yml 2>&1 | \
+  mailx -r "{{ mailer.to }}" -s '{{ item.name }}' -S smtp="{{ mailer.smtp.host }}:{{mailer.smtp.port }}" "{{ mailer.replyTo }}"

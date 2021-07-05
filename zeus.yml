@@ -47,6 +47,7 @@
     - jobs
     # monitoring
     - monit
+    - cron
   pre_tasks:
 
     - set_fact:
