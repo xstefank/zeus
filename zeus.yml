@@ -50,7 +50,7 @@
   pre_tasks:
 
     - set_fact:
-        secrets_filename: /etc/ansible/secrets.yml
+        secrets_filename: "{{ override_secrets_filename  | default('/etc/ansible/secrets.yml') }}"
 
     - stat:
         path: "{{ secrets_filename }}"
