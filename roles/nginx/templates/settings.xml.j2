@@ -23,7 +23,15 @@ under the License.
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
   <pluginGroups/>
   <proxies/>
-  <servers/>
+  <servers>
+{% if cct is defined %}
+    <server>
+      <id>{{ cct.id }}</id>
+      <username>{{ cct.username }}</username>
+      <password>{{ cct.password }}</password>
+    </server>
+{% endif %}
+  </servers>
   <mirrors>
 {% for mvn_cache in nginx.caches.entry %}
     <mirror>
@@ -34,5 +42,41 @@ under the License.
     </mirror>
 {% endfor %}
   </mirrors>
-  <profiles/>
+  <profiles>
+{% if cct is defined %}
+  <profile>
+    <id>cct</id>
+      <repositories>
+        <repository>
+          <id>{{ cct.id }}</id>
+          <url>{{ cct.repository.url }}</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>{{ cct.id }}</id>
+          <url>{{ cct.repository.url }}</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+{% endif %}
+  </profiles>
 </settings>
